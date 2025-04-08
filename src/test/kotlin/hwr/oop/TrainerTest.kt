@@ -1,4 +1,5 @@
 package hwr.oop
+import hwr.oop.classes.Trainer
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 

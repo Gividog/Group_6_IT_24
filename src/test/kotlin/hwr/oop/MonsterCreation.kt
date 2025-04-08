@@ -1,4 +1,7 @@
 package hwr.oop
+import hwr.oop.classes.Monster
+import hwr.oop.classes.Stats
+import hwr.oop.classes.Type
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -15,13 +18,11 @@ class MonsterCreation : AnnotationSpec() {
             spezAttack = 50,
             spezDefense = 20
         )
-        val type = Type(
-            name = "Earth",
-        )
+
         // Act: Erstellen eines Monster-Objekts
         val monster = Monster(
             name = "Goblin",
-            type = type,
+            type = Type.Feuer,
             stats = stats
         )
 
