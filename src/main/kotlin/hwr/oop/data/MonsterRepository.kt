@@ -10,4 +10,8 @@ object MonsterRepository {
     }
 
     fun getAll(): List<Monster> = monsters.toList()
+
+    // fun saveToFile
+
+    // fun loadFromFile
 }

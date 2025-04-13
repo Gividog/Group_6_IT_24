@@ -1,11 +1,9 @@
-package hwr.oop
-import hwr.oop.classes.Monster
-import hwr.oop.classes.Stats
-import hwr.oop.classes.Type
+package hwr.oop.classes
+
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
-class MonsterCreation : AnnotationSpec() {
+class MonsterCreationTest : AnnotationSpec() {
 
     @Test
     fun `test Monster creation with Stats`() {
@@ -29,7 +27,7 @@ class MonsterCreation : AnnotationSpec() {
 
         // Assert: Überprüfen, ob die Werte korrekt gesetzt wurden
         assertThat(monster.name).isEqualTo("Goblin")
-        assertThat(monster.type.name).isEqualTo("Earth")
+        assertThat(monster.type.name).isEqualTo("Feuer")
         assertThat(monster.stats.hp).isEqualTo(120)
         assertThat(monster.stats.attack).isEqualTo(40)
         assertThat(monster.stats.defense).isEqualTo(30)

@@ -1,4 +1,4 @@
-package hwr.oop
+package hwr.oop.classes
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -14,7 +14,7 @@ class FightTest : AnnotationSpec() {
 
         val monster = Monster(
             name = "Pikachu",
-            type = Type(name = "Electric"),
+            type = Type.Elektro,
             stats = Stats(
                 hp = 100,
                 attack = 55,

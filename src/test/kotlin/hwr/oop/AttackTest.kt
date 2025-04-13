@@ -1,4 +1,5 @@
-package hwr.oop
+package hwr.oop.classes
+
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -8,7 +9,7 @@ class AttackTest : AnnotationSpec() {
     fun `test Attack creation`() {
         // Arrange: Define necessary parameters
         val attackName = "Fire Blast"
-        val attackType = Type(name = "Fire") // Create an instance of Type with a name
+        val attackType = Type.Feuer
         val damage = 90
         val accuracy = 85
 

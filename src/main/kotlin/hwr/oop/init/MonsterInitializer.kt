@@ -1,3 +1,5 @@
+//Initializer um unsere Monster als Presets festzulegen
+
 package hwr.oop.init
 
 import hwr.oop.classes.*
