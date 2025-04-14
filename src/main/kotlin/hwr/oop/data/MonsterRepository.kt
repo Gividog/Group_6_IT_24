@@ -1,3 +1,5 @@
+// Hiermit speichern wir unsere Monster
+
 package hwr.oop.data
 
 import hwr.oop.classes.Monster
