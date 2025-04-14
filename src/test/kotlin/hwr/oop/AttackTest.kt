@@ -10,21 +10,22 @@ class AttackTest : AnnotationSpec() {
         // Arrange: Define necessary parameters
         val attackName = "Fire Blast"
         val attackType = Type.Feuer
-        val damage = 90
+        // val Category ergänzen
+        val power = 90
         val accuracy = 85
 
         // Act: Create an Attack instance
         val attack = Attack(
             name = attackName,
             type = attackType,
-            damage = damage,
+            power = power,
             accuracy = accuracy
         )
 
         // Assert: Verify the Attack's properties
         assertThat(attack.name).isEqualTo("Fire Blast")
         assertThat(attack.type).isEqualTo(attackType)
-        assertThat(attack.damage).isEqualTo(90)
+        assertThat(attack.power).isEqualTo(90)
         assertThat(attack.accuracy).isEqualTo(85)
     }
 }
