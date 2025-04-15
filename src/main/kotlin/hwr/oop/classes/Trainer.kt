@@ -1,14 +1,5 @@
 package hwr.oop.classes
 
-class Trainer(val name: String, var monsters: List<Monster> = emptyList() ) {
+class Trainer(val name: String, var monsters: List<Monster> = emptyList(), var activeMonster: Monster? = null ) {
 
-    companion object {
-        var allTrainers: List<Trainer> = listOf()
-
-        fun register(trainer: Trainer) {
-            allTrainers = allTrainers + trainer
-        }
-
-        fun getAll(): List<Trainer> = allTrainers.toList()
-    }
 }

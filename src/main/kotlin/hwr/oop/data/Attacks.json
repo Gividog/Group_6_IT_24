@@ -1,0 +1,114 @@
+{
+  "1": {
+    "type":"GROUND",
+    "category": "PHYSICAL",
+    "typeSpecificData": {
+      "name": "Earthquake",
+      "power": 100,
+      "accuracy": 100,
+      "powerPoint": 10
+    }
+  },
+  "2": {
+    "type": "NORMAL",
+    "category": "STATUS",
+    "typeSpecificData": {
+      "name": "Protect",
+      "power": 0,
+      "accuracy": 0,
+      "powerPoint": 10
+    }
+  },
+  "3": {
+    "type": "PSYCHIC",
+    "category": "SPECIAL",
+    "typeSpecificData": {
+      "name": "Psychic",
+      "power": 90,
+      "accuracy": 100,
+      "powerPoint": 10
+    }
+  },
+  "4": {
+    "type": "NORMAL",
+    "category": "PHYSICAL",
+    "typeSpecificData": {
+      "name": "Body Slam",
+      "power": 85,
+      "accuracy": 100,
+      "powerPoint": 15
+    }
+  },
+  "5": {
+    "type": "FIRE",
+    "category": "SPECIAL",
+    "typeSpecificData": {
+      "name": "Body Slam",
+      "power": 70,
+      "accuracy": 100,
+      "powerPoint": 15
+    }
+  },
+  "6": {
+    "type": "WATER",
+    "category": "SPECIAL",
+    "typeSpecificData": {
+      "name": "Surf",
+      "power": 90,
+      "accuracy": 100,
+      "powerPoint": 15
+    }
+  },
+  "7": {
+    "type": "PSYCHIC",
+    "category": "STATUS",
+    "typeSpecificData": {
+      "name": "Surf",
+      "power": 0,
+      "accuracy": 60,
+      "powerPoint": 20
+    }
+  },
+  "8": {
+    "type": "NORMAL",
+    "category": "STATUS",
+    "typeSpecificData": {
+      "name": "Hypnosis",
+      "power": 0,
+      "accuracy": 60,
+      "powerPoint": 20
+    }
+  },
+  "9": {
+    "type": "NORMAL",
+    "category": "STATUS",
+    "typeSpecificData": {
+      "name": "Metronome",
+      "power": 0,
+      "accuracy": 0,
+      "powerPoint": 10
+    }
+  },
+  "10": {
+    "type": "NORMAL",
+    "category": "PHYSICAL",
+    "typeSpecificData": {
+      "name": "Tackle",
+      "power": 40,
+      "accuracy": 100,
+      "powerPoint": 35
+    }
+  },
+  "11": {
+    "type": "ELECTRIC",
+    "category": "SPECIAL",
+    "typeSpecificData": {
+      "name": "Thunderbolt",
+      "power": 90,
+      "accuracy": 15,
+      "powerPoint": 15
+    }
+  }
+
+
+}

@@ -27,12 +27,17 @@
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+    <kotlinx-serialization.version>1.6.0</kotlinx-serialization.version>
   </properties>
 
   <repositories>
     <repository>
       <id>mavenCentral</id>
       <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>jetbrains-kotlin</id>
+      <url>https://maven.pkg.jetbrains.space/public/p/kotlinx/maven</url>
     </repository>
   </repositories>
 
@@ -60,6 +65,11 @@
       <version>${assertj-core.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-serialization-json</artifactId>
+      <version>${kotlinx-serialization.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -70,6 +80,8 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
+        <configuration>
+        </configuration>
         <executions>
           <execution>
             <id>compile</id>
@@ -77,6 +89,7 @@
             <goals>
               <goal>compile</goal>
             </goals>
+
           </execution>
           <execution>
             <id>test-compile</id>
