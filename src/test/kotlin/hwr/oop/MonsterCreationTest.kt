@@ -20,20 +20,22 @@ class MonsterCreationTest : AnnotationSpec() {
         // Act: Erstellen eines Monster-Objekts
         val monster = Monster(
             name = "Goblin",
-            type = Type.Feuer,
-            stats = stats
+            type = Type.Fire,
+            stats = stats,
+            attacks = emptyList()
         )
 
 
         // Assert: Überprüfen, ob die Werte korrekt gesetzt wurden
         assertThat(monster.name).isEqualTo("Goblin")
-        assertThat(monster.type.name).isEqualTo("Feuer")
+        assertThat(monster.type.name).isEqualTo("Fire")
         assertThat(monster.stats.hp).isEqualTo(120)
         assertThat(monster.stats.attack).isEqualTo(40)
         assertThat(monster.stats.defense).isEqualTo(30)
         assertThat(monster.stats.speed).isEqualTo(25)
         assertThat(monster.stats.spezDefense).isEqualTo(20)
         assertThat(monster.stats.spezAttack).isEqualTo(50)
+        assertThat(monster.attacks).isEmpty()
 
     }
 }

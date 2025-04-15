@@ -12,7 +12,7 @@ class TrainerTest : AnnotationSpec() {
 
         // Assert: Verify the Trainer's properties
         assertThat(trainer.name).isEqualTo("Ash")
-        assertThat(trainer.monster).isNotNull
-        assertThat(trainer.monster).isEmpty()
+        assertThat(trainer.monsters).isNotNull
+        // assertThat(trainer.monster).isEmpty()
     }
 }

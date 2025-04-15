@@ -1,5 +1,5 @@
 package hwr.oop.classes
 
 enum class Type {
-    Feuer, Wasser, Gras, Elektro
+    Fire, Water, Grass, Electric, Normal
 }

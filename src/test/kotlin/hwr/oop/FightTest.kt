@@ -14,7 +14,7 @@ class FightTest : AnnotationSpec() {
 
         val monster = Monster(
             name = "Pikachu",
-            type = Type.Elektro,
+            type = Type.Electric,
             stats = Stats(
                 hp = 100,
                 attack = 55,
@@ -22,7 +22,8 @@ class FightTest : AnnotationSpec() {
                 speed = 90,
                 spezDefense = 50,
                 spezAttack = 20
-            )
+            ),
+            attacks = Attack.allAttacks
         )
 
         val fightID = 1

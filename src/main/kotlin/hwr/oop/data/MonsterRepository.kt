@@ -5,13 +5,13 @@ package hwr.oop.data
 import hwr.oop.classes.Monster
 
 object MonsterRepository {
-    private val monsters = mutableListOf<Monster>()
+    var allMonsters: List<Monster> = listOf()
 
     fun add(monster: Monster) {
-        monsters.add(monster)
+        allMonsters = allMonsters + monster
     }
 
-    fun getAll(): List<Monster> = monsters.toList()
+    fun getAll(): List<Monster> = allMonsters.toList()
 
     // fun saveToFile
 

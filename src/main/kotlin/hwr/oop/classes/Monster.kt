@@ -1,12 +1,12 @@
 package hwr.oop.classes
 
-class Monster(val name: String, val type: Type,val stats: Stats ) {
+class Monster(val name: String, val type: Type,val stats: Stats, val attacks: List<Attack>) {
 
     companion object {
-        private val allMonsters = mutableListOf<Monster>()
+        var allMonsters: List<Monster> = listOf()
 
         fun register(monster: Monster) {
-            allMonsters.add(monster)
+            allMonsters = allMonsters + monster
         }
 
         fun getAll(): List<Monster> = allMonsters.toList()
