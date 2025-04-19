@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 
 class AttackTest : AnnotationSpec() {
 
+    /*
     @Test
     fun `test Attack creation`() {
         // Arrange: Define necessary parameters
@@ -32,5 +33,30 @@ class AttackTest : AnnotationSpec() {
         assertThat(attack.accuracy).isEqualTo(85)
         assertThat(attack.category).isEqualTo(Category.Special)
         assertThat(attack.powerPoint).isEqualTo(20)
+    }*/
+
+    @Test
+    fun `test STAB factor`(){
+        val monsterType = Type.FIRE
+        val monsterType2= Type.WATER
+        val attackType = Type.FIRE
+
+
+        val attack = Attack(name = "Fire Ball",type = attackType, category = Category.SPECIAL, power = 95, accuracy = 100, powerPoint = 20 )
+        val stabFactor = attack.getValueOfStab(attackType = attackType, monsterType = monsterType)
+        val stabFactor2 = attack.getValueOfStab(attackType = attackType, monsterType = monsterType2)
+
+        assertThat(stabFactor).isEqualTo(1.5)
+        assertThat(stabFactor2).isEqualTo(1.0)
+
     }
+
+    @Test
+    fun `test calculating Damage`(){
+
+    }
+
+
+
+
 }

@@ -70,6 +70,11 @@
       <artifactId>kotlinx-serialization-json</artifactId>
       <version>${kotlinx-serialization.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -80,8 +85,6 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
-        <configuration>
-        </configuration>
         <executions>
           <execution>
             <id>compile</id>
@@ -89,7 +92,6 @@
             <goals>
               <goal>compile</goal>
             </goals>
-
           </execution>
           <execution>
             <id>test-compile</id>
@@ -99,6 +101,14 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <compilerPlugins>
+            <plugin>kotlinx-serialization</plugin>
+          </compilerPlugins>
+          <pluginOptions>
+            <option>serialization:plugin</option>
+          </pluginOptions>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

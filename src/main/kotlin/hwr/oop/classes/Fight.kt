@@ -4,13 +4,13 @@ class Fight(val fightID: Int,
             var fightStatus: Boolean,
             val trainers: List<Trainer>,
             val monsters: List<Monster>,
-            var rounds: Int,
+            val rounds: Int,
             val winner: String)
 {
     var currentTurn: Int = 0
 
     fun getCurrentTrainer(): Trainer = trainers[currentTurn]
-    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster //was macht das?
+    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster
 
 
     fun startFight() {
@@ -25,18 +25,18 @@ class Fight(val fightID: Int,
         }
     }
 
-    fun chooseAction(): Int{ //
+    fun chooseAction(): Int{
         var choice: Int?
 
         do {
-            println("Choose your action:")
+            println("Choose what to do")
             println("1) Attack")
             println("2) Heal Monster")
             println("3) ChangeMonster")
             print("Your choice: ")
 
             val input = readLine()
-            choice = input?.toIntOrNull() //was macht das?
+            choice = input?.toIntOrNull()
 
             if (choice !in 1..3) {
                 println("Invalid input")
@@ -48,8 +48,8 @@ class Fight(val fightID: Int,
     }
 
     fun chooseAttack() {
-        // choose an attack from the monsters attack pool | Wo wird definiert, welches Monster welche Attacken hat?
-        // Have to make JSON parsing work first!
+        // choose an attack from the monsters attack pool
+        //
     }
 
     fun healMonster() {
@@ -73,26 +73,20 @@ class Fight(val fightID: Int,
     }
 
     fun changeMonster() {
-        println("Choose a monster to replace the current one with!")
-        println("Currently active: ${trainers[currentTurn].activeMonster?.name}")
-        println("1) ${trainers[currentTurn].monsters[0].name}")
-        println("2) ${trainers[currentTurn].monsters[1].name}")
-        println("3) ${trainers[currentTurn].monsters[2].name}")
-        print("Your choice: ")
+        // display all monsters the trainer has LEFT
         // choose a monster and replace it with the monster at turn
     }
 
     fun endTurn() {
         // if (Turncount == 1) {
             // Turncount = 0;
-        nextRound()
-        println("Next round $rounds started!")
     }
 
     fun nextRound(): Int {
-        // TODO save fight in case the player quits
-        rounds++
-        return rounds
+        // TODO
+        // save fight in case the player wants to quit
+        // rounds++
+        // changeTurns
     }
 
     fun fightOver(): Boolean {

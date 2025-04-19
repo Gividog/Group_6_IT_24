@@ -6,6 +6,7 @@ import hwr.oop.classes.*
 import hwr.oop.data.MonsterRepository
 
 object MonsterInitializer {
+    /*
     fun preload() {
         val uwe = Monster("Uwe", Type.Water, Stats(200, 10, 60, 80, 0, 1, 1), attacks = Attack.allAttacks)
         val johannes = Monster("Johannes", Type.Fire, Stats(500, 1, 20, 100, 0, 1, 1), attacks = Attack.allAttacks)
@@ -16,4 +17,6 @@ object MonsterInitializer {
         MonsterRepository.add(olaf)
 
     }
+
+     */
 }

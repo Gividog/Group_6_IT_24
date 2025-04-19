@@ -1,5 +1,9 @@
 package hwr.oop.classes
 
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+@Serializable
 enum class Type {
-    Fire, Water, Grass, Electric, Normal, Ground, Psychic
+    FIRE, WATER, GRASS, ELECTRIC, NORMAL, GROUND, PSYCHIC
 }

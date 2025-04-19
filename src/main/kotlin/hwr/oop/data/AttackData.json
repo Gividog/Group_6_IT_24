@@ -1,8 +1,9 @@
 {
+  "attacks": {
   "1": {
     "type":"GROUND",
     "category": "PHYSICAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Earthquake",
       "power": 100,
       "accuracy": 100,
@@ -12,7 +13,7 @@
   "2": {
     "type": "NORMAL",
     "category": "STATUS",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Protect",
       "power": 0,
       "accuracy": 0,
@@ -22,7 +23,7 @@
   "3": {
     "type": "PSYCHIC",
     "category": "SPECIAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Psychic",
       "power": 90,
       "accuracy": 100,
@@ -32,7 +33,7 @@
   "4": {
     "type": "NORMAL",
     "category": "PHYSICAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Body Slam",
       "power": 85,
       "accuracy": 100,
@@ -42,8 +43,8 @@
   "5": {
     "type": "FIRE",
     "category": "SPECIAL",
-    "typeSpecificData": {
-      "name": "Body Slam",
+    "attackSpecificData": {
+      "name": "Ember",
       "power": 70,
       "accuracy": 100,
       "powerPoint": 15
@@ -52,7 +53,7 @@
   "6": {
     "type": "WATER",
     "category": "SPECIAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Surf",
       "power": 90,
       "accuracy": 100,
@@ -62,7 +63,7 @@
   "7": {
     "type": "PSYCHIC",
     "category": "STATUS",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Surf",
       "power": 0,
       "accuracy": 60,
@@ -72,7 +73,7 @@
   "8": {
     "type": "NORMAL",
     "category": "STATUS",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Hypnosis",
       "power": 0,
       "accuracy": 60,
@@ -82,7 +83,7 @@
   "9": {
     "type": "NORMAL",
     "category": "STATUS",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Metronome",
       "power": 0,
       "accuracy": 0,
@@ -92,7 +93,7 @@
   "10": {
     "type": "NORMAL",
     "category": "PHYSICAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Tackle",
       "power": 40,
       "accuracy": 100,
@@ -102,7 +103,7 @@
   "11": {
     "type": "ELECTRIC",
     "category": "SPECIAL",
-    "typeSpecificData": {
+    "attackSpecificData": {
       "name": "Thunderbolt",
       "power": 90,
       "accuracy": 15,
@@ -110,5 +111,5 @@
     }
   }
 
-
+}
 }
