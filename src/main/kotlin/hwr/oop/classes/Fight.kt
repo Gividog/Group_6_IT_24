@@ -4,13 +4,13 @@ class Fight(val fightID: Int,
             var fightStatus: Boolean,
             val trainers: List<Trainer>,
             val monsters: List<Monster>,
-            val rounds: Int,
+            var rounds: Int,
             val winner: String)
 {
     var currentTurn: Int = 0
 
     fun getCurrentTrainer(): Trainer = trainers[currentTurn]
-    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster
+    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster //was macht das?
 
 
     fun startFight() {
@@ -25,18 +25,18 @@ class Fight(val fightID: Int,
         }
     }
 
-    fun chooseAction(): Int{
+    fun chooseAction(): Int{ //
         var choice: Int?
 
         do {
-            println("Choose what to do")
+            println("Choose your action:")
             println("1) Attack")
             println("2) Heal Monster")
             println("3) ChangeMonster")
             print("Your choice: ")
 
             val input = readLine()
-            choice = input?.toIntOrNull()
+            choice = input?.toIntOrNull() //Eingabe, die erstmal als String interpretiert wird, wird in int bzw. null Wert umgewandelt
 
             if (choice !in 1..3) {
                 println("Invalid input")
@@ -49,18 +49,18 @@ class Fight(val fightID: Int,
 
     fun chooseAttack() {
         // choose an attack from the monsters attack pool
-        //
+        // Have to make JSON parsing work first!
     }
 
     fun healMonster() {
         val monster = getCurrentMonster() // could return null so do a check
 
         if (monster != null) {
-            val maxHP = monster.stats.hp
+            val maxHP = monster.stats.hp //neuer Wert überschreitet max hp nicht
             val currentHP = monster.stats.currenthp
 
             val healAmount = (maxHP * 0.3).toInt()
-            val newHP = minOf(currentHP + healAmount, maxHP)
+            val newHP = minOf(currentHP + healAmount, maxHP) //jeweils kleinerer Wert wird gewählt
 
             monster.stats.currenthp = newHP
 
@@ -73,20 +73,26 @@ class Fight(val fightID: Int,
     }
 
     fun changeMonster() {
-        // display all monsters the trainer has LEFT
         // choose a monster and replace it with the monster at turn
+        println("Choose a monster to replace the current one with!")
+        println("Currently active: ${trainers[currentTurn].activeMonster?.name}")
+        println("1) ${trainers[currentTurn].monsters[0].name}")
+        println("2) ${trainers[currentTurn].monsters[1].name}")
+        println("3) ${trainers[currentTurn].monsters[2].name}")
+        print("Your choice: ")
     }
 
     fun endTurn() {
         // if (Turncount == 1) {
-            // Turncount = 0;
+        // Turncount = 0;
+        nextRound()
+        println("Next round $rounds started!")
     }
 
     fun nextRound(): Int {
-        // TODO
-        // save fight in case the player wants to quit
-        // rounds++
-        // changeTurns
+        // TODO save fight in case the player quits
+        rounds++
+        return rounds
     }
 
     fun fightOver(): Boolean {

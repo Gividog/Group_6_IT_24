@@ -60,6 +60,7 @@ data class AttackSpecificData(
         * */
         //val stabFactor = getValueOfStab()
         //eeffective attack + defense = wert von Monster
+        // randomNumber )= calculate(randomNumber)
 
         val damage = ( (((((2 * critical/ 5)+ 2 ) * power * eAttack/dAttack ) / 50) + 2) * stab  * type1 * type2 * random )
 
@@ -71,6 +72,7 @@ data class AttackSpecificData(
     }
 
     var test = Type.FIRE
+
     fun getValueOfStab(monsterType:Type, attackType:Type):Double{
         var stabFactor : Double = 1.0
         if(monsterType == attackType){
