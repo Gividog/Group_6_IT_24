@@ -10,7 +10,7 @@ class Fight(val fightID: Int,
     var currentTurn: Int = 0
 
     fun getCurrentTrainer(): Trainer = trainers[currentTurn]
-    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster
+    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster //was macht das?
 
 
     fun startFight() {
@@ -25,18 +25,18 @@ class Fight(val fightID: Int,
         }
     }
 
-    fun chooseAction(): Int{
+    fun chooseAction(): Int{ //
         var choice: Int?
 
         do {
-            println("Choose what to do")
+            println("Choose your action:")
             println("1) Attack")
             println("2) Heal Monster")
             println("3) ChangeMonster")
             print("Your choice: ")
 
             val input = readLine()
-            choice = input?.toIntOrNull()
+            choice = input?.toIntOrNull() //was macht das?
 
             if (choice !in 1..3) {
                 println("Invalid input")
@@ -48,7 +48,7 @@ class Fight(val fightID: Int,
     }
 
     fun chooseAttack() {
-        // choose an attack from the monsters attack pool
+        // choose an attack from the monsters attack pool | Wo wird definiert, welches Monster welche Attacken hat?
         //
     }
 
