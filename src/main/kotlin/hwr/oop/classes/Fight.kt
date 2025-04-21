@@ -100,6 +100,7 @@ class Fight(val fightID: Int,
         // if winning condition met {
         // endFight()
         // };
+        return true
     }
 
     fun endFight(winner: String) {

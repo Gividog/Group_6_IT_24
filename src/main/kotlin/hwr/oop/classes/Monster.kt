@@ -1,5 +1,9 @@
 package hwr.oop.classes
 
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+@Serializable
 class Monster(val name: String, val type: Type, val stats: Stats, val attacks: List<Attack>) {
     //TODO: fun createMonster()
     // => User erstellt Monster und legt jedes Attribut fest, u.a. die Attacken

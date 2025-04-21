@@ -20,8 +20,71 @@ data class AttackSpecificData(
     val power: Int,
     val accuracy: Int,
     val powerPoint: Int
-){
+)
 
+@Serializable
+data class ListOfAttacks(
+    val attacks : Map<String, Attack>
+)
+
+@Serializable
+class CalculateAttack(val attack : Attack, val attackSpecificData: AttackSpecificData, val monster: Monster){
+
+
+    fun checkIfItsACriticalHit(){
+
+    }
+
+    fun calculateDamageOfAttack(
+        critical: Int,
+        type1: Int,
+        type2: Int,
+        random: Double
+    ): Double{
+        /*
+        *
+        * STAB - Überprüfen ob die  Typen gleich sind: gleich=1.5 sonst 1
+        * Type Effectivness überprüfen (Wer attackiert und wer verteidigt)
+        * critical hit per zufall festlegen ja:2 sonst 1
+        *
+        * */
+        val stabFactor = getValueOfStab(monster.type,attack.type)
+        //eeffective attack + defense = wert von Monster
+        // randomNumber )= calculate(randomNumber)
+
+        val damage = ( (((((2 * critical/ 5)+ 2 ) * attackSpecificData.power * monster.stats.attack / monster.stats.defense) / 50) + 2) * stabFactor * type1 * type2 * random )
+
+        return damage
+    }
+
+    fun calculateLeftAmountOfAttack(){
+        //Power Point = Amount of Attacks
+    }
+
+    var test = Type.FIRE
+
+    private fun getValueOfStab(monsterType:Type, attackType:Type):Double{
+        var factor : Double = 1.0
+        if(monsterType == attackType){
+            factor = 1.5
+        }
+        return factor
+    }
+
+    fun getValueOfTypeEffectivenessOne(){
+
+    }
+
+    fun getValueOfTypeEffectivenessTwo(){
+
+    }
+
+    fun calculateRandomNumberForDamageCalculation(){
+
+    }
+
+
+}
     /*
     private fun getJSONFromData(): String? {
         var json: String? = null
@@ -37,59 +100,3 @@ data class AttackSpecificData(
     val parsedJson = Json.parseToJsonElement(json).jsonObject
 */
 
-
-    fun checkIfItsACriticalHit(){
-
-    }
-
-    fun calculateDamageOfAttack(
-        critical: Int,
-        eAttack: Int,
-        dAttack: Int ,
-        stab: Int,
-        type1: Int,
-        type2: Int,
-        random: Double
-    ): Double{
-        /*
-        *
-        * STAB - Überprüfen ob die  Typen gleich sind: gleich=1.5 sonst 1
-        * Type Effectivness überprüfen (Wer attackiert und wer verteidigt)
-        * critical hit per zufall festlegen ja:2 sonst 1
-        *
-        * */
-        //val stabFactor = getValueOfStab()
-        //eeffective attack + defense = wert von Monster
-        // randomNumber )= calculate(randomNumber)
-
-        val damage = ( (((((2 * critical/ 5)+ 2 ) * power * eAttack/dAttack ) / 50) + 2) * stab  * type1 * type2 * random )
-
-        return damage
-    }
-
-    fun calculateLeftAmountOfAttack(){
-        //Power Point = Amount of Attacks
-    }
-
-    var test = Type.FIRE
-
-    fun getValueOfStab(monsterType:Type, attackType:Type):Double{
-        var stabFactor : Double = 1.0
-        if(monsterType == attackType){
-            stabFactor = 1.5
-        }
-        return stabFactor
-    }
-
-    fun getValueOfTypeEffectivenessOne(){
-
-    }
-
-    fun getValueOfTypeEffectivenessTwo(){
-
-    }
-
-    fun calculateRandomNumberForDamageCalculation(){
-
-    }
-}
