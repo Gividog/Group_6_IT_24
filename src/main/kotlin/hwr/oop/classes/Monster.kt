@@ -53,7 +53,7 @@ class Monster(val name: String, val type: Type, val stats: Stats, val attacks: L
         println("\n Choose three out of the following eleven attacks for your monster:")
         //TODO: Json auslesen + Switch Case
 
-        val monster = Monster("$monsterName", monsterType, monsterStats, monsterAttacks)
+      //  val monster = Monster("$monsterName", monsterType, monsterStats, monsterAttacks)
     }
 
     // => User erstellt Monster und legt jedes Attribut fest, u.a. die Attacken

@@ -1,111 +1,131 @@
 package hwr.oop.classes
 
-class Fight(val fightID: Int,
+class Fight(
+            val fightID: Int,
             var fightStatus: Boolean,
             val trainers: List<Trainer>,
-            val monsters: List<Monster>,
-            var rounds: Int,
-            val winner: String)
+            var rounds: Int = 0,
+            var winner: String = "")
 {
     var currentTurn: Int = 0
 
     fun getCurrentTrainer(): Trainer = trainers[currentTurn]
-    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster //was macht das?
+    fun getCurrentMonster(): Monster? = getCurrentTrainer().activeMonster
 
 
     fun startFight() {
         fightStatus = true;
+        println("Fight $fightID started!")
     }
 
-    fun playTurn() {
-        when (chooseAction()) {
-            1 -> chooseAttack()
-            2 -> healMonster()
-            3 -> changeMonster()
+    fun chooseAttack(index: Int) {
+        val monster = getCurrentMonster()
+        if (monster != null) {
+            if (index in 1..monster.attacks.size) {
+                val attack = monster.attacks[index - 1]
+                println("${monster.name} uses ${attack.attackSpecificData.name}!")
+                // TODO: CalculateAttack() gets called here when it's done
+            } else {
+                println("Invalid attack index. Choose a number between 1 and ${monster.attacks.size}.")
+            }
+        } else {
+            println("No active monster found.")
         }
     }
 
-    fun chooseAction(): Int{ //
-        var choice: Int?
-
-        do {
-            println("Choose your action:")
-            println("1) Attack")
-            println("2) Heal Monster")
-            println("3) ChangeMonster")
-            print("Your choice: ")
-
-            val input = readLine()
-            choice = input?.toIntOrNull() //Eingabe, die erstmal als String interpretiert wird, wird in int bzw. null Wert umgewandelt
-
-            if (choice !in 1..3) {
-                println("Invalid input")
-            }
-
-        } while (choice !in 1..3)
-
-        return choice!! // !! ensures the Integer isn't null
-    }
-
-    fun chooseAttack() {
-        // choose an attack from the monsters attack pool
-        // Have to make JSON parsing work first!
-    }
-
     fun healMonster() {
-        val monster = getCurrentMonster() // could return null so do a check
+        val trainer = getCurrentTrainer()
+
+        //limit the amount of heals a trainer has in a fight
+        if (trainer.healsRemaining <= 0) {
+            println("${trainer.name} has no heals left!")
+            return
+        }
+
+        val monster = trainer.activeMonster
 
         if (monster != null) {
-            val maxHP = monster.stats.hp //neuer Wert überschreitet max hp nicht
+            val maxHP = monster.stats.hp
             val currentHP = monster.stats.currenthp
 
             val healAmount = (maxHP * 0.3).toInt()
-            val newHP = minOf(currentHP + healAmount, maxHP) //jeweils kleinerer Wert wird gewählt
+            val newHP = minOf(currentHP + healAmount, maxHP)
 
             monster.stats.currenthp = newHP
+            trainer.healsRemaining--
 
             println("${monster.name} was healed by $healAmount HP!")
-
+            println("${trainer.name} has ${trainer.healsRemaining} heals left.")
             endTurn()
         } else {
             println("Error: no active monster set")
         }
     }
 
-    fun changeMonster() {
-        // choose a monster and replace it with the monster at turn
-        println("Choose a monster to replace the current one with!")
-        println("Currently active: ${trainers[currentTurn].activeMonster?.name}")
-        println("1) ${trainers[currentTurn].monsters[0].name}")
-        println("2) ${trainers[currentTurn].monsters[1].name}")
-        println("3) ${trainers[currentTurn].monsters[2].name}")
-        print("Your choice: ")
+    fun changeMonster(index: Int) {
+        val trainer = getCurrentTrainer()
+        if (index in 1..trainer.monsters.size) {
+            val newMonster = trainer.monsters[index - 1]
+            trainer.activeMonster = newMonster
+            println("${trainer.name} switched to ${newMonster.name}.")
+            endTurn()
+        } else {
+            println("Invalid monster index. Choose a number between 1 and ${trainer.monsters.size}.")
+        }
     }
 
     fun endTurn() {
-        // if (Turncount == 1) {
-        // Turncount = 0;
-        nextRound()
-        println("Next round $rounds started!")
+        currentTurn = (currentTurn + 1) % trainers.size // switch to the other trainer
+        if (fightOver()) {
+            endFight(determineWinner())
+        } else {
+            nextRound()
+            println("Next round $rounds started! It is now ${getCurrentTrainer().name}'s turn.\n")
+        }
     }
 
     fun nextRound(): Int {
-        // TODO save fight in case the player quits
         rounds++
         return rounds
     }
 
     fun fightOver(): Boolean {
-        // TODO
-        // if winning condition met {
-        // endFight()
-        // };
-        return true
+        return trainers.any { trainer ->
+            trainer.monsters.all { it.stats.currenthp <= 0 } // one trainer has no usable monsters left
+        }
+    }
+
+    fun determineWinner(): String {
+        val winnerTrainer = trainers.find { trainer ->
+            trainer.monsters.any { it.stats.currenthp > 0 }
+        }
+        return winnerTrainer?.name ?: "No one"
     }
 
     fun endFight(winner: String) {
         fightStatus = false
-        // choose winner
-        // save fight stats and winner
+        this.winner = winner
+        println("Fight is over! The winner is: $winner")
     }
+
+    // CLI beyond this point
+
+    /**
+     * Displays the current monster's name and available attacks with indices.
+     * Can be called from the CLI before taking an action.
+     */
+    fun showAvailableAttacks() {
+        val monster = getCurrentMonster()
+        if (monster != null) {
+            println("\nCurrent Monster: ${monster.name}")
+            println("Available attacks:")
+            monster.attacks.forEachIndexed { i, atk ->
+                println("${i + 1}) ${atk.attackSpecificData.name} (${atk.attackSpecificData.power} Power)")
+            }
+        } else {
+            println("No active monster found.")
+        }
+    }
+
+
 }

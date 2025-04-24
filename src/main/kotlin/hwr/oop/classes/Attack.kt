@@ -85,18 +85,5 @@ class CalculateAttack(val attack : Attack, val attackSpecificData: AttackSpecifi
 
 
 }
-    /*
-    private fun getJSONFromData(): String? {
-        var json: String? = null
-        val charset : Charset =  Charsets.UTF_8
 
-        try{
-            val attackJsonFile = File("src/main/kotlin/hwr/oop/data/AttackData.json")
-            val size = attackJsonFile.length()
-            val buffer = ByteArray(size)
-        }
-    }
-    val json = File("src/main/kotlin/hwr/oop/data/AttackData.json").readText()
-    val parsedJson = Json.parseToJsonElement(json).jsonObject
-*/
 

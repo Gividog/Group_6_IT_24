@@ -10,8 +10,6 @@
     <option name="testPath" value="" />
     <option name="packageName" value="" />
     <option name="vmparams" value="" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>

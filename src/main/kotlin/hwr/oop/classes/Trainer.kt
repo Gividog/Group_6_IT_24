@@ -1,9 +1,12 @@
 package hwr.oop.classes
 
+import hwr.oop.classes.Fight
+
 class Trainer(
     val name: String,
     val monsters: MutableList<Monster> = mutableListOf(),
-    var activeMonster: Monster? = null
+    var activeMonster: Monster? = null,
+    var healsRemaining: Int = 3
 ) {
     private val MAX_MONSTERS = 6
 
@@ -31,11 +34,16 @@ class Trainer(
         }
     }
 
-    fun showTeam() {
-        println("\n${name}'s Team (${monsters.size}/$MAX_MONSTERS):")
-        monsters.forEachIndexed { i, monster ->
-            val marker = if (monster == activeMonster) "->" else "  "
-            println("$marker ${i + 1}: ${monster.name} (${monster.type})")
+    /**
+     * Displays the current trainer's full team and marks the active monster.
+     * Useful before using the change command.
+     */
+    fun showTrainerMonsters() {
+        val trainer = getCurrentTrainer()
+        println("\n${trainer.name}'s Monsters:")
+        trainer.monsters.forEachIndexed { i, monster ->
+            val activeMarker = if (monster == trainer.activeMonster) " (active)" else ""
+            println("${i + 1}) ${monster.name}$activeMarker - HP: ${monster.stats.currenthp}/${monster.stats.hp}")
         }
     }
 }

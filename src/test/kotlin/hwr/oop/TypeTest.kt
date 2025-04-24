@@ -8,9 +8,9 @@ class TypeTest : AnnotationSpec() {
     fun `test Type creation`() {
 
         // Act: Create a Type instance
-        val type = Type.Fire
+        val type = Type.FIRE
 
         // Assert: Verify the Type's property
-        assertThat(type.name).isEqualTo("Fire")
+        assertThat(type.name).isEqualTo("FIRE")
     }
 }
