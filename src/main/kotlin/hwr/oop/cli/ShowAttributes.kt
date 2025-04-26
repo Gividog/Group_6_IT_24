@@ -13,7 +13,7 @@ class ShowCommand(fight: Fight) : CliktCommand(name = "show", help = "Show curre
     init {
         subcommands(
             ShowAttacksCommand(fight),
-            ShowMonstersCommand(fight)
+            //ShowMonstersCommand(fight)
         )
     }
 
@@ -37,8 +37,9 @@ class ShowAttacksCommand(private val fight: Fight) : CliktCommand(name = "attack
  * Subcommand to show all monsters of the current trainer
  * Usage: fight show monsters
  */
+/*
 class ShowMonstersCommand(private val fight: Fight) : CliktCommand(name = "monsters", help = "Show current trainer's monsters") {
     override fun run() {
         fight.showTrainerMonsters()
-    }
-}
+    }*/
+

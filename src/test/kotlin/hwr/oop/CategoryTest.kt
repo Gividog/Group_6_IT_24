@@ -12,9 +12,9 @@ class CategoryTest : AnnotationSpec(){
     fun `test Category creation`() {
 
         // Act: Create a Category instance
-        val category = Category.Special
+        val category = Category.SPECIAL
 
         // Assert: Verify the Type's property
-        assertThat(category.name).isEqualTo("Special")
+        assertThat(category.name).isEqualTo("SPECIAL")
     }
 }

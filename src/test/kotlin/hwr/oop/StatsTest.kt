@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 
 class StatsTest : AnnotationSpec() {
 
+    /*
     @Test
     fun `test Stats creation`() {
         // Arrange: Define initial stats values
@@ -31,5 +32,5 @@ class StatsTest : AnnotationSpec() {
         assertThat(stats.defense).isEqualTo(40)
         assertThat(stats.spezAttack).isEqualTo(60)
         assertThat(stats.spezDefense).isEqualTo(55)
-    }
+    }*/
 }

@@ -38,6 +38,7 @@ class Trainer(
      * Displays the current trainer's full team and marks the active monster.
      * Useful before using the change command.
      */
+    /*
     fun showTrainerMonsters() {
         val trainer = getCurrentTrainer()
         println("\n${trainer.name}'s Monsters:")
@@ -45,5 +46,5 @@ class Trainer(
             val activeMarker = if (monster == trainer.activeMonster) " (active)" else ""
             println("${i + 1}) ${monster.name}$activeMarker - HP: ${monster.stats.currenthp}/${monster.stats.hp}")
         }
-    }
+    }*/
 }

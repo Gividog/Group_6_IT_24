@@ -64,7 +64,7 @@
     "type": "PSYCHIC",
     "category": "STATUS",
     "attackSpecificData": {
-      "name": "Surf",
+      "name": "Ghost",
       "power": 0,
       "accuracy": 60,
       "powerPoint": 20

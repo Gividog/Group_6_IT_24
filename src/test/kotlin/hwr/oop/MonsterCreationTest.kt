@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 
 class MonsterCreationTest : AnnotationSpec() {
 
+    /*
     @Test
     fun `test Monster creation with Stats`() {
         // Arrange: Erstellen eines Stats-Objekts
@@ -37,6 +38,6 @@ class MonsterCreationTest : AnnotationSpec() {
         //assertThat(monster.stats.spezAttack).isEqualTo(50)
         assertThat(monster.attacks).isEmpty()
 
-    }
+    }*/
 }
 

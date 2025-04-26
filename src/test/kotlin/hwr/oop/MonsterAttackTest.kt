@@ -9,9 +9,10 @@ import org.assertj.core.api.Assertions.assertThat
 
 class MonsterAttackTest : AnnotationSpec() {
 
+    /*
     @Test
     fun `test can monster use attack` () {
         val monsterUwe = Monster(attacks = Attack.allAttacks.elementAt(0))
         val attackTackle = Attack("Tackle", Type.Normal, Category.Physical, 40, 100, 35 )
-    }
+    }*/
 }
