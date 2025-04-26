@@ -108,8 +108,7 @@ class Fight(
         println("Fight is over! The winner is: $winner")
     }
 
-    // CLI beyond this point
-
+/* Will likely go into Monster.kt since it displays an attribute of the monster class
     /**
      * Displays the current monster's name and available attacks with indices.
      * Can be called from the CLI before taking an action.
@@ -126,6 +125,6 @@ class Fight(
             println("No active monster found.")
         }
     }
-
+*/
 
 }

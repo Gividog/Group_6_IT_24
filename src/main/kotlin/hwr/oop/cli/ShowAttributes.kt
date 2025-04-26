@@ -29,7 +29,7 @@ class ShowCommand(fight: Fight) : CliktCommand(name = "show", help = "Show curre
  */
 class ShowAttacksCommand(private val fight: Fight) : CliktCommand(name = "attacks", help = "Show current monster's attacks") {
     override fun run() {
-        fight.showAvailableAttacks()
+        //TODO monster.showAvailableAttacks()
     }
 }
 
