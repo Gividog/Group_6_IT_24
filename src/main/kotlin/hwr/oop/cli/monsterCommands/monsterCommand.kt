@@ -10,13 +10,10 @@ import hwr.oop.classes.Monster
  * usage: monster name monster --index / monster assign type / monster allocate points / monster choose attacks --index
  */
 
-class monsterCommand (private val monster: Monster) : CliktCommand(name = "monster") {
+/*class monsterCommand (private val monster: Monster) : CliktCommand(name = "monster") {
     init {
         subcommands(
-            nameMonsterCommand(monster),
-            assignTypeCommand(monster),
-            allocatePointsCommand(monster),
-            chooseAttacksCommand(monster)
+            createMonsterCommand(monster),
         )
     }
 
@@ -25,4 +22,4 @@ class monsterCommand (private val monster: Monster) : CliktCommand(name = "monst
         echo("Use one of the subcommands: attack, heal, change")
         // currentContext.showHelp()
     }
-}
+}*/

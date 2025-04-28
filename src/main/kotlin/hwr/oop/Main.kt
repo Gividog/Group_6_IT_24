@@ -21,13 +21,22 @@ fun main() {
     val jsonp = Json{ignoreUnknownKeys=true}
     val listOfAttacks = jsonp.decodeFromString<ListOfAttacks>(json)
 
-    val attackOne = listOfAttacks.attacks["1"]
-    println(attackOne?.attackSpecificData?.name)
-    println(attackOne?.attackSpecificData?.power)
-    println(attackOne?.attackSpecificData?.accuracy)
-    println(attackOne?.attackSpecificData?.powerPoint)
-    println(attackOne?.type)
-    println(attackOne?.category)
+    for (index in 1 until listOfAttacks.attacks.size + 1) {
+        val i : String = index.toString()
+        val attack = listOfAttacks.attacks[i]
+        println("Attack's name:")
+        println(attack?.attackSpecificData?.name)
+        println("\nAttack's power:")
+        println(attack?.attackSpecificData?.power)
+        println("\nAccuracy points:")
+        println(attack?.attackSpecificData?.accuracy)
+        println("\nPower points:")
+        println(attack?.attackSpecificData?.powerPoint)
+        println("\nAttack's type:")
+        println(attack?.type)
+        println("\nAttack's category:")
+        println("${attack?.category}\n")
+    }
     // MonsterRepository.loadFromFile() wenn wir unsere Monster später in einer Datei speichern
 
     //MonsterInitializer.preload() // Nur wenn wir wirklich die vorkonfigurierten Monster nutzen wollen

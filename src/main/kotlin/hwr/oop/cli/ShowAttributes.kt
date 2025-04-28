@@ -8,7 +8,7 @@ import hwr.oop.classes.Fight
  * Root "show" command which includes subcommands like "attacks" and "monsters"
  * Usage: fight show attacks / fight show monsters
  */
-class ShowCommand(fight: Fight) : CliktCommand(name = "show", help = "Show current trainer data") {
+/*class ShowCommand(fight: Fight) : CliktCommand(name = "show", help = "Show current trainer data") {
 
     init {
         subcommands(
@@ -37,8 +37,9 @@ class ShowAttacksCommand(private val fight: Fight) : CliktCommand(name = "attack
  * Subcommand to show all monsters of the current trainer
  * Usage: fight show monsters
  */
-class ShowMonstersCommand(private val fight: Fight) : CliktCommand(name = "monsters", help = "Show current trainer's monsters") {
+/*class ShowMonstersCommand(private val fight: Fight) : CliktCommand(name = "monsters", help = "Show current trainer's monsters") {
     override fun run() {
         fight.showTrainerMonsters()
     }
-}
+}*/
+*/
