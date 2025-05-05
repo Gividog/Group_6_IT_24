@@ -2,7 +2,7 @@ package monsterleague.gamelogic
 
 class Type(
     val name: String,
-    val Efficiency: List<Type>,
-    val Inefficiency: List<Type>
+    val efficiency: List<String>,
+    val inefficiency: List<String>
 ) {
 }
