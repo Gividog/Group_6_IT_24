@@ -7,13 +7,13 @@
   <groupId>hwr.oop.projects</groupId>
 
   <!-- TODO Change name and description according to your project -->
-  <artifactId>project</artifactId>
+  <artifactId>monsterleague</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0-SNAPSHOT</version>
 
   <!-- TODO Change name and description according to your project -->
-  <name>project</name>
-  <description>project-description</description>
+  <name>monsterleague</name>
+  <description>totally not pokemon</description>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
