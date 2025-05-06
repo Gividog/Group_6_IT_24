@@ -5,5 +5,4 @@ class Trainer(
     val monsters: List<Monster>,
     var activeMonster: Monster,
     var healsRemaining: Int
-) {
-}
+) {}

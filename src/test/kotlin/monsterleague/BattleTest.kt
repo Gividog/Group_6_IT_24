@@ -55,5 +55,4 @@ class BattleTest : AnnotationSpec() {
     )
 
     private val trainer1 = Trainer("trainer1", listOf(monster1, monster2), monster2, 3)
-
 }
