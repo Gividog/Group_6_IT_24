@@ -5,18 +5,17 @@ import monsterleague.gamelogic.Battle
 import monsterleague.gamelogic.BaseStats
 import monsterleague.gamelogic.BattleStats
 import monsterleague.gamelogic.PhysicalAttack
-
-import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.Trainer
 import monsterleague.gamelogic.Type
-import org.assertj.core.api.Assertions.assertThat
 
+import org.assertj.core.api.Assertions.assertThat
+import io.kotest.core.spec.style.AnnotationSpec
 
 class BattleTest : AnnotationSpec() {
-    val type1 = Type("Water", listOf("Fire"), listOf("Grass"))
-    val type2 = Type("Fire", listOf("Grass"), listOf("Water"))
-    val type3 = Type("Grass", listOf("Water") , listOf("Fire"))
+    val type1 = Type.ELECTRIC
+    val type2 = Type.WATER
+    val type3 = Type.FIRE
 
     private val dummyAttack = Attack(
         physicalAttack = PhysicalAttack("Punch", type1, 100, 35,10)
@@ -55,4 +54,97 @@ class BattleTest : AnnotationSpec() {
     )
 
     private val trainer1 = Trainer("trainer1", listOf(monster1, monster2), monster2, 3)
+    private val trainer2 = Trainer("trainer2", listOf(monster1, monster2), monster1, 3)
+
+    /**
+     * Initial Values/Variables tests
+     */
+
+    @Test
+    fun `damageTrainer1 and damageTrainer2 are initialized with 0`(){
+        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
+
+        var damage1 = battle.damageTrainer1
+        var damage2 = battle.damageTrainer2
+
+        assertThat(damage1).isEqualTo(0)
+        assertThat(damage2).isEqualTo(0)
+    }
+
+    /**
+     * chooseAttack tests
+     */
+
+    @Test
+    fun `attackingMonster, defendingMonster and attack are declared correctly`() {
+
+        val attackingTrainer = trainer1
+        val defendingTrainer = trainer2
+        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
+
+        battle.chooseAttack(attackingTrainer, defendingTrainer, 1)
+
+        val attackingMonster = attackingTrainer.activeMonster
+        val defendingMonster = defendingTrainer.activeMonster
+        val chosenAttack = attackingMonster.attacks[0]
+
+        assertThat(attackingMonster).isEqualTo(monster2)
+        assertThat(defendingMonster).isEqualTo(monster1)
+        assertThat(chosenAttack).isEqualTo(dummyAttack)
+    }
+
+    // TODO : AttackCalculator schreiben
+    /*@Test
+    fun `chooseAttack should set damageTrainer1 correctly`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+        battle.chooseAttack(attackingTrainer = trainer1, defendingTrainer = trainer2, attackIndex = 1)
+        assertThat(battle.damageTrainer1).isEqualTo(100)
+        assertThat(battle.damageTrainer2).isEqualTo(0)
+    }
+
+    @Test
+    fun `chooseAttack should set damageTrainer2 correctly`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+        battle.chooseAttack(attackingTrainer = trainer2, defendingTrainer = trainer1, attackIndex = 1)
+        val damage = 100
+        assertThat(battle.damageTrainer2).isEqualTo(100)
+        assertThat(battle.damageTrainer1).isEqualTo(0)
+    }*/
+
+    /**
+     * healMonster tests
+     */
+
+    @Test
+    fun `healMonster heals monster's currenthp and reduces healsRemaining`() {
+        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
+        trainer1.activeMonster.battleStats.currenthp = 50
+        trainer1.healsRemaining = 1
+
+        battle.healMonster(trainer1)
+
+        assertThat(trainer1.activeMonster.battleStats.currenthp).isEqualTo(80)
+        assertThat(trainer1.healsRemaining).isEqualTo(0)
+    }
+
+    @Test
+    fun `healMonster does nothing when no heals remaining`() {
+        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
+        trainer1.healsRemaining = 0
+
+        battle.healMonster(trainer1)
+
+        assertThat(trainer1.healsRemaining).isEqualTo(0)
+    }
 }
+
