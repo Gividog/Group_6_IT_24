@@ -1,12 +1,50 @@
 package monsterleague.gamelogic
 
-enum class Type(
-    val efficiency: List<String>,
-    val inefficiency: List<String>
-) {
-    FIRE(efficiency = listOf("GRASS"), inefficiency = listOf("WATER", "FIRE")),
-    WATER(efficiency = listOf("FIRE","GROUND"), inefficiency = listOf("GRASS","WATER")),
-    GRASS(efficiency = listOf("WATER", "GROUND"), inefficiency = listOf("FIRE", "GRASS")),
-    GROUND(efficiency = listOf("FIRE", "ELECTRIC"), inefficiency =  listOf("WATER", "GROUND", "GRASS")),
-    ELECTRIC(efficiency = listOf("WATER"), inefficiency = listOf("GROUND", "ELECTRIC", "GRASS")),
+enum class Type(val index : Int) {
+    NORMAL(0),
+    FIRE(1),
+    WATER(2),
+    ELECTRIC(3),
+    GRASS(4),
+    ICE(5),
+    FIGHTING(6),
+    POISON(7),
+    GROUND(8),
+    FLYING(9),
+    PSYCHIC(10),
+    BUG(11),
+    ROCK(12),
+    GHOST(13),
+    DRAGON(14),
+    DARK(15),
+    STEEL(16),
+    FAIRY(17);
+
+    companion object {
+        private val efficiencyValueMatrix = listOf<List<Double>>(
+
+            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0, 0.5, 1.0), // Normal
+            listOf(1.0, 0.5, 0.5, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 0.5), // Fire
+            listOf(1.0, 2.0, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Water
+            listOf(1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 0.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Electric
+            listOf(1.0, 0.5, 2.0, 0.5, 1.0, 1.0, 0.5, 2.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Grass
+            listOf(1.0, 0.5, 0.5, 2.0, 0.5, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0), // Ice
+            listOf(2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 2.0, 0.5, 0.5, 1.0, 2.0, 0.0, 1.0, 2.0, 2.0, 0.5), // Fighting
+            listOf(1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 0.0, 2.0), // Poison
+            listOf(1.0, 2.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.0, 2.0, 1.0, 1.0, 1.0, 2.0, 1.0), // Ground
+            listOf(1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 2.0, 0.5, 1.0), // Flying
+            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0), // Psychic
+            listOf(1.0, 0.5, 1.0, 2.0, 0.5, 1.0, 0.5, 0.5, 1.0, 0.5, 2.0, 0.5, 1.0, 0.5, 1.0, 2.0, 0.5, 0.5), // Bug
+            listOf(1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Rock
+            listOf(0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0), // Ghost
+            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 0.0), // Dragon
+            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5), // Dark
+            listOf(1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 2.0, 1.0, 1.0, 1.0, 0.5, 2.0, 2.0, 1.0, 1.0, 1.0, 0.5, 2.0), // Steel
+            listOf(1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 0.5, 1.0)  // Fairy
+
+        )
+    }
+    fun multiplierAgainst(opponent: Type): Double {
+        return efficiencyValueMatrix[this.index][opponent.index]
+    }
 }

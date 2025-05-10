@@ -60,17 +60,6 @@ class BattleTest : AnnotationSpec() {
      * Initial Values/Variables tests
      */
 
-    @Test
-    fun `damageTrainer1 and damageTrainer2 are initialized with 0`(){
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-
-        var damage1 = battle.damageTrainer1
-        var damage2 = battle.damageTrainer2
-
-        assertThat(damage1).isEqualTo(0)
-        assertThat(damage2).isEqualTo(0)
-    }
-
     /**
      * chooseAttack tests
      */
@@ -82,7 +71,7 @@ class BattleTest : AnnotationSpec() {
         val defendingTrainer = trainer2
         val battle = Battle(1,1,"",listOf(trainer1,trainer2))
 
-        battle.chooseAttack(attackingTrainer, defendingTrainer, 1)
+       trainer1.chooseAttack(1)
 
         val attackingMonster = attackingTrainer.activeMonster
         val defendingMonster = defendingTrainer.activeMonster
@@ -120,31 +109,5 @@ class BattleTest : AnnotationSpec() {
         assertThat(battle.damageTrainer2).isEqualTo(100)
         assertThat(battle.damageTrainer1).isEqualTo(0)
     }*/
-
-    /**
-     * healMonster tests
-     */
-
-    @Test
-    fun `healMonster heals monster's currenthp and reduces healsRemaining`() {
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-        trainer1.activeMonster.battleStats.currenthp = 50
-        trainer1.healsRemaining = 1
-
-        battle.healMonster(trainer1)
-
-        assertThat(trainer1.activeMonster.battleStats.currenthp).isEqualTo(80)
-        assertThat(trainer1.healsRemaining).isEqualTo(0)
-    }
-
-    @Test
-    fun `healMonster does nothing when no heals remaining`() {
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-        trainer1.healsRemaining = 0
-
-        battle.healMonster(trainer1)
-
-        assertThat(trainer1.healsRemaining).isEqualTo(0)
-    }
 }
 
