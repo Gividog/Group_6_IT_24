@@ -15,13 +15,12 @@ class Trainer(
         return attack
     }
 
-    fun switchActiveMonster(index: Int){
-        val indexOfMonster = index - 1
-        if (indexOfMonster in monsters.indices) {
-            activeMonster = monsters[indexOfMonster]
+    fun switchActiveMonster(monster: Monster){
+        if (monster in monsters) {
+            activeMonster = monster
             println("${activeMonster.name} is now active.")
         } else {
-            println("Invalid Index. Please choose another index.")
+            println("${monster.name} doesn't belong to $name")
         }
     }
 
@@ -30,7 +29,7 @@ class Trainer(
 
         //limit the amount of heals a trainer has in a fight
         if (healsRemaining <= 0) {
-            println("${name} has no heals left!")
+            println("$name has no heals left!")
             return
         }
 
@@ -44,6 +43,6 @@ class Trainer(
         healsRemaining--
 
         println("${monster.name} was healed by $healAmount HP!")
-        println("${name} has ${healsRemaining} heals left.")
+        println("$name has $healsRemaining heals left.")
     }
 }

@@ -13,7 +13,7 @@ import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
 
 class BattleTest : AnnotationSpec() {
-    val type1 = Type.ELECTRIC
+    val type1 = Type.GHOST
     val type2 = Type.WATER
     val type3 = Type.FIRE
 

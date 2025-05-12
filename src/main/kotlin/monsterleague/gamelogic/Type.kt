@@ -1,50 +1,48 @@
 package monsterleague.gamelogic
 
-enum class Type(val index : Int) {
-    NORMAL(0),
-    FIRE(1),
-    WATER(2),
-    ELECTRIC(3),
-    GRASS(4),
-    ICE(5),
-    FIGHTING(6),
-    POISON(7),
-    GROUND(8),
-    FLYING(9),
-    PSYCHIC(10),
-    BUG(11),
-    ROCK(12),
-    GHOST(13),
-    DRAGON(14),
-    DARK(15),
-    STEEL(16),
-    FAIRY(17);
-
-    companion object {
-        private val efficiencyValueMatrix = listOf<List<Double>>(
-
-            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.0, 1.0, 1.0, 0.5, 1.0), // Normal
-            listOf(1.0, 0.5, 0.5, 2.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 0.5), // Fire
-            listOf(1.0, 2.0, 0.5, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Water
-            listOf(1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 0.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Electric
-            listOf(1.0, 0.5, 2.0, 0.5, 1.0, 1.0, 0.5, 2.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Grass
-            listOf(1.0, 0.5, 0.5, 2.0, 0.5, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0), // Ice
-            listOf(2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 2.0, 0.5, 0.5, 1.0, 2.0, 0.0, 1.0, 2.0, 2.0, 0.5), // Fighting
-            listOf(1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 0.0, 2.0), // Poison
-            listOf(1.0, 2.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 0.0, 2.0, 1.0, 1.0, 1.0, 2.0, 1.0), // Ground
-            listOf(1.0, 1.0, 1.0, 0.5, 2.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 2.0, 0.5, 1.0), // Flying
-            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0), // Psychic
-            listOf(1.0, 0.5, 1.0, 2.0, 0.5, 1.0, 0.5, 0.5, 1.0, 0.5, 2.0, 0.5, 1.0, 0.5, 1.0, 2.0, 0.5, 0.5), // Bug
-            listOf(1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0), // Rock
-            listOf(0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 1.0), // Ghost
-            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 1.0, 0.5, 0.0), // Dragon
-            listOf(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 2.0, 1.0, 0.5, 1.0, 0.5), // Dark
-            listOf(1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 2.0, 1.0, 1.0, 1.0, 0.5, 2.0, 2.0, 1.0, 1.0, 1.0, 0.5, 2.0), // Steel
-            listOf(1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 2.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 0.5, 1.0)  // Fairy
-
-        )
-    }
-    fun multiplierAgainst(opponent: Type): Double {
-        return efficiencyValueMatrix[this.index][opponent.index]
-    }
+enum class Type {
+    NORMAL,
+    FIRE,
+    WATER,
+    GRASS,
+    GHOST
 }
+
+class TypeTable(
+    private val inefficiencyMap: Map<Type, List<Type>> = mapOf(
+        Type.NORMAL to listOf(Type.GHOST),
+        Type.FIRE to listOf(Type.WATER, Type.FIRE),
+        Type.WATER to listOf(Type.GRASS, Type.WATER),
+        Type.GRASS to listOf(Type.FIRE, Type.GRASS),
+        Type.GHOST to listOf(Type.NORMAL)
+    ),
+
+    private val efficiencyMap: Map<Type, List<Type>> = mapOf(
+        Type.NORMAL to emptyList(),
+        Type.FIRE to listOf(Type.GRASS),
+        Type.WATER to listOf(Type.FIRE),
+        Type.GRASS to listOf(Type.WATER),
+        Type.GHOST to listOf(Type.GHOST)
+    ),
+
+    private val neutralityMap: Map<Type, List<Type>> = mapOf(
+        Type.NORMAL to listOf(Type.NORMAL, Type.FIRE, Type.WATER, Type.GRASS),
+        Type.FIRE to listOf(Type.GHOST, Type.NORMAL),
+        Type.WATER to listOf(Type.NORMAL, Type.GHOST),
+        Type.GRASS to listOf(Type.NORMAL, Type.GHOST),
+        Type.GHOST to listOf(Type.FIRE, Type.WATER, Type.GRASS)
+    ))
+
+    {
+    fun inefficienciesOf(type: Type): List<Type> {
+        return inefficiencyMap[type] ?: emptyList()
+    }
+
+    fun efficiencyOf(type: Type): List<Type> {
+        return efficiencyMap[type] ?: emptyList()
+    }
+
+    fun balancesOf(type: Type): List<Type> {
+        return neutralityMap[type] ?: emptyList()
+    }
+    }

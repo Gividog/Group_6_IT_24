@@ -1,39 +1,69 @@
 package monsterleague
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.Type
+import monsterleague.gamelogic.TypeTable
 
-class TypeTest : AnnotationSpec(){
+class TypeTest : AnnotationSpec() {
+
     @Test
-    fun `Type Water has efficient Type against Fire and Ground and inefficient Type against Grass`() {
-        assertThat(Type.WATER.efficiency).contains("FIRE","GROUND")
-        assertThat(Type.WATER.inefficiency).contains("WATER","GRASS")
+    fun `typeTable knows efficiencies and inefficiencies of NORMAL`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.NORMAL)
+        val inefficiencies = typeTable.inefficienciesOf(Type.NORMAL)
+        val balances = typeTable.balancesOf(Type.NORMAL)
+
+        assertThat(efficiencies).containsExactly()
+        assertThat(inefficiencies).containsExactly(Type.GHOST)
+        assertThat(balances).containsExactly(Type.NORMAL, Type.FIRE, Type.WATER, Type.GRASS)
     }
 
     @Test
-    fun `Type FIRE is efficient against GRASS and inefficient against WATER`(){
-        assertThat(Type.FIRE.efficiency).contains("GRASS")
-        assertThat(Type.FIRE.inefficiency).contains("WATER", "FIRE")
+    fun `typeTable knows efficiencies and inefficiencies of FIRE`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.FIRE)
+        val inefficiencies = typeTable.inefficienciesOf(Type.FIRE)
+        val balances = typeTable.balancesOf(Type.FIRE)
 
+        assertThat(efficiencies).containsExactly(Type.GRASS)
+        assertThat(inefficiencies).containsExactly(Type.WATER, Type.FIRE)
+        assertThat(balances).containsExactly(Type.GHOST, Type.NORMAL)
     }
 
     @Test
-    fun `Type GROUND is efficient against Type FIRE and inefficient against Type WATER`(){
-        assertThat(Type.GROUND.efficiency).contains("FIRE", "ELECTRIC")
-        assertThat(Type.GROUND.inefficiency).contains("WATER", "GROUND", "GRASS")
+    fun `typeTable knows efficiencies and inefficiencies of WATER`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.WATER)
+        val inefficiencies = typeTable.inefficienciesOf(Type.WATER)
+        val balances = typeTable.balancesOf(Type.WATER)
+
+        assertThat(efficiencies).containsExactly(Type.FIRE)
+        assertThat(inefficiencies).containsExactly(Type.GRASS, Type.WATER)
+        assertThat(balances).containsExactly(Type.NORMAL, Type.GHOST)
     }
 
     @Test
-    fun `Type GRASS is efficient against WATER and inefficient against FIRE`() {
-        assertThat(Type.GRASS.efficiency).contains("WATER", "GROUND")
-        assertThat(Type.GRASS.inefficiency).contains("FIRE", "GRASS")
+    fun `typeTable knows efficiencies and inefficiencies of GRASS`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.GRASS)
+        val inefficiencies = typeTable.inefficienciesOf(Type.GRASS)
+        val balances = typeTable.balancesOf(Type.GRASS)
+
+        assertThat(efficiencies).containsExactly(Type.WATER)
+        assertThat(inefficiencies).containsExactly(Type.FIRE, Type.GRASS)
+        assertThat(balances).containsExactly(Type.NORMAL, Type.GHOST)
     }
 
     @Test
-    fun `Type ELECTRIC is efficient against Type WATER and inefficient against Type GROUND, ELECTRIC and GRASS` () {
-        assertThat(Type.ELECTRIC.efficiency).contains("WATER")
-        assertThat(Type.ELECTRIC.inefficiency).contains("GROUND", "ELECTRIC", "GRASS")
+    fun `typeTable knows efficiencies and inefficiencies of GHOST`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.GHOST)
+        val inefficiencies = typeTable.inefficienciesOf(Type.GHOST)
+        val balances = typeTable.balancesOf(Type.GHOST)
+
+        assertThat(efficiencies).containsExactly(Type.GHOST)
+        assertThat(inefficiencies).containsExactly(Type.NORMAL)
+        assertThat(balances).containsExactly(Type.FIRE, Type.WATER, Type.GRASS)
     }
 }
