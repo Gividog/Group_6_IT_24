@@ -6,16 +6,17 @@ class AttackCalculator (
     val attackingMonster: Monster,
     val defendingMonster: Monster,
     val attack: Attack,
-    val battleStats: BattleStats,
+    val battleStats: Stats,
 ) {
-    val critChance = 0.04
+    private val critChance = 0.04
 
-    fun calculateDamage() : Int {
-        val damage = 0
-        /*
-        val damage = ( (((((2.0 * critical/ 5.0)+ 2.0 ) * attackingMonster.attacks[chosenAttackNumber].attackSpecificData.power * attackingMonster.stats.attack / attackingMonster.stats.defense) / 50.0) + 2.0) * stabFactor[chosenAttackNumber] * typeEffectiveness *  randomNumber )
-        calculateLeftAmountOfAttack()
-        */
+    fun calculateDamage(attackIndex : Int) : Double {
+        val crit = calculateCriticalStrike()
+        val efficiency = calculateEfficiency()
+        val randomVal = Random.nextDouble()
+
+        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks[attackIndex].physicalAttack.power * attackingMonster.Stats.attack / defendingMonster.Stats.defense) / 50.0) + 2.0) * efficiency * randomVal)
+        // calculateLeftAmountOfAttack()
 
         return damage
     }
@@ -25,11 +26,11 @@ class AttackCalculator (
         return dummy
     }
 
-    fun calculateCriticalStrike(damage : Int) : Int {
+    private fun calculateCriticalStrike() : Double {
         return if (Random.nextDouble() < critChance) {
-            damage * 2
+            2.0
         } else {
-            damage
+            1.0
         }
     }
 

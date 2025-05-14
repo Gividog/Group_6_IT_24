@@ -1,67 +1,53 @@
 package monsterleague
 
-import monsterleague.gamelogic.Attack
-import monsterleague.gamelogic.Battle
-import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.PhysicalAttack
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.Trainer
-import monsterleague.gamelogic.Type
+import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
 
 class BattleTest : AnnotationSpec() {
-    val type1 = Type.GHOST
-    val type2 = Type.WATER
-    val type3 = Type.FIRE
+    private val dummyType = Type.WATER
 
-    private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", type1, 100, 35,10)
-    )
+    private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType)
+    private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
 
-    private val dummyBaseStats = BaseStats(
+    private val dummyStats = Stats(
         hp = 100,
         initiative = 10,
-        buff = 5,
-        debuff = 10
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
     )
 
-    private val dummyBattleStats = BattleStats(
-        currenthp = 50,
-        statusEffect = 2,
-        buffActive = false,
-        debuffActive = false
-
+    private val dummyAttack = Attack(
+        physicalAttack = PhysicalAttack("Punch", dummyType, 100, 35,10)
     )
-    private val monster1 = Monster(
+
+    private val dummyMonster1 = Monster(
         name = "Monster1",
-        type = type1,
+        type = dummyType,
         status = 1,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyStats,
+        BattleStats = dummyStats,
         attacks = listOf(dummyAttack),
     )
 
-    private val monster2 = Monster(
+    private val dummyMonster2 = Monster(
         name = "Monster2",
-        type = type2,
+        type = dummyType,
         status = 2,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyStats,
+        BattleStats = dummyStats,
         attacks = listOf(dummyAttack)
     )
 
-    private val trainer1 = Trainer("trainer1", listOf(monster1, monster2), monster2, 3)
-    private val trainer2 = Trainer("trainer2", listOf(monster1, monster2), monster1, 3)
+    private val trainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2, 3)
+    private val trainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
 
     /**
-     * Initial Values/Variables tests
-     */
-
-    /**
-     * chooseAttack tests
+     *
      */
 
     @Test
@@ -77,8 +63,8 @@ class BattleTest : AnnotationSpec() {
         val defendingMonster = defendingTrainer.activeMonster
         val chosenAttack = attackingMonster.attacks[0]
 
-        assertThat(attackingMonster).isEqualTo(monster2)
-        assertThat(defendingMonster).isEqualTo(monster1)
+        assertThat(attackingMonster).isEqualTo(dummyMonster1)
+        assertThat(defendingMonster).isEqualTo(dummyMonster1)
         assertThat(chosenAttack).isEqualTo(dummyAttack)
     }
 

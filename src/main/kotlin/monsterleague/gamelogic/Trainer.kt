@@ -32,14 +32,16 @@ class Trainer(
             println("$name has no heals left!")
             return
         }
+        val immutableStats = Stats(hp = monster.Stats.hp,monster.Stats.initiative,monster.Stats.attack,monster.Stats.defense, monster.Stats.buff, monster.Stats.debuff, monster.Stats.statusEffect)
+        var mutableStats = Stats(hp = monster.Stats.hp, monster.Stats.initiative, monster.Stats.attack, monster.Stats.defense, monster.Stats.buff, monster.Stats.debuff, monster.Stats.statusEffect)
 
-        val maxHP = monster.baseStats.hp
-        val currentHP = monster.battleStats.currenthp
+        val maxHP = immutableStats.hp
+        val currentHP = mutableStats.hp
 
         val healAmount = (maxHP * healingPercentage).toInt()
         val newHP = minOf(currentHP + healAmount, maxHP)
 
-        monster.battleStats.currenthp = newHP
+        mutableStats.hp = newHP
         healsRemaining--
 
         println("${monster.name} was healed by $healAmount HP!")

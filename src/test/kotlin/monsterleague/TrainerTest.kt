@@ -1,31 +1,24 @@
 package monsterleague
 
-import monsterleague.gamelogic.Attack
-import monsterleague.gamelogic.PhysicalAttack
-import monsterleague.gamelogic.Type
-import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.Trainer
+import monsterleague.gamelogic.*
 
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
 class TrainerTest : AnnotationSpec() {
-    val dummyType = Type.WATER
+    private val dummyType = Type.WATER
 
-    private val dummyBaseStats = BaseStats(
+    private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType)
+    private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
+
+    private val dummyStats = Stats(
         hp = 100,
         initiative = 10,
-        buff = 5,
-        debuff = 10
-    )
-
-    private val dummyBattleStats = BattleStats(
-        currenthp = 50,
-        statusEffect = 2,
-        buffActive = false,
-        debuffActive = false
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
     )
 
     private val dummyAttack = Attack(
@@ -36,8 +29,8 @@ class TrainerTest : AnnotationSpec() {
         name = "Monster1",
         type = dummyType,
         status = 1,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyStats,
+        BattleStats = dummyStats,
         attacks = listOf(dummyAttack),
     )
 
@@ -45,8 +38,8 @@ class TrainerTest : AnnotationSpec() {
         name = "Monster2",
         type = dummyType,
         status = 2,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyStats,
+        BattleStats = dummyStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -54,8 +47,8 @@ class TrainerTest : AnnotationSpec() {
         name = "Monster3",
         type = dummyType,
         status = 3,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyStats,
+        BattleStats = dummyStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -101,12 +94,12 @@ class TrainerTest : AnnotationSpec() {
 
     @Test
     fun `healActiveMonster() heals monster's currenthp (80) and reduces healsRemaining (0)`() {
-        dummyTrainer.activeMonster.battleStats.currenthp = 50
+        dummyTrainer.activeMonster.BaseStats.hp = 50
         dummyTrainer.healsRemaining = 1
 
         dummyTrainer.healActiveMonster()
 
-        assertThat(dummyTrainer.activeMonster.battleStats.currenthp).isEqualTo(80)
+        assertThat(dummyTrainer.activeMonster.BattleStats.hp).isEqualTo(80)
         assertThat(dummyTrainer.healsRemaining).isEqualTo(0)
     }
 
