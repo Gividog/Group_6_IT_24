@@ -12,11 +12,11 @@ class TypeTest : AnnotationSpec() {
         val typeTable = TypeTable()
         val efficiencies = typeTable.efficiencyOf(Type.NORMAL)
         val inefficiencies = typeTable.inefficienciesOf(Type.NORMAL)
-        val balances = typeTable.balancesOf(Type.NORMAL)
+
 
         assertThat(efficiencies).containsExactly()
         assertThat(inefficiencies).containsExactly(Type.GHOST)
-        assertThat(balances).containsExactly(Type.NORMAL, Type.FIRE, Type.WATER, Type.GRASS)
+
     }
 
     @Test
@@ -24,11 +24,11 @@ class TypeTest : AnnotationSpec() {
         val typeTable = TypeTable()
         val efficiencies = typeTable.efficiencyOf(Type.FIRE)
         val inefficiencies = typeTable.inefficienciesOf(Type.FIRE)
-        val balances = typeTable.balancesOf(Type.FIRE)
+
 
         assertThat(efficiencies).containsExactly(Type.GRASS)
         assertThat(inefficiencies).containsExactly(Type.WATER, Type.FIRE)
-        assertThat(balances).containsExactly(Type.GHOST, Type.NORMAL)
+
     }
 
     @Test
@@ -36,11 +36,11 @@ class TypeTest : AnnotationSpec() {
         val typeTable = TypeTable()
         val efficiencies = typeTable.efficiencyOf(Type.WATER)
         val inefficiencies = typeTable.inefficienciesOf(Type.WATER)
-        val balances = typeTable.balancesOf(Type.WATER)
+
 
         assertThat(efficiencies).containsExactly(Type.FIRE)
         assertThat(inefficiencies).containsExactly(Type.GRASS, Type.WATER)
-        assertThat(balances).containsExactly(Type.NORMAL, Type.GHOST)
+
     }
 
     @Test
@@ -48,11 +48,11 @@ class TypeTest : AnnotationSpec() {
         val typeTable = TypeTable()
         val efficiencies = typeTable.efficiencyOf(Type.GRASS)
         val inefficiencies = typeTable.inefficienciesOf(Type.GRASS)
-        val balances = typeTable.balancesOf(Type.GRASS)
+
 
         assertThat(efficiencies).containsExactly(Type.WATER)
         assertThat(inefficiencies).containsExactly(Type.FIRE, Type.GRASS)
-        assertThat(balances).containsExactly(Type.NORMAL, Type.GHOST)
+
     }
 
     @Test
@@ -60,10 +60,25 @@ class TypeTest : AnnotationSpec() {
         val typeTable = TypeTable()
         val efficiencies = typeTable.efficiencyOf(Type.GHOST)
         val inefficiencies = typeTable.inefficienciesOf(Type.GHOST)
-        val balances = typeTable.balancesOf(Type.GHOST)
+
 
         assertThat(efficiencies).containsExactly(Type.GHOST)
         assertThat(inefficiencies).containsExactly(Type.NORMAL)
-        assertThat(balances).containsExactly(Type.FIRE, Type.WATER, Type.GRASS)
+
     }
+
+    @Test
+    fun`efficiency Of returns empty list when type is UNKNOWN`(){
+        val typeTable = TypeTable()
+        val efficiencies = typeTable.efficiencyOf(Type.UNKNOWN)
+        assertThat(efficiencies).isEmpty()
+    }
+
+    @Test
+    fun`inefficiencyOf returns empty list when type is UNKNOWN`(){
+        val typeTable = TypeTable()
+        val inefficiencies = typeTable.inefficienciesOf(Type.UNKNOWN)
+        assertThat(inefficiencies).isEmpty()
+    }
+
 }

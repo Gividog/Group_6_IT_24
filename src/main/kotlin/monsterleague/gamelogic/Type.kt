@@ -5,7 +5,8 @@ enum class Type {
     FIRE,
     WATER,
     GRASS,
-    GHOST
+    GHOST,
+    UNKNOWN
 }
 
 class TypeTable(
@@ -23,14 +24,6 @@ class TypeTable(
         Type.WATER to listOf(Type.FIRE),
         Type.GRASS to listOf(Type.WATER),
         Type.GHOST to listOf(Type.GHOST)
-    ),
-
-    private val neutralityMap: Map<Type, List<Type>> = mapOf(
-        Type.NORMAL to listOf(Type.NORMAL, Type.FIRE, Type.WATER, Type.GRASS),
-        Type.FIRE to listOf(Type.GHOST, Type.NORMAL),
-        Type.WATER to listOf(Type.NORMAL, Type.GHOST),
-        Type.GRASS to listOf(Type.NORMAL, Type.GHOST),
-        Type.GHOST to listOf(Type.FIRE, Type.WATER, Type.GRASS)
     ))
 
     {
@@ -40,9 +33,5 @@ class TypeTable(
 
     fun efficiencyOf(type: Type): List<Type> {
         return efficiencyMap[type] ?: emptyList()
-    }
-
-    fun balancesOf(type: Type): List<Type> {
-        return neutralityMap[type] ?: emptyList()
     }
     }

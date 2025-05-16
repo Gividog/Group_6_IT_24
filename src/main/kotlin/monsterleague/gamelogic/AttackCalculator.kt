@@ -10,29 +10,34 @@ class AttackCalculator (
 ) {
     private val critChance = 0.04
 
-    fun calculateDamage(attackIndex : Int) : Double {
+    /*fun calculateDamage(attackName : String) : Double {
         val crit = calculateCriticalStrike()
         val efficiency = calculateEfficiency()
         val randomVal = Random.nextDouble()
 
-        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks[attackIndex].physicalAttack.power * attackingMonster.BattleStats.attack / defendingMonster.BattleStats.defense) / 50.0) + 2.0) * efficiency * randomVal)
+        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks.physicalAttack.power * attackingMonster.BattleStats.attack / defendingMonster.BattleStats.defense) / 50.0) + 2.0) * efficiency * randomVal)
         // calculateLeftAmountOfAttack()
 
         return damage
+    }*/
+
+   fun calculateEfficiency() : Double {
+        val typeTable = TypeTable()
+        val attackingMonsterType = attackingMonster.type
+        val defendingMonsterType = defendingMonster.type
+
+        return when{
+            typeTable.efficiencyOf(attackingMonsterType).contains(defendingMonsterType) -> 2.0
+            typeTable.inefficienciesOf(attackingMonsterType).contains(defendingMonsterType) -> 0.5
+            else -> 1.0
+        }
     }
 
-    fun calculateEfficiency() : Int {
-        val dummy = 0
-        return dummy
-    }
-
-    private fun calculateCriticalStrike() : Double {
-        return if (Random.nextDouble() < critChance) {
+    fun calculateCriticalStrike(randomSupplier: () -> Double = {Random.nextDouble()}) : Double {
+        return if (randomSupplier() < critChance) {
             2.0
         } else {
             1.0
         }
     }
-
-
 }
