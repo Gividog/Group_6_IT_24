@@ -6,7 +6,7 @@ class Trainer(
     var activeMonster: Monster,
     var healsRemaining: Int
 ) {
-    val healingPercentage = 0.3
+    val healingPercentage = 0.3 //30%
 
     fun chooseAttack(attackIndex: Int) : Attack{
         val attackingMonster = activeMonster
@@ -32,16 +32,14 @@ class Trainer(
             println("$name has no heals left!")
             return
         }
-        val immutableStats = Stats(hp = monster.Stats.hp,monster.Stats.initiative,monster.Stats.attack,monster.Stats.defense, monster.Stats.buff, monster.Stats.debuff, monster.Stats.statusEffect)
-        var mutableStats = Stats(hp = monster.Stats.hp, monster.Stats.initiative, monster.Stats.attack, monster.Stats.defense, monster.Stats.buff, monster.Stats.debuff, monster.Stats.statusEffect)
 
-        val maxHP = immutableStats.hp
-        val currentHP = mutableStats.hp
+        val maxHP = monster.BaseStats.hp
+        val currentHP = monster.BattleStats.hp
 
         val healAmount = (maxHP * healingPercentage).toInt()
         val newHP = minOf(currentHP + healAmount, maxHP)
 
-        mutableStats.hp = newHP
+        monster.BattleStats.hp = newHP
         healsRemaining--
 
         println("${monster.name} was healed by $healAmount HP!")

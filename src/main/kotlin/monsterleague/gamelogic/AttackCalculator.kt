@@ -15,7 +15,7 @@ class AttackCalculator (
         val efficiency = calculateEfficiency()
         val randomVal = Random.nextDouble()
 
-        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks[attackIndex].physicalAttack.power * attackingMonster.Stats.attack / defendingMonster.Stats.defense) / 50.0) + 2.0) * efficiency * randomVal)
+        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks[attackIndex].physicalAttack.power * attackingMonster.BattleStats.attack / defendingMonster.BattleStats.defense) / 50.0) + 2.0) * efficiency * randomVal)
         // calculateLeftAmountOfAttack()
 
         return damage

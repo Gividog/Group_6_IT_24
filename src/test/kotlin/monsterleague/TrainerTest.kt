@@ -8,10 +8,14 @@ import org.assertj.core.api.Assertions.assertThat
 class TrainerTest : AnnotationSpec() {
     private val dummyType = Type.WATER
 
+    private val dummyAttack = Attack(
+        physicalAttack = PhysicalAttack("Punch", dummyType, 100, 35,10)
+    )
+
     private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType)
     private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
 
-    private val dummyStats = Stats(
+    private var dummyBaseStats = Stats(
         hp = 100,
         initiative = 10,
         attack = 20,
@@ -21,16 +25,22 @@ class TrainerTest : AnnotationSpec() {
         statusEffect = 1
     )
 
-    private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", dummyType, 100, 35,10)
+    private var dummyBattleStats = Stats(
+        hp = 100,
+        initiative = 10,
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
     )
 
     private val dummyMonster1 = Monster(
         name = "Monster1",
         type = dummyType,
         status = 1,
-        BaseStats = dummyStats,
-        BattleStats = dummyStats,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 
@@ -38,8 +48,8 @@ class TrainerTest : AnnotationSpec() {
         name = "Monster2",
         type = dummyType,
         status = 2,
-        BaseStats = dummyStats,
-        BattleStats = dummyStats,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -47,8 +57,8 @@ class TrainerTest : AnnotationSpec() {
         name = "Monster3",
         type = dummyType,
         status = 3,
-        BaseStats = dummyStats,
-        BattleStats = dummyStats,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -74,9 +84,8 @@ class TrainerTest : AnnotationSpec() {
         dummyTrainer.activeMonster = dummyMonster1
 
         dummyTrainer.switchActiveMonster(dummyMonster2)
-        val newActiveMonster = dummyTrainer.monsters.contains(dummyMonster2)
 
-      //kaputt  assertThat(newActiveMonster).isEqualTo(dummyMonster2)
+        assertThat(dummyTrainer.activeMonster).isEqualTo(dummyMonster2)
     }
 
     @Test
@@ -93,8 +102,8 @@ class TrainerTest : AnnotationSpec() {
      */
 
     @Test
-    fun `healActiveMonster() heals monster's currenthp (80) and reduces healsRemaining (0)`() {
-        dummyTrainer.activeMonster.BaseStats.hp = 50
+    fun `healActiveMonster() heals monster's current hp (50) by 30 percent of its base hp (100) and reduces healsRemaining (0)`() {
+        dummyTrainer.activeMonster.BattleStats.hp = 50
         dummyTrainer.healsRemaining = 1
 
         dummyTrainer.healActiveMonster()
