@@ -144,6 +144,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
+          <excludes>
+            <exclude>**/src/main/kotlin/hwr/oop/classes/Trainer.kt</exclude>
+          </excludes>
           <systemPropertyVariables>
             <kotest.framework.classpath.scanning.autoscan.disable>true
             </kotest.framework.classpath.scanning.autoscan.disable>
