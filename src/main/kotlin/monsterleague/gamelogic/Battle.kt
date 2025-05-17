@@ -6,9 +6,14 @@ class Battle(
     var winner: String?,
     val trainers: List<Trainer>
 ) {
-    //TODO : endTurn() / confirmTurn() -> Erik
+    //TODO : endTurn() / confirmTurn()
     //TODO : startNextRound() -> Nikita
     //TODO : endBattle() -> Liesa
     //TODO : determineWinner() -> Amy
-    //TODO : surrender()
+
+    fun handleSurrender(surrenderingTrainer: Trainer) {
+        val opponent = trainers.first { it != surrenderingTrainer }
+        winner = opponent.name
+        println("${surrenderingTrainer.name} has surrendered. ${opponent.name} wins!")
+    }
 }

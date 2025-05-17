@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import monsterleague.gamelogic.Battle
+
 class Trainer(
     val name: String,
     var monsters: List<Monster>,
@@ -44,5 +46,9 @@ class Trainer(
 
         println("${monster.name} was healed by $healAmount HP!")
         println("$name has $healsRemaining heals left.")
+    }
+
+    fun surrender(battle: Battle) {
+        battle.handleSurrender(this)
     }
 }

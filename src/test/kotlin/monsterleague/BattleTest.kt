@@ -110,5 +110,23 @@ class BattleTest : AnnotationSpec() {
         assertThat(battle.damageTrainer2).isEqualTo(100)
         assertThat(battle.damageTrainer1).isEqualTo(0)
     }*/
+
+    /**
+     * surrender () tests
+     */
+
+    @Test
+    fun `surrendering trainer causes opponent to win the battle`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        trainer1.surrender(battle)
+
+        assertThat(battle.winner).isEqualTo("trainer2")
+    }
 }
 
