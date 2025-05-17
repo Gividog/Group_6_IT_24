@@ -1,7 +1,7 @@
 package monsterleague.gamelogic
 
 class Attack(
-    val normalAttack: PhysicalAttack,
+    val physicalAttack: PhysicalAttack,
     /* TODO add Attack categories
     val SpecialAttack: SpecialAttack,
     val StatusAttack: StatusAttack,
