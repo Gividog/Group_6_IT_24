@@ -10,17 +10,6 @@ class AttackCalculator (
 ) {
     private val critChance = 0.04
 
-    /*fun calculateDamage(attackName : String) : Double {
-        val crit = calculateCriticalStrike()
-        val efficiency = calculateEfficiency()
-        val randomVal = Random.nextDouble()
-
-        val damage = ((((((2.0 * crit / 5.0) + 2.0) * attackingMonster.attacks.physicalAttack.power * attackingMonster.BattleStats.attack / defendingMonster.BattleStats.defense) / 50.0) + 2.0) * efficiency * randomVal)
-        // calculateLeftAmountOfAttack()
-
-        return damage
-    }*/
-
    fun calculateEfficiency() : Double {
         val typeTable = TypeTable()
         val attackingMonsterType = attackingMonster.type

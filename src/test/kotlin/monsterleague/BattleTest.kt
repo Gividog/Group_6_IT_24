@@ -86,34 +86,6 @@ class BattleTest : AnnotationSpec() {
         assertThat(chosenAttack).isEqualTo(dummyAttack)
     }
 
-    // TODO : AttackCalculator schreiben
-    /*@Test
-    fun `chooseAttack should set damageTrainer1 correctly`() {
-        val battle = Battle(
-            battleID = 1,
-            round = 1,
-            winner = null,
-            trainers = listOf(trainer1, trainer2),
-        )
-        battle.chooseAttack(attackingTrainer = trainer1, defendingTrainer = trainer2, attackIndex = 1)
-        assertThat(battle.damageTrainer1).isEqualTo(100)
-        assertThat(battle.damageTrainer2).isEqualTo(0)
-    }
-
-    @Test
-    fun `chooseAttack should set damageTrainer2 correctly`() {
-        val battle = Battle(
-            battleID = 1,
-            round = 1,
-            winner = null,
-            trainers = listOf(trainer1, trainer2),
-        )
-        battle.chooseAttack(attackingTrainer = trainer2, defendingTrainer = trainer1, attackIndex = 1)
-        val damage = 100
-        assertThat(battle.damageTrainer2).isEqualTo(100)
-        assertThat(battle.damageTrainer1).isEqualTo(0)
-    }*/
-
     /**
      * surrender () tests
      */
