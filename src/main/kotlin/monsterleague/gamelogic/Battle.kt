@@ -4,50 +4,43 @@ class Battle(
     val battleID: Int,
     var round: Int,
     var winner: String?,
-    val trainers: List<Trainer>) {
+    val trainers: List<Trainer>
+) {
+    //TODO : endTurn() / confirmTurn()
+    //TODO : startNextRound() -> Nikita
+    //TODO : endBattle() -> Liesa
+    //TODO : determineWinner() -> Amy
 
-    //Long Term Memory
-    var damageTrainer1: Int = 0
-    var damageTrainer2: Int = 0
-
-    fun chooseAttack(attackingTrainer: Trainer, defendingTrainer: Trainer, attackIndex: Int) {
-        val attackingMonster = attackingTrainer.activeMonster
-        val defendingMonster = defendingTrainer.activeMonster
-        val attack = attackingMonster.attacks[attackIndex - 1]
-
-        val damage = AttackCalculator(
-            attackingMonster = attackingMonster,
-            defendingMonster = defendingMonster,
-            attack = attack,
-            battleStats = attackingMonster.battleStats
-        ).calculateDamage()
-
-        if (attackingTrainer == trainers[0]) {
-            damageTrainer1 = damage
-        } else if (attackingTrainer == trainers[1]) {
-            damageTrainer2 = damage
-        }
+    fun handleSurrender(surrenderingTrainer: Trainer) {
+        val opponent = trainers.first { it != surrenderingTrainer }
+        winner = opponent.name
+        println("${surrenderingTrainer.name} has surrendered. ${opponent.name} wins!")
     }
 
-    fun healMonster(trainer : Trainer) {
-        val monster = trainer.activeMonster
-
-        //limit the amount of heals a trainer has in a fight
-        if (trainer.healsRemaining <= 0) {
-            println("${trainer.name} has no heals left!")
+    fun startNextRound() {
+        if (winner != null) {
+            println("The battle is already over. Winner: $winner")
             return
         }
 
-        val maxHP = monster.baseStats.hp
-        val currentHP = monster.battleStats.currenthp
+        trainers.forEach { trainer ->
+            if (trainer.activeMonster.BattleStats.hp <= 0) {
+                val aliveMonsters = trainer.monsters.filter { it.BattleStats.hp > 0 }
+                println(aliveMonsters)
+                if (aliveMonsters.isNotEmpty()) {
+                    trainer.switchActiveMonster(aliveMonsters.first())
+                } else {
+                    handleSurrender(trainer)
+                    return
+                }
+            }
+        }
 
-        val healAmount = (maxHP * 0.3).toInt()
-        val newHP = minOf(currentHP + healAmount, maxHP)
-
-        monster.battleStats.currenthp = newHP
-        trainer.healsRemaining--
-
-        println("${monster.name} was healed by $healAmount HP!")
-        println("${trainer.name} has ${trainer.healsRemaining} heals left.")
+        round++
+        println("===== Starting Round $round =====")
+        println("All trainers are ready for Round $round.")
     }
+
+
+
 }

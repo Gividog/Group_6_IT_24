@@ -4,8 +4,8 @@ class Monster(
     val name: String,
     val type: Type,
     var status: Int,
-    var baseStats: BaseStats,
-    var battleStats: BattleStats,
+    val BaseStats: Stats,
+    var BattleStats: Stats,
     val attacks: List<Attack>,
 ) {
 }

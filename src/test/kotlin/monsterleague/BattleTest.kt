@@ -1,75 +1,66 @@
 package monsterleague
 
-import monsterleague.gamelogic.Attack
-import monsterleague.gamelogic.Battle
-import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.PhysicalAttack
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.Trainer
-import monsterleague.gamelogic.Type
+import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.mpp.log
 
 class BattleTest : AnnotationSpec() {
-    val type1 = Type.ELECTRIC
-    val type2 = Type.WATER
-    val type3 = Type.FIRE
+    val dummyType1 = Type.GHOST
+    val dummyType2 = Type.WATER
 
     private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", type1, 100, 35,10)
+        physicalAttack = PhysicalAttack("Punch", dummyType1, 100, 35,10)
     )
 
-    private val dummyBaseStats = BaseStats(
+    private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType1)
+    private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType2)
+
+    private var dummyBaseStats = Stats(
         hp = 100,
         initiative = 10,
-        buff = 5,
-        debuff = 10
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
     )
 
-    private val dummyBattleStats = BattleStats(
-        currenthp = 50,
-        statusEffect = 2,
-        buffActive = false,
-        debuffActive = false
-
+    private var dummyBattleStats = Stats(
+        hp = 100,
+        initiative = 10,
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
     )
-    private val monster1 = Monster(
+
+    private val dummyMonster1 = Monster(
         name = "Monster1",
-        type = type1,
+        type = dummyType1,
         status = 1,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 
-    private val monster2 = Monster(
+    private val dummyMonster2 = Monster(
         name = "Monster2",
-        type = type2,
+        type = dummyType2,
         status = 2,
-        baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
     )
 
-    private val trainer1 = Trainer("trainer1", listOf(monster1, monster2), monster2, 3)
-    private val trainer2 = Trainer("trainer2", listOf(monster1, monster2), monster1, 3)
+    private val trainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2, 3)
+    private val trainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
 
     /**
      * Initial Values/Variables tests
      */
-
-    @Test
-    fun `damageTrainer1 and damageTrainer2 are initialized with 0`(){
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-
-        var damage1 = battle.damageTrainer1
-        var damage2 = battle.damageTrainer2
-
-        assertThat(damage1).isEqualTo(0)
-        assertThat(damage2).isEqualTo(0)
-    }
 
     /**
      * chooseAttack tests
@@ -82,14 +73,14 @@ class BattleTest : AnnotationSpec() {
         val defendingTrainer = trainer2
         val battle = Battle(1,1,"",listOf(trainer1,trainer2))
 
-        battle.chooseAttack(attackingTrainer, defendingTrainer, 1)
+       trainer1.chooseAttack(1)
 
         val attackingMonster = attackingTrainer.activeMonster
         val defendingMonster = defendingTrainer.activeMonster
         val chosenAttack = attackingMonster.attacks[0]
 
-        assertThat(attackingMonster).isEqualTo(monster2)
-        assertThat(defendingMonster).isEqualTo(monster1)
+        assertThat(attackingMonster).isEqualTo(dummyMonster2)
+        assertThat(defendingMonster).isEqualTo(dummyMonster1)
         assertThat(chosenAttack).isEqualTo(dummyAttack)
     }
 
@@ -122,29 +113,69 @@ class BattleTest : AnnotationSpec() {
     }*/
 
     /**
-     * healMonster tests
+     * surrender () tests
      */
 
     @Test
-    fun `healMonster heals monster's currenthp and reduces healsRemaining`() {
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-        trainer1.activeMonster.battleStats.currenthp = 50
-        trainer1.healsRemaining = 1
+    fun `surrendering trainer causes opponent to win the battle`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
 
-        battle.healMonster(trainer1)
+        trainer1.surrender(battle)
 
-        assertThat(trainer1.activeMonster.battleStats.currenthp).isEqualTo(80)
-        assertThat(trainer1.healsRemaining).isEqualTo(0)
+        assertThat(battle.winner).isEqualTo("trainer2")
     }
 
     @Test
-    fun `healMonster does nothing when no heals remaining`() {
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
-        trainer1.healsRemaining = 0
+    fun `startNextRound should increment round and keep active monsters if alive`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
 
-        battle.healMonster(trainer1)
+        battle.startNextRound()
 
-        assertThat(trainer1.healsRemaining).isEqualTo(0)
+        assertThat(battle.round).isEqualTo(2)
+        assertThat(battle.winner).isNull()
+        assertThat(trainer1.activeMonster).isEqualTo(dummyMonster2)
+        assertThat(trainer2.activeMonster).isEqualTo(dummyMonster1)
     }
+    @Test
+    fun `startNextRound should trigger surrender when all monsters fainted`() {
+        trainer1.monsters.forEach { it.BattleStats.hp = 0 }
+        trainer1.activeMonster.BattleStats.hp = 0
+
+        val battle = Battle(
+            battleID = 2,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        battle.startNextRound()
+
+        assertThat(battle.winner).isEqualTo("trainer2")
+        assertThat(battle.round).isEqualTo(1)
+    }
+    @Test
+    fun `startNextRound should return immediately if winner exists`() {
+        val battle = Battle(
+            battleID = 3,
+            round = 1,
+            winner = "trainer2",
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        battle.startNextRound()
+        assertThat(battle.round).isEqualTo(1)
+        assertThat(battle.winner).isEqualTo("trainer2")
+    }
+
 }
 
