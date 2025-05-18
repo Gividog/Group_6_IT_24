@@ -16,4 +16,31 @@ class Battle(
         winner = opponent.name
         println("${surrenderingTrainer.name} has surrendered. ${opponent.name} wins!")
     }
+
+    fun startNextRound() {
+        if (winner != null) {
+            println("The battle is already over. Winner: $winner")
+            return
+        }
+
+        trainers.forEach { trainer ->
+            if (trainer.activeMonster.BattleStats.hp <= 0) {
+                val aliveMonsters = trainer.monsters.filter { it.BattleStats.hp > 0 }
+                println(aliveMonsters)
+                if (aliveMonsters.isNotEmpty()) {
+                    trainer.switchActiveMonster(aliveMonsters.first())
+                } else {
+                    handleSurrender(trainer)
+                    return
+                }
+            }
+        }
+
+        round++
+        println("===== Starting Round $round =====")
+        println("All trainers are ready for Round $round.")
+    }
+
+
+
 }

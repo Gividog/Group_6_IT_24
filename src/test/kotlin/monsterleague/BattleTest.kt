@@ -4,6 +4,7 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.mpp.log
 
 class BattleTest : AnnotationSpec() {
     val dummyType1 = Type.GHOST
@@ -128,5 +129,53 @@ class BattleTest : AnnotationSpec() {
 
         assertThat(battle.winner).isEqualTo("trainer2")
     }
+
+    @Test
+    fun `startNextRound should increment round and keep active monsters if alive`() {
+        val battle = Battle(
+            battleID = 1,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        battle.startNextRound()
+
+        assertThat(battle.round).isEqualTo(2)
+        assertThat(battle.winner).isNull()
+        assertThat(trainer1.activeMonster).isEqualTo(dummyMonster2)
+        assertThat(trainer2.activeMonster).isEqualTo(dummyMonster1)
+    }
+    @Test
+    fun `startNextRound should trigger surrender when all monsters fainted`() {
+        trainer1.monsters.forEach { it.BattleStats.hp = 0 }
+        trainer1.activeMonster.BattleStats.hp = 0
+
+        val battle = Battle(
+            battleID = 2,
+            round = 1,
+            winner = null,
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        battle.startNextRound()
+
+        assertThat(battle.winner).isEqualTo("trainer2")
+        assertThat(battle.round).isEqualTo(1)
+    }
+    @Test
+    fun `startNextRound should return immediately if winner exists`() {
+        val battle = Battle(
+            battleID = 3,
+            round = 1,
+            winner = "trainer2",
+            trainers = listOf(trainer1, trainer2),
+        )
+
+        battle.startNextRound()
+        assertThat(battle.round).isEqualTo(1)
+        assertThat(battle.winner).isEqualTo("trainer2")
+    }
+
 }
 
