@@ -57,6 +57,8 @@ class BattleTest : AnnotationSpec() {
 
     private val trainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2, 3)
     private val trainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
+    private val trainer3 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
+
 
     /**
      * Initial Values/Variables tests
@@ -175,6 +177,14 @@ class BattleTest : AnnotationSpec() {
         battle.startNextRound()
         assertThat(battle.round).isEqualTo(1)
         assertThat(battle.winner).isEqualTo("trainer2")
+    }
+
+    @Test
+    fun `determineWinner() is declaring trainer1 as the winner if trainer3 has only dead monsters left`() {
+        val battle = Battle(1, 1, null, listOf(trainer1, trainer3))
+        val winner = battle.determineWinner(trainer1, trainer3)
+
+        assertThat(trainer1).isEqualTo(winner)
     }
 
 }

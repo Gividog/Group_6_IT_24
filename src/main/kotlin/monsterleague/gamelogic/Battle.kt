@@ -41,6 +41,24 @@ class Battle(
         println("All trainers are ready for Round $round.")
     }
 
+        fun determineWinner(trainer1 : Trainer, trainer2 : Trainer) : Trainer {
+            val winner = trainer1
 
+            for (monster in trainer1.monsters) {
+                if (monster.BattleStats.hp > 0) {
+                    break
+                } else {
+                    val winner = trainer2
+                }
+            }
 
+            for (monster in trainer2.monsters) {
+                if (monster.BattleStats.hp > 0) {
+                    break
+                } else {
+                    val winner = trainer1
+                }
+            }
+            return winner
+        }
 }
