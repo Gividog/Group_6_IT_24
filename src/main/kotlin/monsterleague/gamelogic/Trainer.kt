@@ -28,7 +28,10 @@ class Trainer(
 
         activeMonster.heal()
         healsRemaining--
-        println("${activeMonster.name} was healed to $healsRemaining %.")
+    }
+
+    fun startNextRound() {
+        // TODO : Check, ob beide Trainer eine Aktion ausgewählt haben
     }
 
     fun determineWinner() : Boolean {
