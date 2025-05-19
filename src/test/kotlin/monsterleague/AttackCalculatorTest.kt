@@ -16,7 +16,7 @@ class AttackCalculatorTest : AnnotationSpec() {
 
     private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
 
-    private var dummyBaseStats = Stats(
+    private var dummyBaseStats = BaseStats(
         hp = 100,
         initiative = 10,
         attack = 20,
@@ -26,13 +26,11 @@ class AttackCalculatorTest : AnnotationSpec() {
         statusEffect = 1
     )
 
-    private var dummyBattleStats = Stats(
+    private var dummyBattleStats = BattleStats(
         hp = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
         statusEffect = 1
     )
 
@@ -40,8 +38,8 @@ class AttackCalculatorTest : AnnotationSpec() {
         name = "Monster1",
         type = Type.FIRE,
         status = 1,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 
@@ -49,8 +47,8 @@ class AttackCalculatorTest : AnnotationSpec() {
         name = "Monster2",
         type = Type.WATER,
         status = 2,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -58,8 +56,8 @@ class AttackCalculatorTest : AnnotationSpec() {
         name = "Monster3",
         type = Type.GRASS,
         status = 1,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 
@@ -67,8 +65,8 @@ class AttackCalculatorTest : AnnotationSpec() {
         name = "Monster4",
         type = Type.NORMAL,
         status = 1,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 

@@ -7,9 +7,9 @@ class Monster(
     val name: String,
     val type: Type,
     var status: Int,
-    val BaseStats: Stats,
-    var BattleStats: Stats,
-    val attacks: List<Attack>,
+    val baseStats: BaseStats,
+    var battleStats: BattleStats,
+    val attacks: List<PhysicalAttack>,
 ) {
     fun heal() {
         val healingPercentage = 0.3

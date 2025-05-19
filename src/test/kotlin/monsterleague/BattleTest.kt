@@ -4,20 +4,20 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.mpp.log
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.PhysicalAttack
 
 class BattleTest : AnnotationSpec() {
     val dummyType1 = Type.GHOST
     val dummyType2 = Type.WATER
 
-    private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", dummyType1, 100, 35, 10)
-    )
+    private val dummyAttack = PhysicalAttack("Punch", dummyType1, 100, 35, 10)
+
 
     private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType1)
     private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType2)
 
-    private var dummyBaseStats = Stats(
+    private var dummyBaseStats = BaseStats(
         hp = 100,
         initiative = 10,
         attack = 20,
@@ -27,13 +27,11 @@ class BattleTest : AnnotationSpec() {
         statusEffect = 1
     )
 
-    private var dummyBattleStats = Stats(
+    private var dummyBattleStats = BattleStats(
         hp = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
         statusEffect = 1
     )
 
@@ -41,8 +39,8 @@ class BattleTest : AnnotationSpec() {
         name = "Monster1",
         type = dummyType1,
         status = 1,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
 
@@ -50,8 +48,8 @@ class BattleTest : AnnotationSpec() {
         name = "Monster2",
         type = dummyType2,
         status = 2,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
     )
 
@@ -122,8 +120,8 @@ class BattleTest : AnnotationSpec() {
     }
     @Test
     fun `startNextRound should trigger surrender when all monsters fainted`() {
-        trainer1.monsters.forEach { it.BattleStats.hp = 0 }
-        trainer1.activeMonster.BattleStats.hp = 0
+        trainer1.monsters.forEach { it.battleStats.hp = 0 }
+        trainer1.activeMonster.battleStats.hp = 0
 
         val battle = Battle(
             battleID = 2,

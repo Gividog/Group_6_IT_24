@@ -29,25 +29,12 @@ class Trainer(
     }
 
     fun healActiveMonster() {
-        val monster = activeMonster
-
-        //limit the amount of heals a trainer has in a fight
         if (healsRemaining <= 0) {
-            println("$name has no heals left!")
             return
         }
-
-        val maxHP = monster.BaseStats.hp
-        val currentHP = monster.BattleStats.hp
-
-        val healAmount = (maxHP * healingPercentage).toInt()
-        val newHP = minOf(currentHP + healAmount, maxHP)
-
-        monster.BattleStats.hp = newHP
+        activeMonster.heal()
         healsRemaining--
-
-        println("${monster.name} was healed by $healAmount HP!")
-        println("$name has $healsRemaining heals left.")
+        println("${activeMonster.name} was healed to $healsRemaining %.")
     }
 
     fun determineWinner() : Boolean {

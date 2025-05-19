@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import kotlin.inc
+
 class Battle(
     private val battleID: Int,
     var round: Int,
@@ -7,10 +9,9 @@ class Battle(
     val trainers: List<Trainer>,
     val monster : Monster
 ) {
-    fun handleSurrender(surrenderingTrainer: Trainer) {
+    fun surrender(surrenderingTrainer: Trainer) {
         val opponent = trainers.first { it != surrenderingTrainer }
-        winner = opponent.name
-        println("${surrenderingTrainer.name} has surrendered. ${opponent.name} wins!")
+        winner = opponent
     }
 
     fun startNextRound() {
