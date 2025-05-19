@@ -1,9 +1,10 @@
 package monsterleague.gamelogic
 
+import java.util.UUID
 import kotlin.inc
 
 class Battle(
-    private val battleID: Int,
+    private val battleID: UUID,
     var round: Int,
     private var winner : Trainer?,
     private val trainers: List<Trainer>
