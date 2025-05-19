@@ -9,6 +9,10 @@ class Battle(
     private var winner : Trainer?,
     private val trainers: List<Trainer>
 ) {
+    private fun generateBattleID(){
+        val battleUuid = UUID.randomUUID()
+    }
+
     fun surrender(surrenderingTrainer: Trainer) {
         val opponent = trainers.first { it != surrenderingTrainer }
         winner = opponent
