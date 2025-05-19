@@ -11,7 +11,7 @@ class BattleTest : AnnotationSpec() {
     val dummyType2 = Type.WATER
 
     private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", dummyType1, 100, 35,10)
+        physicalAttack = PhysicalAttack("Punch", dummyType1, 100, 35, 10)
     )
 
     private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType1)

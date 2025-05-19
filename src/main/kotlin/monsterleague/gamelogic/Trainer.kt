@@ -1,6 +1,8 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.Battle
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.PhysicalAttack
 
 class Trainer(
     val name: String,
@@ -10,7 +12,7 @@ class Trainer(
 ) {
     val healingPercentage = 0.3 //30%
 
-    fun chooseAttack(attackIndex: Int) : Attack{
+    fun chooseAttack(attackIndex: Int) : PhysicalAttack {
         val attackingMonster = activeMonster
         val attack = attackingMonster.attacks[attackIndex - 1]
 
@@ -48,7 +50,14 @@ class Trainer(
         println("$name has $healsRemaining heals left.")
     }
 
-    fun surrender(battle: Battle) {
-        battle.handleSurrender(this)
+    fun determineWinner() : Boolean {
+        //TODO
+        return true
+    }
+
+
+
+    fun checkActiveMonsterDead():Boolean {
+        return activeMonster.deadMonster()
     }
 }

@@ -1,16 +1,12 @@
 package monsterleague.gamelogic
 
+import monsterleague.gamelogic.attacks.Attack
 import kotlin.random.Random
 
-class AttackCalculator (
-    val attackingMonster: Monster,
-    val defendingMonster: Monster,
-    val attack: Attack,
-    val battleStats: Stats,
-) {
-    private val critChance = 0.04
+class DamageCalculator () {
+   private val critChance = 0.04
 
-   fun calculateEfficiency() : Double {
+   fun calculateEfficiency(attackingMonster : Monster, defendingMonster : Monster) : Double {
         val typeTable = TypeTable()
         val attackingMonsterType = attackingMonster.type
         val defendingMonsterType = defendingMonster.type

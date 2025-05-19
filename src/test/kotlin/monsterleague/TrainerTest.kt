@@ -3,14 +3,15 @@ package monsterleague
 import monsterleague.gamelogic.*
 
 import io.kotest.core.spec.style.AnnotationSpec
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.PhysicalAttack
 import org.assertj.core.api.Assertions.assertThat
 
 class TrainerTest : AnnotationSpec() {
     private val dummyType = Type.WATER
 
-    private val dummyAttack = Attack(
-        physicalAttack = PhysicalAttack("Punch", dummyType, 100, 35,10)
-    )
+    private val dummyAttack =  PhysicalAttack("Punch", dummyType, 100, 35, 10)
+    
 
     private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType)
     private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
