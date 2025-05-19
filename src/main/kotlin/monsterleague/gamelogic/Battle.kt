@@ -5,9 +5,8 @@ import kotlin.inc
 class Battle(
     private val battleID: Int,
     var round: Int,
-    var winner : Trainer?,
-    val trainers: List<Trainer>,
-    val monster : Monster
+    private var winner : Trainer?,
+    private val trainers: List<Trainer>
 ) {
     fun surrender(surrenderingTrainer: Trainer) {
         val opponent = trainers.first { it != surrenderingTrainer }
@@ -19,8 +18,7 @@ class Battle(
     }
 
     fun proofIfBattleIsFinished():Boolean{
-        return trainers[0].monsters.isEmpty() || trainers[1].monsters.isEmpty()
-
+        return trainers[0].monsters.all{it.battleStats.hp == 0} || trainers[1].monsters.all{it.battleStats.hp == 0}
     }
 
 }
