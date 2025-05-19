@@ -56,4 +56,10 @@ class Battle(
         }
         return winner
     }
+
+    fun proofIfBattleIsFinished():Boolean{
+        return trainers[0].monsters.isEmpty() || trainers[1].monsters.isEmpty()
+
+    }
+
 }
