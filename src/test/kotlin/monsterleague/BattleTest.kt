@@ -35,6 +35,16 @@ class BattleTest : AnnotationSpec() {
         statusEffect = 1
     )
 
+    private var dummyBattleStats2 = Stats(
+        hp = 0,
+        initiative = 10,
+        attack = 20,
+        defense = 30,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
+        statusEffect = 1
+    )
+
     private val dummyMonster1 = Monster(
         name = "Monster1",
         type = dummyType1,
@@ -53,10 +63,19 @@ class BattleTest : AnnotationSpec() {
         attacks = listOf(dummyAttack)
     )
 
+    private val dummyMonster3 = Monster(
+        name = "Monster3",
+        type = dummyType2,
+        status = 2,
+        BaseStats = dummyBaseStats,
+        BattleStats = dummyBattleStats2,
+        attacks = listOf(dummyAttack)
+    )
+
     private val trainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2, 3)
     private val trainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
-    private val trainer3 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
-
+    private val trainer3 = Trainer("trainer2", listOf(dummyMonster3), dummyMonster3, 3)
+    private val trainer4 = Trainer("trainer2", listOf(), dummyMonster1, 3)
 
     /**
      * Initial Values/Variables tests
@@ -156,6 +175,30 @@ class BattleTest : AnnotationSpec() {
 
         assertThat(trainer1).isEqualTo(winner)
     }*/
+
+    @Test
+    fun`battle ends if  trainerDefeated has no Monsters left`(){
+        val trainerWinner = trainer1
+        val trainerDefeated = trainer3
+
+        val battleIsFinished = Battle(1,3,"", listOf(trainerWinner,trainerDefeated)).proofIfBattleIsFinished()
+
+        assertThat(battleIsFinished).isEqualTo(true)
+    }
+
+    @Test
+    fun `battle doesnt end if both trainers have monsters left`(){
+
+        val battleIsFinished = Battle(1,3,"", listOf(trainer1,trainer2)).proofIfBattleIsFinished()
+        assertThat(battleIsFinished).isEqualTo(false)
+    }
+
+    @Test
+    fun `battle finishes because both trainers loose their last Monster at the same time`(){
+        val battleIsFinished = Battle(1,3,"", listOf(trainer3,trainer4)).proofIfBattleIsFinished()
+        assertThat(battleIsFinished).isEqualTo(true)
+    }
+
 
 }
 

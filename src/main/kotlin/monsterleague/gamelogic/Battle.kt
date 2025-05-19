@@ -17,4 +17,10 @@ class Battle(
     fun startNextRound() {
         // TODO : Check, ob beide Trainer eine Aktion ausgewählt haben
     }
+
+    fun proofIfBattleIsFinished():Boolean{
+        return trainers[0].monsters.isEmpty() || trainers[1].monsters.isEmpty()
+
+    }
+
 }
