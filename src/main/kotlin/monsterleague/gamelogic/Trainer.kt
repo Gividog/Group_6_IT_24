@@ -7,12 +7,12 @@ import monsterleague.gamelogic.attacks.PhysicalAttack
 class Trainer(
     val name: String,
     var monsters: List<Monster>,
-    var activeMonster: Monster,
+    var activeMonster: Monster = monsters.first(), // nach allen Monstern filtern, die nicht tot sind und davon das Erste
     var healsRemaining: Int
 ) {
     val healingPercentage = 0.3 //30%
 
-    fun chooseAttack(attackIndex: Int) : PhysicalAttack {
+    fun chooseAttack(attackIndex: Int) : Attack {
         val attackingMonster = activeMonster
         val attack = attackingMonster.attacks[attackIndex - 1]
 
@@ -22,9 +22,6 @@ class Trainer(
     fun switchActiveMonster(monster: Monster){
         if (monster in monsters) {
             activeMonster = monster
-            println("${activeMonster.name} is now active.")
-        } else {
-            println("${monster.name} doesn't belong to $name")
         }
     }
 
@@ -34,15 +31,12 @@ class Trainer(
         }
         activeMonster.heal()
         healsRemaining--
-        println("${activeMonster.name} was healed to $healsRemaining %.")
     }
 
     fun determineWinner() : Boolean {
         //TODO
         return true
     }
-
-
 
     fun checkActiveMonsterDead():Boolean {
         return activeMonster.deadMonster()
