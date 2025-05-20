@@ -4,27 +4,23 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.PhysicalAttack
 
 class BattleTest : AnnotationSpec() {
     val dummyType1 = Type.GHOST
     val dummyType2 = Type.WATER
 
-    private val dummyAttack = PhysicalAttack("Punch", dummyType1, 100, 35, 10)
+    private val dummyAttack =  PhysicalAttack("Punch", dummyType1, 100, 35, 10)
 
-
-    private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType1)
-    private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType2)
+    private var dummyStatus = Status.CONFUSED
 
     private var dummyBaseStats = BaseStats(
         hp = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
-        statusEffect = 1
+        specialAttack = 30,
+        specialDefense = 40,
     )
 
     private var dummyBattleStats = BattleStats(
@@ -32,23 +28,28 @@ class BattleTest : AnnotationSpec() {
         initiative = 10,
         attack = 20,
         defense = 30,
-        statusEffect = 1
+        statusEffect = dummyStatus,
+        specialAttack = 30,
+        specialDefense = 40,
+        buff = null,
+        debuff = null,
     )
 
-    private var dummyBattleStats2 = Stats(
+    private var dummyBattleStats2 = BattleStats(
         hp = 0,
         initiative = 10,
         attack = 20,
         defense = 30,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
-        statusEffect = 1
+        statusEffect = null,
+        specialAttack = 30,
+        specialDefense = 40,
+        buff = null,
+        debuff = null,
     )
 
     private val dummyMonster1 = Monster(
         name = "Monster1",
         type = dummyType1,
-        status = 1,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
@@ -57,7 +58,6 @@ class BattleTest : AnnotationSpec() {
     private val dummyMonster2 = Monster(
         name = "Monster2",
         type = dummyType2,
-        status = 2,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
@@ -65,17 +65,16 @@ class BattleTest : AnnotationSpec() {
 
     private val dummyMonster3 = Monster(
         name = "Monster3",
-        type = dummyType2,
-        status = 2,
-        BaseStats = dummyBaseStats,
-        BattleStats = dummyBattleStats2,
+        type = dummyType1,
+        baseStats = dummyBaseStats,
+        battleStats = dummyBattleStats2,
         attacks = listOf(dummyAttack)
     )
 
-    private val trainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2, 3)
-    private val trainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster2), dummyMonster1, 3)
-    private val trainer3 = Trainer("trainer2", listOf(dummyMonster3), dummyMonster3, 3)
-    private val trainer4 = Trainer("trainer2", listOf(), dummyMonster1, 3)
+    private val dummyTrainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), 3)
+    private val dummyTrainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster3), 3)
+    private val dummyTrainer3 = Trainer("trainer3", listOf(dummyMonster3), 3)
+    private val dummyTrainer4 = Trainer("trainer4", listOf(), 3)
 
     /**
      * Initial Values/Variables tests
@@ -178,8 +177,8 @@ class BattleTest : AnnotationSpec() {
 
     @Test
     fun`battle ends if  trainerDefeated has no Monsters left`(){
-        val trainerWinner = trainer1
-        val trainerDefeated = trainer3
+        val trainerWinner = dummyTrainer1
+        val trainerDefeated = dummyTrainer3
 
         val battleIsFinished = Battle(1,3,"", listOf(trainerWinner,trainerDefeated)).proofIfBattleIsFinished()
 
@@ -189,7 +188,7 @@ class BattleTest : AnnotationSpec() {
     @Test
     fun `battle doesnt end if both trainers have monsters left`(){
 
-        val battleIsFinished = Battle(1,3,"", listOf(trainer1,trainer2)).proofIfBattleIsFinished()
+        val battleIsFinished = Battle(1,3,"", listOf(dummyTrainer1,dummyTrainer2)).proofIfBattleIsFinished()
         assertThat(battleIsFinished).isEqualTo(false)
     }
 

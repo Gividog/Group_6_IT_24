@@ -4,4 +4,5 @@ class Buff (
     private val name: String,
     private val effect: String,
     private val type: Type) {
+    // Buff als enum class?
 }

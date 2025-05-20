@@ -1,4 +1,14 @@
 package monsterleague.gamelogic.attacks
 
-class SpecialAttack {
+import monsterleague.gamelogic.Status
+import monsterleague.gamelogic.Type
+
+class SpecialAttack (
+    override val name: String,
+    override val type: Type,
+    override val accuracy: Int,
+    override val power: Int,
+    override val powerPoints: Int,
+    val statusEffect : Status
+) : Attack {
 }

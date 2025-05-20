@@ -1,6 +1,5 @@
 package monsterleague.gamelogic
 
-import monsterleague.gamelogic.attacks.Attack
 import kotlin.random.Random
 
 class DamageCalculator () {

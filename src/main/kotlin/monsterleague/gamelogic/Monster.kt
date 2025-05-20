@@ -1,12 +1,10 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.PhysicalAttack
 
 class Monster(
     val name: String,
     val type: Type,
-    var status: Int,
     val baseStats: BaseStats,
     var battleStats: BattleStats,
     val attacks: List<Attack>,
