@@ -1,14 +1,25 @@
 package monsterleague.gamelogic
 
+import java.util.UUID
+import kotlin.inc
+
 class Battle(
-    val battleID: Int,
+    private val battleID: UUID,
     var round: Int,
-    var winner: String?,
-    val trainers: List<Trainer>
+    private var winner : Trainer?,
+    private val trainers: List<Trainer>
 ) {
-    //TODO : endTurn() / confirmTurn() -> Erik
-    //TODO : startNextRound() -> Nikita
-    //TODO : endBattle() -> Liesa
-    //TODO : determineWinner() -> Amy
-    //TODO : surrender()
+    private fun generateBattleID(){
+        val battleUuid = UUID.randomUUID()
+    }
+
+    fun surrender(surrenderingTrainer: Trainer) {
+        val opponent = trainers.first { it != surrenderingTrainer }
+        winner = opponent
+    }
+
+    fun proofIfBattleIsFinished():Boolean{
+        return trainers[0].monsters.all{it.battleStats.hp == 0} || trainers[1].monsters.all{it.battleStats.hp == 0}
+    }
+
 }

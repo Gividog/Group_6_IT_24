@@ -1,5 +1,9 @@
 package monsterleague.gamelogic
 
+import monsterleague.gamelogic.Battle
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.PhysicalAttack
+
 class Trainer(
     val name: String,
     var monsters: List<Monster>,
@@ -8,7 +12,7 @@ class Trainer(
 ) {
     val healingPercentage = 0.3 //30%
 
-    fun chooseAttack(attackIndex: Int) : Attack{
+    fun chooseAttack(attackIndex: Int) : PhysicalAttack {
         val attackingMonster = activeMonster
         val attack = attackingMonster.attacks[attackIndex - 1]
 
@@ -16,33 +20,28 @@ class Trainer(
     }
 
     fun switchActiveMonster(monster: Monster){
-        if (monster in monsters) {
-            activeMonster = monster
-            println("${activeMonster.name} is now active.")
-        } else {
-            println("${monster.name} doesn't belong to $name")
-        }
+        if (monster in monsters) activeMonster = monster
     }
 
     fun healActiveMonster() {
-        val monster = activeMonster
+        if (healsRemaining <= 0) return
 
-        //limit the amount of heals a trainer has in a fight
-        if (healsRemaining <= 0) {
-            println("$name has no heals left!")
-            return
-        }
-
-        val maxHP = monster.BaseStats.hp
-        val currentHP = monster.BattleStats.hp
-
-        val healAmount = (maxHP * healingPercentage).toInt()
-        val newHP = minOf(currentHP + healAmount, maxHP)
-
-        monster.BattleStats.hp = newHP
+        activeMonster.heal()
         healsRemaining--
+    }
 
-        println("${monster.name} was healed by $healAmount HP!")
-        println("$name has $healsRemaining heals left.")
+    fun startNextRound() {
+        // TODO : Check, ob beide Trainer eine Aktion ausgewählt haben
+    }
+
+    fun determineWinner() : Boolean {
+        //TODO
+        return true
+    }
+
+
+
+    fun checkActiveMonsterDead():Boolean {
+        return activeMonster.deadMonster()
     }
 }

@@ -1,4 +1,7 @@
 package monsterleague.gamelogic
 
-class Buff (val name: String, val effect: String, val type: Type) {
+class Buff (
+    private val name: String,
+    private val effect: String,
+    private val type: Type) {
 }
