@@ -111,12 +111,12 @@ class TrainerTest : AnnotationSpec() {
 
     @Test
     fun `healActiveMonster() heals monster's current hp (50) by 30 percent of its base hp (100) and reduces healsRemaining (0)`() {
-        dummyTrainer.activeMonster.battleStats.hp = 50
+        dummyTrainer.activeMonster!!.battleStats.hp = 50
         dummyTrainer.healsRemaining = 1
 
         dummyTrainer.healActiveMonster()
 
-        assertThat(dummyTrainer.activeMonster.battleStats.hp).isEqualTo(80)
+        assertThat(dummyTrainer.activeMonster!!.battleStats.hp).isEqualTo(80)
         assertThat(dummyTrainer.healsRemaining).isEqualTo(0)
     }
 
