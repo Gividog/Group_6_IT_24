@@ -1,5 +1,5 @@
 package monsterleague.gamelogic
 
-class Status {
-    // enum class?
+enum class Status {
+   CONFUSED, CURSED, PLANTED, BURNED, SCALD
 }

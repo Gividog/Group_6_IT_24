@@ -9,6 +9,7 @@ class Battle(
     private var winner : Trainer?,
     private val trainers: List<Trainer>
 ) {
+
     private fun generateBattleID(){
         val battleUuid = UUID.randomUUID()
     }
@@ -18,8 +19,18 @@ class Battle(
         winner = opponent
     }
 
-    fun proofIfBattleIsFinished():Boolean{
-        return trainers[0].monsters.all{it.battleStats.hp == 0} || trainers[1].monsters.all{it.battleStats.hp == 0}
+    fun startNextRound() {
+       round++
+       trainers.forEach { it.setNotReadyToFight() }
+    }
+
+    fun determineWinner() : Trainer? {
+        return when{
+            trainers[0].monsters.all { it.deadMonster() } -> trainers[1]
+            trainers[1].monsters.all { it.deadMonster() } -> trainers[0]
+            else -> null
+        }
+
     }
 
 }

@@ -34,4 +34,4 @@ class TypeTable(
     fun efficiencyOf(type: Type): List<Type> {
         return efficiencyMap[type] ?: emptyList()
     }
-    }
+}
