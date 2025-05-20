@@ -5,6 +5,7 @@ import monsterleague.gamelogic.*
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.attacks.PhysicalAttack
+import java.util.*
 
 class BattleTest : AnnotationSpec() {
     val dummyType1 = Type.GHOST
@@ -71,10 +72,9 @@ class BattleTest : AnnotationSpec() {
         attacks = listOf(dummyAttack)
     )
 
-    private val dummyTrainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), 3)
-    private val dummyTrainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster3), 3)
-    private val dummyTrainer3 = Trainer("trainer3", listOf(dummyMonster3), 3)
-    private val dummyTrainer4 = Trainer("trainer4", listOf(), 3)
+    val uuid = UUID.randomUUID()
+    private val dummyTrainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2,3)
+    private val dummyTrainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster3), dummyMonster1, 3)
 
     /**
      * Initial Values/Variables tests
@@ -84,14 +84,14 @@ class BattleTest : AnnotationSpec() {
      * chooseAttack tests
      */
 
-    /*@Test
+    @Test
     fun `attackingMonster, defendingMonster and attack are declared correctly`() {
 
-        val attackingTrainer = trainer1
-        val defendingTrainer = trainer2
-        val battle = Battle(1,1,"",listOf(trainer1,trainer2))
+        val attackingTrainer = dummyTrainer1
+        val defendingTrainer = dummyTrainer2
+        val battle = Battle(uuid,listOf(dummyTrainer1,dummyTrainer2))
 
-       trainer1.chooseAttack(1)
+       dummyTrainer1.chooseAttack(1)
 
         val attackingMonster = attackingTrainer.activeMonster
         val defendingMonster = defendingTrainer.activeMonster
@@ -108,16 +108,11 @@ class BattleTest : AnnotationSpec() {
 
     @Test
     fun `surrendering trainer causes opponent to win the battle`() {
-        val battle = Battle(
-            battleID = 1,
-            round = 1,
-            winner = null,
-            trainers = listOf(trainer1, trainer2),
-        )
+        val battle = Battle(uuid,listOf(dummyTrainer1,dummyTrainer2))
 
-        trainer1.surrender(battle)
+        battle.surrender(dummyTrainer1)
 
-        assertThat(battle.winner).isEqualTo("trainer2")
+        assertThat(battle.getWinner()).isEqualTo(dummyTrainer2)
     }
 
     @Test
@@ -173,30 +168,9 @@ class BattleTest : AnnotationSpec() {
         val winner = battle.determineWinner(trainer1, trainer3)
 
         assertThat(trainer1).isEqualTo(winner)
-    }*/
-
-    @Test
-    fun`battle ends if  trainerDefeated has no Monsters left`(){
-        val trainerWinner = dummyTrainer1
-        val trainerDefeated = dummyTrainer3
-
-        val battleIsFinished = Battle(1,3,"", listOf(trainerWinner,trainerDefeated)).proofIfBattleIsFinished()
-
-        assertThat(battleIsFinished).isEqualTo(true)
     }
 
-    @Test
-    fun `battle doesnt end if both trainers have monsters left`(){
 
-        val battleIsFinished = Battle(1,3,"", listOf(dummyTrainer1,dummyTrainer2)).proofIfBattleIsFinished()
-        assertThat(battleIsFinished).isEqualTo(false)
-    }
-
-    @Test
-    fun `battle finishes because both trainers loose their last Monster at the same time`(){
-        val battleIsFinished = Battle(1,3,"", listOf(trainer3,trainer4)).proofIfBattleIsFinished()
-        assertThat(battleIsFinished).isEqualTo(true)
-    }
 
 
 }

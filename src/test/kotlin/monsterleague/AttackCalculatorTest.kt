@@ -16,14 +16,15 @@ class AttackCalculatorTest : AnnotationSpec() {
 
     private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
 
+    private var dummyStatus = Status.CONFUSED
+
     private var dummyBaseStats = BaseStats(
         hp = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
-        statusEffect = 1
+        specialAttack = 30,
+        specialDefense = 40,
     )
 
     private var dummyBattleStats = BattleStats(
@@ -31,13 +32,16 @@ class AttackCalculatorTest : AnnotationSpec() {
         initiative = 10,
         attack = 20,
         defense = 30,
-        statusEffect = 1
+        statusEffect = dummyStatus,
+        specialAttack = 30,
+        specialDefense = 40,
+        buff = dummyBuff,
+        debuff = dummyDebuff,
     )
 
     private val dummyMonster1 = Monster(
         name = "Monster1",
         type = Type.FIRE,
-        status = 1,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
@@ -46,7 +50,6 @@ class AttackCalculatorTest : AnnotationSpec() {
     private val dummyMonster2 = Monster(
         name = "Monster2",
         type = Type.WATER,
-        status = 2,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack)
@@ -55,7 +58,6 @@ class AttackCalculatorTest : AnnotationSpec() {
     private val dummyMonster3 = Monster(
         name = "Monster3",
         type = Type.GRASS,
-        status = 1,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
@@ -64,13 +66,12 @@ class AttackCalculatorTest : AnnotationSpec() {
     private val dummyMonster4 = Monster(
         name = "Monster4",
         type = Type.NORMAL,
-        status = 1,
         baseStats = dummyBaseStats,
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
-
-    /*@Test
+    /*
+    @Test
     fun`test calculateEfficiency returns 2,0 when attack is efficient`() {
         val attackingMonster = dummyMonster1
         val defendingMonster = dummyMonster3
@@ -117,5 +118,5 @@ class AttackCalculatorTest : AnnotationSpec() {
         val defendingMonster = dummyMonster1
         val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateCriticalStrike()
         assertThat(result).isBetween(1.0,2.0)
-    }*/
+    } */
 }

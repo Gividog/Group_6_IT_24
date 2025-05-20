@@ -1,9 +1,9 @@
 package monsterleague
 
 import monsterleague.gamelogic.*
+import monsterleague.gamelogic.attacks.*
 
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.attacks.PhysicalAttack
 import org.assertj.core.api.Assertions.assertThat
 
 class TrainerTest : AnnotationSpec() {

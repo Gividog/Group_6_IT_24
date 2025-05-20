@@ -5,14 +5,14 @@ import monsterleague.gamelogic.attacks.Attack
 class Trainer(
     val name: String,
     var monsters: List<Monster>,
+    var activeMonster : Monster,
     var healsRemaining: Int
 ) {
-    var activeMonster : Monster? = null
     private var readyToFight = false
 
     fun chooseAttack(attackIndex: Int) : Attack {
         val attackingMonster = activeMonster
-        val attack = attackingMonster!!.attacks[attackIndex - 1]
+        val attack = attackingMonster.attacks[attackIndex - 1]
 
         readyToFight = true
         return attack
@@ -24,11 +24,12 @@ class Trainer(
     }
 
     fun healActiveMonster() {
-        if (healsRemaining <= 0) return
-
-        activeMonster!!.heal()
-        healsRemaining--
-        readyToFight = true
+        if (healsRemaining > 0) {
+            activeMonster!!.heal()
+            healsRemaining--
+            println("$activeMonster has been healed. $healsRemaining heals remaining.")
+            readyToFight = true
+        }
     }
 
     fun getReadyToFight(): Boolean {
@@ -40,6 +41,6 @@ class Trainer(
     }
 
     fun checkActiveMonsterDead():Boolean {
-        return activeMonster!!.deadMonster()
+        return activeMonster.deadMonster()
     }
 }

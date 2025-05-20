@@ -5,7 +5,7 @@ import kotlin.random.Random
 class DamageCalculator () {
    private val critChance = 0.04
 
-   fun calculateEfficiency(attackingMonster : Monster, defendingMonster : Monster) : Double {
+   private fun calculateEfficiency(attackingMonster : Monster, defendingMonster : Monster) : Double {
         val typeTable = TypeTable()
         val attackingMonsterType = attackingMonster.type
         val defendingMonsterType = defendingMonster.type
@@ -17,7 +17,7 @@ class DamageCalculator () {
         }
     }
 
-    fun calculateCriticalStrike(randomSupplier: () -> Double = {Random.nextDouble()}) : Double {
+    private fun calculateCriticalStrike(randomSupplier: () -> Double = {Random.nextDouble()}) : Double {
         return if (randomSupplier() < critChance) {
             2.0
         } else {
