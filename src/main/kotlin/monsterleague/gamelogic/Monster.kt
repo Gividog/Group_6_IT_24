@@ -9,14 +9,14 @@ class Monster(
     var battleStats: BattleStats,
     val attacks: List<Attack>,
 ) {
-    fun heal() {
+    fun healMonster() {
         val healingPercentage = 0.3
 
         val maxHP = baseStats.getHP()
         val currentHP = battleStats.getHP()
 
-        val healAmount = (maxHP * healingPercentage).toInt()
-        battleStats.hp = minOf(currentHP + healAmount, maxHP)
+        val healingAmount = (maxHP * healingPercentage).toInt()
+        battleStats.hp = minOf(currentHP + healingAmount, maxHP)
     }
 
     fun deadMonster(): Boolean {

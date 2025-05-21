@@ -25,9 +25,8 @@ class Trainer(
 
     fun healActiveMonster() {
         if (healsRemaining > 0) {
-            activeMonster.heal()
+            activeMonster.healMonster()
             healsRemaining--
-            println("$activeMonster has been healed. $healsRemaining heals remaining.")
             readyToFight = true
         }
     }
