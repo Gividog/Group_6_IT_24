@@ -25,12 +25,16 @@ class Trainer(
 
     fun healActiveMonster() {
         if (healsRemaining > 0) {
-            activeMonster!!.heal()
+            activeMonster.heal()
             healsRemaining--
             println("$activeMonster has been healed. $healsRemaining heals remaining.")
             readyToFight = true
         }
     }
+
+    /**
+     * Messages
+     **/
 
     fun getReadyToFight(): Boolean {
         return readyToFight

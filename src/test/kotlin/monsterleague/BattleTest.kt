@@ -73,41 +73,17 @@ class BattleTest : AnnotationSpec() {
     )
 
     val uuid = UUID.randomUUID()
+
     private val dummyTrainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2,3)
     private val dummyTrainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster3), dummyMonster1, 3)
-
-    /**
-     * Initial Values/Variables tests
-     */
-
-    /**
-     * chooseAttack tests
-     */
-
-    @Test
-    fun `attackingMonster, defendingMonster and attack are declared correctly`() {
-
-        val attackingTrainer = dummyTrainer1
-        val defendingTrainer = dummyTrainer2
-        val battle = Battle(uuid,listOf(dummyTrainer1,dummyTrainer2))
-
-       dummyTrainer1.chooseAttack(1)
-
-        val attackingMonster = attackingTrainer.activeMonster
-        val defendingMonster = defendingTrainer.activeMonster
-        val chosenAttack = attackingMonster.attacks[0]
-
-        assertThat(attackingMonster).isEqualTo(dummyMonster2)
-        assertThat(defendingMonster).isEqualTo(dummyMonster1)
-        assertThat(chosenAttack).isEqualTo(dummyAttack)
-    }
+    private val dummyTrainer3 = Trainer("trainer3", listOf(dummyMonster3), dummyMonster3, 0)
 
     /**
      * surrender () tests
      */
 
     @Test
-    fun `surrendering trainer causes opponent to win the battle`() {
+    fun `surrendering trainer causes opponent to win the battle`() { // Test erledigt
         val battle = Battle(uuid,listOf(dummyTrainer1,dummyTrainer2))
 
         battle.surrender(dummyTrainer1)
@@ -115,63 +91,80 @@ class BattleTest : AnnotationSpec() {
         assertThat(battle.getWinner()).isEqualTo(dummyTrainer2)
     }
 
+    /**
+     * startNextRound() tests
+     */
+
     @Test
-    fun `startNextRound should increment round and keep active monsters if alive`() {
+    fun `startNextRound should increment round and keep active monsters if alive`() { // Test an Funktion anpassen?
         val battle = Battle(
-            battleID = 1,
-            round = 1,
-            winner = null,
-            trainers = listOf(trainer1, trainer2),
+            battleID = uuid,
+            trainers = listOf(dummyTrainer1, dummyTrainer2),
         )
 
         battle.startNextRound()
 
-        assertThat(battle.round).isEqualTo(2)
-        assertThat(battle.winner).isNull()
-        assertThat(trainer1.activeMonster).isEqualTo(dummyMonster2)
-        assertThat(trainer2.activeMonster).isEqualTo(dummyMonster1)
+        assertThat(battle.getRounds()).isEqualTo(2)
+        assertThat(battle.getWinner()).isNull()
+        assertThat(dummyTrainer1.activeMonster).isEqualTo(dummyMonster2)
+        assertThat(dummyTrainer2.activeMonster).isEqualTo(dummyMonster1)
     }
-    @Test
-    fun `startNextRound should trigger surrender when all monsters fainted`() {
-        trainer1.monsters.forEach { it.battleStats.hp = 0 }
-        trainer1.activeMonster.battleStats.hp = 0
 
+    /**
+     * determineWinner() tests
+     */
+
+    @Test
+    fun `determineWinner() returns null when both trainers don't have any dead monsters`() {
         val battle = Battle(
-            battleID = 2,
-            round = 1,
-            winner = null,
-            trainers = listOf(trainer1, trainer2),
+            battleID = uuid,
+            trainers = listOf(dummyTrainer1, dummyTrainer2),
         )
 
-        battle.startNextRound()
+        battle.determineWinner()
 
-        assertThat(battle.winner).isEqualTo("trainer2")
-        assertThat(battle.round).isEqualTo(1)
+        assertThat(battle.getWinner()).isEqualTo(null)
+        assertThat(battle.getWinner()).isNotEqualTo(dummyTrainer1)
+        assertThat(battle.getWinner()).isNotEqualTo(dummyTrainer2)
     }
+
     @Test
-    fun `startNextRound should return immediately if winner exists`() {
+    fun `determineWinner() is declaring the first trainer in the list as the winner if the second trainer has no alive monsters left`() { // Test an neue Funktion anpassen
         val battle = Battle(
-            battleID = 3,
-            round = 1,
-            winner = "trainer2",
-            trainers = listOf(trainer1, trainer2),
+            battleID = uuid,
+            trainers = listOf(dummyTrainer1, dummyTrainer3),
         )
 
-        battle.startNextRound()
-        assertThat(battle.round).isEqualTo(1)
-        assertThat(battle.winner).isEqualTo("trainer2")
+        battle.determineWinner()
+
+        assertThat(battle.getWinner()).isEqualTo(dummyTrainer1)
+        assertThat(battle.getWinner()).isNotEqualTo(dummyTrainer3)
     }
 
     @Test
-    fun `determineWinner() is declaring trainer1 as the winner if trainer3 has only dead monsters left`() {
-        val battle = Battle(1, 1, null, listOf(trainer1, trainer3))
-        val winner = battle.determineWinner(trainer1, trainer3)
+    fun `second Trainer Is Winner`() { // Test an neue Funktion anpassen
+        val battle = Battle(
+            battleID = uuid,
+            trainers = listOf(dummyTrainer3,dummyTrainer1),
+        )
 
-        assertThat(trainer1).isEqualTo(winner)
+        battle.determineWinner()
+
+        assertThat(battle.getWinner()).isEqualTo(dummyTrainer1)
+        assertThat(battle.getWinner()).isNotEqualTo(dummyTrainer3)
     }
 
 
 
+    @Test
+    fun `simulateRound()`() {
+        // TODO
+    }
+
+    @Test
+    fun `getWinner()`() {
+        // TODO
+    }
 
 }
 

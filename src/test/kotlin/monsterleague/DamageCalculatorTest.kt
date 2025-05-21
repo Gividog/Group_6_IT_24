@@ -1,12 +1,10 @@
 package monsterleague
 
-import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.*
-import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.PhysicalAttack
 
-class AttackCalculatorTest : AnnotationSpec() {
+class DamageCalculatorTest : AnnotationSpec() {
 
     private val dummyType = Type.WATER
 
