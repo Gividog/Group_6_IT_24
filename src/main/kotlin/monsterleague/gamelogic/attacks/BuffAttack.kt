@@ -1,7 +1,5 @@
 package monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.Buff
-import monsterleague.gamelogic.Debuff
 import monsterleague.gamelogic.Type
 
 class BuffAttack (
@@ -10,8 +8,48 @@ class BuffAttack (
     override val accuracy: Int,
     override val power: Int,
     override val powerPoints: Int,
-    val buff : Buff,
-    val debuff : Debuff
 ) : Attack {
-    // beinhaltet sowohl Debuff-Attacken als auch Buff-Attacken (?)
+
+    // max buff 6 min -2
+
+    fun defenseBuff(){
+        //Amy
+    }
+
+    fun attackBuff(){
+        //Erik
+    }
+
+    fun initiativeBuff(){
+    //Liesa
+    }
+
+    fun specialDefenseBuff(){
+        //Nikita
+    }
+
+    fun specialAttackBuff(){
+
+    }
+
+    fun defenseDeBuff(){
+
+    }
+
+    fun attackDeBuff(){
+
+    }
+
+    fun initiativeDeBuff(){
+
+    }
+
+    fun specialDefenseDeBuff(){
+
+    }
+
+    fun specialAttackDeBuff(){
+
+    }
 }
+    // beinhaltet sowohl Debuff-Attacken als auch Buff-Attacken (?)

@@ -8,8 +8,6 @@ class BattleStats (
     private var statusEffect: Status?,
     private var specialDefense : Int,
     private var specialAttack : Int,
-    private var buff : Buff?,
-    private var debuff : Debuff?
 ){
     fun getHP() : Int {
         return hp

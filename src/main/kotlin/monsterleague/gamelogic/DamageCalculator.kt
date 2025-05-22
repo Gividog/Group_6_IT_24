@@ -24,4 +24,8 @@ class DamageCalculator () {
             1.0
         }
     }
+
+    fun calculateDamage(){
+
+    }
 }
