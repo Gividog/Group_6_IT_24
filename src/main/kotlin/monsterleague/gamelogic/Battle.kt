@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.BuffAttack
 import java.util.UUID
 import kotlin.inc
 

@@ -16,10 +16,10 @@ class Monster(
         val currentHP = battleStats.getHP()
 
         val healAmount = (maxHP * healingPercentage).toInt()
-        battleStats.hp = minOf(currentHP + healAmount, maxHP)
+        battleStats.updateHP(minOf(currentHP + healAmount, maxHP))
     }
 
     fun deadMonster(): Boolean {
-        return battleStats.hp <= 0
+        return battleStats.getHP() <= 0
     }
 }

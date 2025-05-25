@@ -1,7 +1,6 @@
 package monsterleague.gamelogic
 
 enum class StatStages(var stage: Int, val multiplier: Double) {
-
     MINUS_ONE(-1, 0.25 ),
     MINUS_TWO(-2, 0.28),
     MINUS_THREE(-3, 0.33),

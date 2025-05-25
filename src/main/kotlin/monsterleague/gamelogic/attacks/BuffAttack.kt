@@ -12,7 +12,9 @@ class BuffAttack (
     private val multiplyer: Float
 ) : Attack {
 
-    // max buff 6 min -2
+    fun getBuffType():Boolean {
+        return buffType
+    }
 
     fun defenseBuff(){
         //Amy
