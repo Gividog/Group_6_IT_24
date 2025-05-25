@@ -27,8 +27,9 @@ class BuffAttack (
         initiative * multiplyer
     }
 
-    fun specialDefenseBuff(){
-        //Nikita
+    fun specialDefenseBuff(monster: Monster){
+        val current = monster.battleStats.specialDefense
+        monster.battleStats.specialDefense = (current * multiplyer).toInt()
     }
 
     fun specialAttackBuff(){
