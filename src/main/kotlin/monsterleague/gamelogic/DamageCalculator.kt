@@ -3,7 +3,7 @@ package monsterleague.gamelogic
 import kotlin.random.Random
 
 class DamageCalculator () {
-   private val critChance = 0.04
+   private val criticalChance = 0.04
 
    fun calculateEfficiency(attackingMonster : Monster, defendingMonster : Monster) : Double {
         val typeTable = TypeTable()
@@ -18,7 +18,7 @@ class DamageCalculator () {
     }
 
      fun calculateCriticalStrike(randomSupplier: () -> Double = {Random.nextDouble()}) : Double {
-        return if (randomSupplier() < critChance) {
+        return if (randomSupplier() < criticalChance) {
             2.0
         } else {
             1.0
