@@ -6,7 +6,7 @@ class BattleStats (
     private var attack: Int,
     private var defense: Int,
     private var statusEffect: Status?,
-    private var specialDefense : Int,
+    var specialDefense : Int,
     private var specialAttack : Int,
 ){
     fun getHP() : Int {
