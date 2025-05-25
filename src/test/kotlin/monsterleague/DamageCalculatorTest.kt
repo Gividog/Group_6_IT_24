@@ -3,6 +3,7 @@ package monsterleague
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.*
 import monsterleague.gamelogic.attacks.PhysicalAttack
+import org.assertj.core.api.Assertions.assertThat
 
 class DamageCalculatorTest : AnnotationSpec() {
 
@@ -10,9 +11,7 @@ class DamageCalculatorTest : AnnotationSpec() {
 
     private val dummyAttack = PhysicalAttack("Punch", dummyType, 100, 35, 10)
 
-    private val dummyBuff = Buff(name = "Wut", effect = "keine Ahnung", type = dummyType)
 
-    private val dummyDebuff = Debuff(name = "Schwäche", effect = "keine Ahnung", type = dummyType)
 
     private var dummyStatus = Status.CONFUSED
 
@@ -32,9 +31,7 @@ class DamageCalculatorTest : AnnotationSpec() {
         defense = 30,
         statusEffect = dummyStatus,
         specialAttack = 30,
-        specialDefense = 40,
-        buff = dummyBuff,
-        debuff = dummyDebuff,
+        specialDefense = 40
     )
 
     private val dummyMonster1 = Monster(
@@ -68,12 +65,12 @@ class DamageCalculatorTest : AnnotationSpec() {
         battleStats = dummyBattleStats,
         attacks = listOf(dummyAttack),
     )
-    /*
+
     @Test
     fun`test calculateEfficiency returns 2,0 when attack is efficient`() {
         val attackingMonster = dummyMonster1
         val defendingMonster = dummyMonster3
-        val efficiency = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateEfficiency()
+        val efficiency = DamageCalculator().calculateEfficiency(attackingMonster,defendingMonster)
         assertThat(efficiency).isEqualTo(2.0)
     }
 
@@ -81,7 +78,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     fun`test calculateEfficiency returns 0,5 when attack is inefficient`() {
         val attackingMonster = dummyMonster1
         val defendingMonster = dummyMonster2
-        val efficiency = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateEfficiency()
+        val efficiency = DamageCalculator().calculateEfficiency(attackingMonster,defendingMonster)
         assertThat(efficiency).isEqualTo(0.5)
     }
 
@@ -89,7 +86,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     fun`test calculateEfficiency returns 1,0 when attack is neither efficient nor inefficient`() {
         val attackingMonster = dummyMonster4
         val defendingMonster = dummyMonster1
-        val efficiency = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateEfficiency()
+        val efficiency = DamageCalculator().calculateEfficiency(attackingMonster,defendingMonster)
         assertThat(efficiency).isEqualTo(1.0)
     }
 
@@ -98,7 +95,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     fun `criticalStrike is 2,0`(){
         val attackingMonster = dummyMonster4
         val defendingMonster = dummyMonster1
-        val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateCriticalStrike{0.05}
+        val result = DamageCalculator().calculateCriticalStrike{0.05}
         assertThat(result).isEqualTo(1.0)
     }
 
@@ -106,7 +103,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     fun `criticalStrike is 1,0`(){
         val attackingMonster = dummyMonster4
         val defendingMonster = dummyMonster1
-        val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateCriticalStrike{0.03}
+        val result = DamageCalculator().calculateCriticalStrike{0.03}
         assertThat(result).isEqualTo(2.0)
     }
 
@@ -114,7 +111,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     fun `criticalStrike is set to random`(){
         val attackingMonster = dummyMonster4
         val defendingMonster = dummyMonster1
-        val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack, dummyBattleStats).calculateCriticalStrike()
+        val result = DamageCalculator().calculateCriticalStrike()
         assertThat(result).isBetween(1.0,2.0)
-    } */
+    }
 }

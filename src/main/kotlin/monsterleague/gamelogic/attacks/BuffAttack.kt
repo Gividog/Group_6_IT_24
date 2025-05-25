@@ -1,5 +1,6 @@
 package monsterleague.gamelogic.attacks
 
+import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.Type
 
 class BuffAttack (
@@ -8,6 +9,7 @@ class BuffAttack (
     override val accuracy: Int,
     override val power: Int,
     override val powerPoints: Int,
+    private val multiplyer: Float
 ) : Attack {
 
     // max buff 6 min -2
@@ -20,8 +22,9 @@ class BuffAttack (
         //Erik
     }
 
-    fun initiativeBuff(){
-    //Liesa
+    fun initiativeBuff(monster: Monster){
+     val initiative = monster.battleStats.initiative
+        initiative * multiplyer
     }
 
     fun specialDefenseBuff(){
