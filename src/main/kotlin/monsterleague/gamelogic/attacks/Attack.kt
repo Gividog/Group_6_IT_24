@@ -1,6 +1,6 @@
 package monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.AttackKinds
+import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.Type
 
 interface Attack {
@@ -9,4 +9,5 @@ interface Attack {
     val accuracy: Int
     val power: Int
     val powerPoints: Int
+    val kind : AttackKinds
 }
