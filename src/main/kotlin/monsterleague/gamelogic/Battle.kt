@@ -11,8 +11,9 @@ class Battle(
     private var round: Int = 1
     private var winner : Trainer? = null
     private var battleOver : Boolean = false
+    private val chosenAttacksMap = mutableMapOf<Monster, Attack>()
 
-    fun surrender(surrenderingTrainer: Trainer) { // Test erledigt
+    fun surrender(surrenderingTrainer: Trainer) {
         val opponent = trainers.first { it != surrenderingTrainer }
         winner = opponent
     }
@@ -61,6 +62,8 @@ class Battle(
     }*/
 
     fun simulateRound() {
+
+    }
 
     fun getKindOfAttack(attack: Attack): AttackKinds {
         return attack.kind

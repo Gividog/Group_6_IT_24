@@ -9,12 +9,12 @@ import org.assertj.core.api.Assertions.assertThat
 class TrainerTest : AnnotationSpec() {
     private val dummyType = Type.WATER
 
-    private val dummyAttack =  PhysicalAttack("Punch", dummyType, 100, 35, 10)
+    private val dummyAttack = PhysicalAttack("Punch", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
 
     private var dummyStatus = Status.CONFUSED
 
     private var dummyBaseStats = BaseStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -23,7 +23,7 @@ class TrainerTest : AnnotationSpec() {
     )
 
     private var dummyBattleStats = BattleStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -33,7 +33,7 @@ class TrainerTest : AnnotationSpec() {
     )
 
     private var dummyBattleStats2 = BattleStats(
-        hp = 0,
+        healthPoints = 0,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -74,7 +74,7 @@ class TrainerTest : AnnotationSpec() {
 
     @Test
     fun `chosen Attack is Punch`(){
-        val attack = dummyTrainer.chooseAttack(1)
+        val attack = dummyTrainer.trainerChooseAttack(dummyAttack)
         assertThat(attack).isEqualTo(dummyAttack)
     }
 
@@ -107,12 +107,12 @@ class TrainerTest : AnnotationSpec() {
 
     @Test
     fun `healActiveMonster() heals monster's current hp (50) by 30 percent of its base hp (100) and reduces healsRemaining (0)`() {
-        dummyTrainer.activeMonster.battleStats.hp = 50
+        dummyTrainer.activeMonster.battleStats.setHP(50)
         dummyTrainer.healsRemaining = 1
 
         dummyTrainer.healActiveMonster()
 
-        assertThat(dummyTrainer.activeMonster.battleStats.hp).isEqualTo(80)
+        assertThat(dummyTrainer.activeMonster.battleStats.getHP()).isEqualTo(80)
         assertThat(dummyTrainer.healsRemaining).isEqualTo(0)
     }
 

@@ -2,6 +2,7 @@ package monsterleague
 
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.*
+import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.PhysicalAttack
 import org.assertj.core.api.Assertions.assertThat
 
@@ -14,7 +15,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     private var dummyStatus = Status.CONFUSED
 
     private var dummyBaseStats = BaseStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -23,7 +24,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     )
 
     private var dummyBattleStats = BattleStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,

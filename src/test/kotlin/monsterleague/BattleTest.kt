@@ -4,19 +4,20 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
+import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.PhysicalAttack
 import java.util.*
 
 class BattleTest : AnnotationSpec() {
-    val dummyType1 = Type.GHOST
-    val dummyType2 = Type.WATER
+    private val dummyType1 = Type.GHOST
+    private val dummyType2 = Type.WATER
 
-    private val dummyAttack =  PhysicalAttack("Punch", dummyType1, 100, 35, 10)
+    private val dummyAttack =PhysicalAttack("Punch", AttackKinds.PHYSICAL, dummyType1, 100, 35, 10)
 
     private var dummyStatus = Status.CONFUSED
 
     private var dummyBaseStats = BaseStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -25,7 +26,7 @@ class BattleTest : AnnotationSpec() {
     )
 
     private var dummyBattleStats = BattleStats(
-        hp = 100,
+        healthPoints = 100,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -35,7 +36,7 @@ class BattleTest : AnnotationSpec() {
     )
 
     private var dummyBattleStats2 = BattleStats(
-        hp = 0,
+        healthPoints = 0,
         initiative = 10,
         attack = 20,
         defense = 30,
@@ -68,7 +69,7 @@ class BattleTest : AnnotationSpec() {
         attacks = listOf(dummyAttack)
     )
 
-    val uuid = UUID.randomUUID()
+    private val uuid = UUID.randomUUID()
 
     private val dummyTrainer1 = Trainer("trainer1", listOf(dummyMonster1, dummyMonster2), dummyMonster2,3)
     private val dummyTrainer2 = Trainer("trainer2", listOf(dummyMonster1, dummyMonster3), dummyMonster1, 3)
@@ -150,7 +151,10 @@ class BattleTest : AnnotationSpec() {
         assertThat(battle.getWinner()).isNotEqualTo(dummyTrainer3)
     }
 
-
+    @Test
+    fun `addChosenAttackToMap()`() {
+        // TODO
+    }
 
     @Test
     fun `simulateRound()`() {
