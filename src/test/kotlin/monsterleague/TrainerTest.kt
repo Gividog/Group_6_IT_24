@@ -29,9 +29,7 @@ class TrainerTest : AnnotationSpec() {
         defense = 30,
         statusEffect = dummyStatus,
         specialAttack = 30,
-        specialDefense = 40,
-        buff = null,
-        debuff = null,
+        specialDefense = 40
     )
 
     private var dummyBattleStats2 = BattleStats(
@@ -41,9 +39,7 @@ class TrainerTest : AnnotationSpec() {
         defense = 30,
         statusEffect = null,
         specialAttack = 30,
-        specialDefense = 40,
-        buff = null,
-        debuff = null,
+        specialDefense = 40
     )
 
     private val dummyMonster1 = Monster(

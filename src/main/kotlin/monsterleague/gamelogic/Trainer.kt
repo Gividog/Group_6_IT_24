@@ -1,6 +1,7 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.BuffAttack
 
 class Trainer(
     val name: String,
@@ -15,6 +16,7 @@ class Trainer(
         val attack = attackingMonster.attacks[attackIndex - 1]
 
         readyToFight = true
+
         return attack
     }
 
@@ -25,8 +27,9 @@ class Trainer(
 
     fun healActiveMonster() {
         if (healsRemaining > 0) {
-            activeMonster.healMonster()
+            activeMonster.heal()
             healsRemaining--
+
             readyToFight = true
         }
     }
