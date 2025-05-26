@@ -11,46 +11,6 @@ class BattleStats (
 ){
 
 
-    fun defenseBuff(){
-       //
-    }
-
-    fun attackBuff(){
-        //Erik
-    }
-
-    fun initiativeBuff(monster: Monster){
-        val initiative = initiative
-    }
-
-    fun specialDefenseBuff(monster: Monster){
-        val current = specialDefense
-        specialDefense = (current ).toInt()
-    }
-
-    fun specialAttackBuff(){
-
-    }
-
-    fun defenseDeBuff(){
-
-    }
-
-    fun attackDeBuff(){
-
-    }
-
-    fun initiativeDeBuff(){
-
-    }
-
-    fun specialDefenseDeBuff(){
-
-    }
-
-    fun specialAttackDeBuff(){
-
-    }
 
     /**
      * Messages

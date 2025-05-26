@@ -29,7 +29,7 @@ class DamageCalculator () {
         }
     }
 
-    fun calculateDamage(){
+    fun calculateDamage(defendingMonster: Monster, attackingMonster: Monster, attack: Attack){
 
     }
 

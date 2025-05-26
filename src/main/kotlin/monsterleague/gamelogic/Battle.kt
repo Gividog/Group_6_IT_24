@@ -51,7 +51,7 @@ class Battle(
         }
     }
 
-    fun getBeginningMonsterByInitiative():List<Monster>{
+    fun sortActiveMonstersByInitiative():List<Monster>{
         return listOf(trainers[0].activeMonster, trainers[1].activeMonster)
             .sortedByDescending { it.baseStats.getInitiative()}
     }
@@ -62,19 +62,32 @@ class Battle(
     }*/
 
     fun simulateRound() {
+        // TODO : check(chosenAttacksMap.size == 2) {
+        // TODO : val monstersInOrderOfAttack = sortActiveMonstersByInitiative()
+        // TODO : for (attacker in monstersInOrderOfAttack) {
+            // TODO : val defender = otherMonster(attacker)
+            // TODO : val attack = chosenAttacksMap[attacker]!!
+            // TODO : val damage = DamageCalculator.calculateDamage(
+                // TODO : attackingMonster = attacker,
+                // TODO : defendingMonster = defender,
+                // TODO : attack = attack,
+            // TODO : )
+            // TODO : defender.takeDamage(damage)
+        // TODO : }
+        // TODO : chosenAttacksMap.clear()
 
+        // TODO : }
     }
+
+    /*fun attackingMonster(attacking: Trainer) =
+        if (attacking == red) activeMonsterOfRed else activeMonsterOfBlue
+
+    fun defendingMonster(attacking: Trainer) =
+        if (attacking == red) activeMonsterOfBlue else activeMonsterOfRed*/
+
 
     fun getKindOfAttack(attack: Attack): AttackKinds {
         return attack.kind
-    }
-
-    private fun applyBuff(attack: Attack) {
-        if (attack.kind == AttackKinds.BUFF) {
-            //buff logic
-        } else {
-            //debuff logic
-        }
     }
 
     fun determineWinner(){
