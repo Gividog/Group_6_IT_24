@@ -1,26 +1,28 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.BuffAttack
 
 class Trainer(
     val name: String,
     var monsters: List<Monster>,
-    var activeMonster : Monster,
+    var activeMonster: Monster,
     var healsRemaining: Int
 ) {
     private var readyToFight = false
+    private var chosenAttack: Attack? = null
 
-    fun chooseAttack(attackIndex: Int) : Attack {
+    fun trainerChooseAttack(selectedAttack: Attack): Attack {
         val attackingMonster = activeMonster
-        val attack = attackingMonster.attacks[attackIndex - 1]
+        val attack = attackingMonster.attacks.find { it == selectedAttack }
 
         readyToFight = true
+        chosenAttack = attack
 
-        return attack
+        return attack!!
+        //ExCeptions zum Prüfen ob Eingabe stimmt
     }
 
-    fun switchActiveMonster(monster: Monster){
+    fun switchActiveMonster(monster: Monster) {
         if (monster in monsters) activeMonster = monster
         readyToFight = true
     }
@@ -34,6 +36,11 @@ class Trainer(
         }
     }
 
+    /*
+    fun determineActiveMonster() : Monster {
+        // TODO:
+    }*/
+
     /**
      * Messages
      **/
@@ -46,7 +53,13 @@ class Trainer(
         readyToFight = false
     }
 
-    fun checkActiveMonsterDead():Boolean {
+    fun checkActiveMonsterDead(): Boolean {
         return activeMonster.deadMonster()
+    }
+
+    fun getChosenAttack(): Attack {
+
+        return chosenAttack!!
+
     }
 }

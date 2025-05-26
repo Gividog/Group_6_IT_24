@@ -1,6 +1,6 @@
 package monsterleague.gamelogic
 
-import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.*
 
 class Monster(
     val name: String,
@@ -12,7 +12,7 @@ class Monster(
     fun heal() {
         val healingPercentage = 0.3
 
-        val maxHP = baseStats.getHP()
+        val maxHP = baseStats.getHealthPoints()
         val currentHP = battleStats.getHP()
 
         val healAmount = (maxHP * healingPercentage).toInt()
@@ -23,3 +23,4 @@ class Monster(
         return battleStats.getHP() <= 0
     }
 }
+

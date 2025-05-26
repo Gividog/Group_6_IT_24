@@ -1,13 +1,12 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.BuffAttack
+import monsterleague.gamelogic.attacks.AttackKinds
 import java.util.UUID
-import kotlin.inc
 
 class Battle(
     private val battleID: UUID = UUID.randomUUID(),
-    private val trainers: List<Trainer>
+    private val trainers: List<Trainer>,
 ) {
     private var round: Int = 1
     private var winner : Trainer? = null
@@ -23,14 +22,52 @@ class Battle(
        trainers.forEach { it.setNotReadyToFight() }
     }
 
+    fun chooseAttack(
+        attackingTrainer: Trainer,
+        attack: Attack
+    ) {
+        val attackingMonster = attackingTrainer.activeMonster
+
+        trainers.forEach{
+            chosenAttacksMap[attackingMonster] = it.trainerChooseAttack(attack)
+        }
+        chosenAttacksMap[attackingMonster] = attack
+        if (chosenAttacksMap.size == 2) {
+            simulateRound()
+        }
+    }
+
+    fun endRound() {
+        trainers.forEach {
+            if (it.activeMonster.deadMonster()){
+                val nextAlive = it.monsters.firstOrNull { m -> !m.deadMonster() }
+                if (nextAlive != null) {
+                    it.activeMonster = nextAlive
+                } else {
+                    surrender(it)
+                }
+            }
+        }
+    }
+
+    fun getBeginningMonsterByInitiative():List<Monster>{
+        return listOf(trainers[0].activeMonster, trainers[1].activeMonster)
+            .sortedByDescending { it.baseStats.getInitiative()}
+    }
+
+    /*
+    fun getOpponent(): Monster {
+        //return
+    }*/
+
     fun simulateRound() {
 
-    fun getKindOfAttack(attack: Attack):String{
+    fun getKindOfAttack(attack: Attack): AttackKinds {
         return attack.kind
     }
 
-    private fun applyBuff(attack: BuffAttack) {
-        if (attack.getBuffType()) {
+    private fun applyBuff(attack: Attack) {
+        if (attack.kind == AttackKinds.BUFF) {
             //buff logic
         } else {
             //debuff logic

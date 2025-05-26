@@ -9,9 +9,7 @@ class DamageCalculatorTest : AnnotationSpec() {
 
     private val dummyType = Type.WATER
 
-    private val dummyAttack = PhysicalAttack("Punch", dummyType, 100, 35, 10)
-
-
+    private val dummyAttack = PhysicalAttack("Punch", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
 
     private var dummyStatus = Status.CONFUSED
 
