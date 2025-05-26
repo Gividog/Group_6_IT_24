@@ -1,5 +1,6 @@
 package monsterleague.gamelogic.attacks
 
+import monsterleague.gamelogic.AttackKinds
 import monsterleague.gamelogic.Type
 
 interface Attack {

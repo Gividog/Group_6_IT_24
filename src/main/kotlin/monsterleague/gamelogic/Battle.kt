@@ -25,6 +25,16 @@ class Battle(
 
     fun simulateRound() {
 
+    fun getKindOfAttack(attack: Attack):String{
+        return attack.kind
+    }
+
+    private fun applyBuff(attack: BuffAttack) {
+        if (attack.getBuffType()) {
+            //buff logic
+        } else {
+            //debuff logic
+        }
     }
 
     fun determineWinner(){

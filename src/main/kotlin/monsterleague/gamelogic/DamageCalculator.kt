@@ -1,9 +1,13 @@
 package monsterleague.gamelogic
 
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.BuffAttack
 import kotlin.random.Random
 
-class DamageCalculator () {
-   private val criticalChance = 0.04
+class DamageCalculator (battle: Battle, attack : Attack) {
+    private val attackKind = attack.kind
+
+    private val criticalChance = 0.04
 
    fun calculateEfficiency(attackingMonster : Monster, defendingMonster : Monster) : Double {
         val typeTable = TypeTable()
@@ -28,4 +32,14 @@ class DamageCalculator () {
     fun calculateDamage(){
 
     }
+
+    fun calculateBuffAttack(): Double {
+        val multiplier = 1.0
+        return when(attackKind){
+
+            else ->0.0
+        }
+
+    }
+
 }
