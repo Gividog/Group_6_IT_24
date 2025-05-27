@@ -18,7 +18,15 @@ class BattleTest : AnnotationSpec() {
 
     private var dummyBaseStats = BaseStats(
         healthPoints = 100,
-        initiative = 10,
+        initiative = 5,
+        attack = 20,
+        defense = 30,
+        specialAttack = 30,
+        specialDefense = 40,
+    )
+    private var dummyBaseStats2 = BaseStats(
+        healthPoints = 100,
+        initiative = 20,
         attack = 20,
         defense = 30,
         specialAttack = 30,
@@ -27,7 +35,7 @@ class BattleTest : AnnotationSpec() {
 
     private var dummyBattleStats = BattleStats(
         healthPoints = 100,
-        initiative = 10,
+        initiative = 20,
         attack = 20,
         defense = 30,
         statusEffect = dummyStatus,
@@ -35,7 +43,7 @@ class BattleTest : AnnotationSpec() {
         specialDefense = 40
     )
 
-    private var dummyBattleStats2 = BattleStats(
+    private var dummyBattleStats2= BattleStats(
         healthPoints = 0,
         initiative = 10,
         attack = 20,
@@ -57,14 +65,14 @@ class BattleTest : AnnotationSpec() {
         name = "Monster2",
         type = dummyType2,
         baseStats = dummyBaseStats,
-        battleStats = dummyBattleStats,
+        battleStats = dummyBattleStats2,
         attacks = listOf(dummyAttack)
     )
 
     private val dummyMonster3 = Monster(
         name = "Monster3",
         type = dummyType1,
-        baseStats = dummyBaseStats,
+        baseStats = dummyBaseStats2,
         battleStats = dummyBattleStats2,
         attacks = listOf(dummyAttack)
     )
@@ -164,6 +172,13 @@ class BattleTest : AnnotationSpec() {
     @Test
     fun `getWinner()`() {
         // TODO
+    }
+
+    @Test
+    fun `active Monsters are sorted descending`(){
+        val battle = Battle(uuid,listOf(dummyTrainer1, dummyTrainer3));
+        val descendingSortedList = battle.sortActiveMonstersByInitiative()
+        assertThat(descendingSortedList).containsExactly( dummyMonster3,dummyMonster2)
     }
 
 }
