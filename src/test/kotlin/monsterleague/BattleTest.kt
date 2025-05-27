@@ -4,6 +4,7 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
+import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.PhysicalAttack
 import java.util.*
@@ -222,6 +223,21 @@ class BattleTest : AnnotationSpec() {
         Battle(uuid, listOf(trainerWithDeadActiveMonster,dummyTrainer2)).endRound()
 
         assertThat(trainerWithDeadActiveMonster.activeMonster).isEqualTo(deadDummyMonster)
+    }
+
+    @Test
+    fun `trainer3 chose  dummyAttack `(){
+        val battle = Battle(
+            battleID = uuid,
+            trainers = listOf(dummyTrainer3,dummyTrainer1),
+        )
+
+        battle.chooseAttack(dummyTrainer3,dummyAttack)
+        val mapOfChosenAttack = battle.getChosenAttackMap()
+
+        assertThat(mapOfChosenAttack).isEqualTo(mapOf(dummyMonster3 to dummyAttack))
+
+
 
     }
 

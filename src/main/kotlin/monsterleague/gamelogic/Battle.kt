@@ -112,5 +112,9 @@ class Battle(
         return round
     }
 
+    fun getChosenAttackMap(): Map<Monster,Attack>{
+        return chosenAttacksMap
+    }
+
 
 }
