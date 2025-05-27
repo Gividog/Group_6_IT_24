@@ -181,5 +181,12 @@ class BattleTest : AnnotationSpec() {
         assertThat(descendingSortedList).containsExactly( dummyMonster3,dummyMonster2)
     }
 
+    @Test
+    fun `kind of Attack is Physical`(){
+       val kind =  Battle(uuid,listOf(dummyTrainer1, dummyTrainer3)).getKindOfAttack(dummyAttack)
+        assertThat(kind).isEqualTo(AttackKinds.PHYSICAL)
+    }
+
+
 }
 
