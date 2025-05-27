@@ -187,6 +187,43 @@ class BattleTest : AnnotationSpec() {
         assertThat(kind).isEqualTo(AttackKinds.PHYSICAL)
     }
 
+    @Test
+    fun `next active Monster is dummyMonster2`(){
+
+        val battleStatsOfDeadMonster = dummyBattleStats2
+        val deadDummyMonster = Monster(
+            name = "Monster1",
+            type = dummyType1,
+            baseStats = dummyBaseStats,
+            battleStats = battleStatsOfDeadMonster,
+            attacks = listOf(dummyAttack),
+
+        )
+        val trainerWithDeadActiveMonster = Trainer("TrainerWithDeadActiveMonster",listOf(deadDummyMonster,dummyMonster1),deadDummyMonster, 0)
+        Battle(uuid, listOf(trainerWithDeadActiveMonster,trainerWithDeadActiveMonster)).endRound()
+
+        assertThat(trainerWithDeadActiveMonster.activeMonster).isEqualTo(dummyMonster1)
+        assertThat(trainerWithDeadActiveMonster.monsters).isNotNull()
+
+    }
+
+    @Test
+    fun `no monsters left to replace active monsters`(){
+        val battleStatsOfDeadMonster = dummyBattleStats2
+        val deadDummyMonster = Monster(
+            name = "Monster1",
+            type = dummyType1,
+            baseStats = dummyBaseStats,
+            battleStats = battleStatsOfDeadMonster,
+            attacks = listOf(dummyAttack),
+
+            )
+        val trainerWithDeadActiveMonster = Trainer("TrainerWithDeadActiveMonster",listOf(deadDummyMonster),deadDummyMonster, 0)
+        Battle(uuid, listOf(trainerWithDeadActiveMonster,dummyTrainer2)).endRound()
+
+        assertThat(trainerWithDeadActiveMonster.activeMonster).isEqualTo(deadDummyMonster)
+
+    }
 
 }
 
