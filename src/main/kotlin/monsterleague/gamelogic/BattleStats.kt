@@ -16,15 +16,35 @@ class BattleStats (
      * Messages
      **/
 
-    fun getHP() : Int {
-        return healthPoints
-    }
+  fun getHP(): Int {
+    return healthPoints
+  }
 
-    fun setHP(newHP : Int) {
-        healthPoints = newHP
-    }
+  fun getSpecialDefense(): Int {
+    return specialDefense
+  }
 
-    fun updateHP(newHP: Int) {
-        healthPoints = newHP
-    }
+  fun getSpecialAttack(): Int {
+    return specialAttack
+  }
+
+  fun getDefense(): Int {
+    return defense
+  }
+
+  fun getAttack(): Int {
+    return attack
+  }
+
+  fun getInitiative(): Int {
+    return initiative
+  }
+
+  /**
+   * Update Messages
+   **/
+
+  fun updateHP(newHP: Int) {
+    healthPoints = newHP
+  }
 }

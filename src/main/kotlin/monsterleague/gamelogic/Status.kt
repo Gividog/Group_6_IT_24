@@ -1,26 +1,27 @@
 package monsterleague.gamelogic
 
 enum class Status {
-   CONFUSED, CURSED, PLANTED, BURNED, SCALD
+  CONFUSED, CURSED, PLANTED, BURNED, SCALD
 }
-class StatusEffectFunctions(){
-   fun confused(){
 
-   }
+class StatusEffectFunctions() {
+  fun confused() {
 
-   fun cursed(){
+  }
 
-   }
+  fun cursed() {
 
-   fun planted(){
+  }
 
-   }
+  fun planted() {
 
-   fun burned(){
+  }
 
-   }
+  fun burned() {
 
-   fun scald(){
+  }
 
-   }
+  fun scald() {
+
+  }
 }
