@@ -10,7 +10,6 @@ class SpecialAttack (
     override val accuracy: Int,
     override val power: Int,
     override val powerPoints: Int,
-    val statusEffect : Status
 ) : Attack {
 
 }

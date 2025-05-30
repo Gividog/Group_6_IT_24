@@ -1,7 +1,8 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.BuffAttack
+import monsterleague.gamelogic.attacks.AttackKinds
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class DamageCalculator(

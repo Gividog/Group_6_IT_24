@@ -1,20 +1,18 @@
 package monsterleague.gamelogic
 
-class BattleStats (
-    private var healthPoints: Int,
-    private var initiative: Int,
-    private var attack: Int,
-    private var defense: Int,
-    private var statusEffect: Status?,
-    private var specialDefense : Int,
-    private var specialAttack : Int,
-){
+class BattleStats(
+  private var healthPoints: Int,
+  private var initiative: Int,
+  private var attack: Int,
+  private var defense: Int,
+  private var statusEffect: Status?,
+  private var specialDefense: Int,
+  private var specialAttack: Int,
+) {
 
-
-
-    /**
-     * Messages
-     **/
+  /**
+   * Get Messages
+   **/
 
   fun getHP(): Int {
     return healthPoints

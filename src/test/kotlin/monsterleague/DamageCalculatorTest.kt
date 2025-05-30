@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.*
 import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.PhysicalAttack
+import monsterleague.gamelogic.attacks.SpecialAttack
 import org.assertj.core.api.Assertions.assertThat
 
 class DamageCalculatorTest : AnnotationSpec() {
