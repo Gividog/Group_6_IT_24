@@ -11,7 +11,9 @@ class TrainerTest : AnnotationSpec() {
 
     private val dummyAttack = PhysicalAttack("Punch", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
 
-    private var dummyStatus = Status.CONFUSED
+  private val dummyAttack2 =
+    SpecialAttack("Special", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
+  private var dummyStatus = Status.CONFUSED
 
     private var dummyBaseStats = BaseStats(
         healthPoints = 100,
@@ -72,11 +74,22 @@ class TrainerTest : AnnotationSpec() {
      * chooseAttack tests
      */
 
-    @Test
-    fun `chosen Attack is Punch`(){
-        val attack = dummyTrainer.trainerChooseAttack(dummyAttack)
-        assertThat(attack).isEqualTo(dummyAttack)
+  @Test
+  fun `chosen Attack is Punch`() {
+    val attack = dummyTrainer.trainerChooseAttack(dummyAttack)
+    assertThat(attack).isEqualTo(dummyAttack)
+  }
+
+  @Test
+  fun `chosen Attack is not available`() {
+    val chosenAttack = dummyAttack2
+    try {
+      dummyTrainer.trainerChooseAttack(chosenAttack)
+      fail("Exception should be thrown")
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
+  }
 
     /**
      * changeActiveMonster tests

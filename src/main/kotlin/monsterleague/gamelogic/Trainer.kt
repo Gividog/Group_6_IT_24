@@ -3,10 +3,10 @@ package monsterleague.gamelogic
 import monsterleague.gamelogic.attacks.Attack
 
 class Trainer(
-    val name: String,
-    var monsters: List<Monster>,
-    var activeMonster: Monster,
-    var healsRemaining: Int,
+  val name: String,
+  var monsters: List<Monster>,
+  var activeMonster: Monster,
+  var healsRemaining: Int,
 ) {
   private var readyToFight = false
   private var chosenAttack: Attack? = null
@@ -19,7 +19,6 @@ class Trainer(
     chosenAttack = attack
 
     return attack!!
-    //ExCeptions zum Prüfen ob Eingabe stimmt
   }
 
   fun switchActiveMonster(monster: Monster) {
@@ -35,11 +34,6 @@ class Trainer(
       readyToFight = true
     }
   }
-
-  /*
-  fun determineActiveMonster() : Monster {
-      // TODO:
-  }*/
 
   /**
    * Messages
@@ -58,7 +52,6 @@ class Trainer(
   }
 
   fun getChosenAttack(): Attack {
-
     return chosenAttack!!
 
   }

@@ -16,10 +16,3 @@ enum class StatStages(var stage: Int, val multiplier: Double) {
     PLUS_SIX(6, 4.0)
 
 }
-
-fun increaseStage(statStages: StatStages) {
-
-}
-fun decreaseStage(statStages: StatStages) {
-
-}

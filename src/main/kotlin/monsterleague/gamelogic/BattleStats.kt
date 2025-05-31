@@ -34,9 +34,6 @@ class BattleStats(
     return attack
   }
 
-  fun getInitiative(): Int {
-    return initiative
-  }
 
   /**
    * Update Messages
