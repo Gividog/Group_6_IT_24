@@ -52,6 +52,7 @@ class DamageCalculator(
     }
   }
 
+
   fun calculateDamage(
     criticalHit: Double = calculateCriticalStrike(),
     random: Double = randomNumber(),
