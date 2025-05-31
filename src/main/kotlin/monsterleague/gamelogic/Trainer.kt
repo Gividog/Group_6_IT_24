@@ -42,6 +42,10 @@ class Trainer(
    * Messages
    **/
 
+  fun getReadyToFight(): Boolean {
+    return readyToFight
+  }
+
   fun setNotReadyToFight() {
     readyToFight = false
   }

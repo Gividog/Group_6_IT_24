@@ -1,12 +1,11 @@
 package monsterleague
 
 import monsterleague.gamelogic.*
+import monsterleague.gamelogic.attacks.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.PhysicalAttack
+
 import java.util.*
 
 class BattleTest : AnnotationSpec() {
@@ -152,7 +151,7 @@ class BattleTest : AnnotationSpec() {
   }
 
   @Test
-  fun `second Trainer Is Winner`() { // Test an neue Funktion anpassen
+  fun `second Trainer Is Winner`() {
     val battle = Battle(
       battleID = uuid,
       trainers = listOf(dummyTrainer3, dummyTrainer1),
@@ -252,7 +251,7 @@ class BattleTest : AnnotationSpec() {
   }
 
   @Test
-  fun `simulateRound applies damage in correct initiative order`(){
+  fun `simulateRound applies damage in correct initiative order`() {
     val battle = Battle(
       battleID = uuid,
       trainers = listOf(dummyTrainer2, dummyTrainer1)
@@ -263,8 +262,12 @@ class BattleTest : AnnotationSpec() {
     battle.chooseAttack(dummyTrainer1, dummyAttack)
     battle.chooseAttack(dummyTrainer2, dummyAttack)
 
-    assertThat(dummyTrainer1.activeMonster.battleStats.getHP()).isLessThan(startingHP1)
-    assertThat(dummyTrainer2.activeMonster.battleStats.getHP()).isLessThan(startingHP2)
+    assertThat(dummyTrainer1.activeMonster.battleStats.getHP()).isLessThan(
+      startingHP1
+    )
+    assertThat(dummyTrainer2.activeMonster.battleStats.getHP()).isLessThan(
+      startingHP2
+    )
 
     assertThat(battle.getChosenAttackMap()).isEmpty()
   }

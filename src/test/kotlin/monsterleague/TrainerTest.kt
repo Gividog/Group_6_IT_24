@@ -141,4 +141,17 @@ class TrainerTest : AnnotationSpec() {
 
     assertThat(dummyTrainer.healsRemaining).isEqualTo(0)
   }
+
+  /**
+   * Message tests
+   * */
+
+  @Test
+  fun `setNotReadToFight() is set to false when called`() {
+    val trainer = dummyTrainer
+
+    dummyTrainer.setNotReadyToFight()
+
+    assertThat(dummyTrainer.getReadyToFight())
+  }
 }

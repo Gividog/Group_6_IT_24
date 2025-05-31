@@ -1,10 +1,9 @@
 package monsterleague
 
-import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.*
-import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.PhysicalAttack
-import monsterleague.gamelogic.attacks.SpecialAttack
+import monsterleague.gamelogic.attacks.*
+
+import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
 class DamageCalculatorTest : AnnotationSpec() {
@@ -98,7 +97,11 @@ class DamageCalculatorTest : AnnotationSpec() {
     val attackingMonster = dummyMonster1
     val defendingMonster = dummyMonster3
     val efficiency =
-      DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateEfficiency()
+      DamageCalculator(
+        attackingMonster,
+        defendingMonster,
+        dummyAttack1
+      ).calculateEfficiency()
     assertThat(efficiency).isEqualTo(2.0)
   }
 
@@ -107,7 +110,11 @@ class DamageCalculatorTest : AnnotationSpec() {
     val attackingMonster = dummyMonster1
     val defendingMonster = dummyMonster2
     val efficiency =
-      DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateEfficiency()
+      DamageCalculator(
+        attackingMonster,
+        defendingMonster,
+        dummyAttack1
+      ).calculateEfficiency()
     assertThat(efficiency).isEqualTo(0.5)
   }
 
@@ -116,7 +123,11 @@ class DamageCalculatorTest : AnnotationSpec() {
     val attackingMonster = dummyMonster4
     val defendingMonster = dummyMonster1
     val efficiency =
-      DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateEfficiency()
+      DamageCalculator(
+        attackingMonster,
+        defendingMonster,
+        dummyAttack1
+      ).calculateEfficiency()
     assertThat(efficiency).isEqualTo(1.0)
   }
 
@@ -128,7 +139,11 @@ class DamageCalculatorTest : AnnotationSpec() {
   fun `criticalStrike is 2,0`() {
     val attackingMonster = dummyMonster4
     val defendingMonster = dummyMonster1
-    val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateCriticalStrike { 0.05 }
+    val result = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      dummyAttack1
+    ).calculateCriticalStrike { 0.05 }
     assertThat(result).isEqualTo(1.0)
   }
 
@@ -136,7 +151,11 @@ class DamageCalculatorTest : AnnotationSpec() {
   fun `criticalStrike is 1,0`() {
     val attackingMonster = dummyMonster4
     val defendingMonster = dummyMonster1
-    val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateCriticalStrike { 0.03 }
+    val result = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      dummyAttack1
+    ).calculateCriticalStrike { 0.03 }
     assertThat(result).isEqualTo(2.0)
   }
 
@@ -144,7 +163,11 @@ class DamageCalculatorTest : AnnotationSpec() {
   fun `criticalStrike is set to random`() {
     val attackingMonster = dummyMonster4
     val defendingMonster = dummyMonster1
-    val result = DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateCriticalStrike()
+    val result = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      dummyAttack1
+    ).calculateCriticalStrike()
     assertThat(result).isBetween(1.0, 2.0)
   }
 
@@ -153,58 +176,78 @@ class DamageCalculatorTest : AnnotationSpec() {
    */
 
   @Test
-  fun `defenseStat is equal to specialDefense of defendingMonster` () {
+  fun `defenseStat is equal to specialDefense of defendingMonster`() {
     val attackingMonster = dummyMonster2
     val defendingMonster = dummyMonster1
 
-    val damage = DamageCalculator(attackingMonster, defendingMonster, dummyAttack2).calculateDamage(criticalHit = 1.0, random = 1.0)
+    val damage = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      dummyAttack2
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
     assertThat(damage).isEqualTo(6)
   }
 
   @Test
-  fun `defenseStat is equal to defense of defendingMonster` () {
+  fun `defenseStat is equal to defense of defendingMonster`() {
     val attackingMonster = dummyMonster3
     val defendingMonster = dummyMonster1
 
-    val damage = DamageCalculator(attackingMonster, defendingMonster, dummyAttack1).calculateDamage(criticalHit = 2.0, random = 1.0)
+    val damage = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      dummyAttack1
+    ).calculateDamage(criticalHit = 2.0, random = 1.0)
     assertThat(damage).isEqualTo(8)
 
   }
 
   @Test
-  fun `attackStat is equal to specialAttack of attackingMonster` () {
+  fun `attackStat is equal to specialAttack of attackingMonster`() {
     val attackingMonster = dummyMonster1
     val defendingMonster = dummyMonster2
 
     val attack = dummyAttack2
 
-    val damage = DamageCalculator(attackingMonster,defendingMonster,attack).calculateDamage(criticalHit = 1.0, random = 1.0)
+    val damage = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      attack
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
     assertThat(damage).isEqualTo(1)
   }
 
   @Test
-  fun `attackStat is equal to attack of attackingMonster` () {
+  fun `attackStat is equal to attack of attackingMonster`() {
     val attackingMonster = dummyMonster1
     val defendingMonster = dummyMonster2
 
     val attack = dummyAttack1
 
-    val damage = DamageCalculator(attackingMonster,defendingMonster,attack).calculateDamage(criticalHit = 1.0, random = 1.0)
+    val damage = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      attack
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
     assertThat(damage).isEqualTo(1)
 
   }
 
   @Test
-  fun `randomNumber and criticalHit are calculated randomly`(){
+  fun `randomNumber and criticalHit are calculated randomly`() {
     val attackingMonster = dummyMonster1
     val defendingMonster = dummyMonster2
 
     val attack = dummyAttack1
 
-    val damage = DamageCalculator(attackingMonster,defendingMonster,attack).calculateDamage()
+    val damage = DamageCalculator(
+      attackingMonster,
+      defendingMonster,
+      attack
+    ).calculateDamage()
 
     assertThat(damage).isBetween(1, 25)
   }

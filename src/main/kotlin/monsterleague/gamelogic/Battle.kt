@@ -2,6 +2,7 @@ package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
+
 import java.util.UUID
 
 class Battle(
@@ -56,11 +57,6 @@ class Battle(
       .sortedByDescending { it.baseStats.getInitiative() }
   }
 
-  /*
-  fun getOpponent(): Monster {
-      //return
-  }*/
-
   private fun simulateRound() {
 
     val monstersInOrderOfAttack = sortActiveMonstersByInitiative()
@@ -111,5 +107,4 @@ class Battle(
   fun getChosenAttackMap(): Map<Monster, Attack> {
     return chosenAttacksMap
   }
-
 }
