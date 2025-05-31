@@ -148,8 +148,10 @@ class TrainerTest : AnnotationSpec() {
 
   @Test
   fun `setNotReadToFight() is set to false when called`() {
-    dummyTrainer.setNotReadyToFight()
+    val trainer = dummyTrainer
 
-    assertThat(dummyTrainer.getReadyToFight())
+    trainer.setNotReadyToFight()
+
+    assertThat(dummyTrainer.getReadyToFight()).isEqualTo(false)
   }
 }
