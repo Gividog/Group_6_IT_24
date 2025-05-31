@@ -165,21 +165,6 @@ class BattleTest : AnnotationSpec() {
   }
 
   @Test
-  fun `addChosenAttackToMap()`() {
-    // TODO
-  }
-
-  @Test
-  fun `simulateRound()`() {
-    // TODO
-  }
-
-  @Test
-  fun `getWinner()`() {
-    // TODO
-  }
-
-  @Test
   fun `active Monsters are sorted descending`() {
     val battle = Battle(uuid, listOf(dummyTrainer1, dummyTrainer3));
     val descendingSortedList = battle.sortActiveMonstersByInitiative()

@@ -74,10 +74,10 @@ class Battle(
         attack = attack
       ).calculateDamage()
       defender.takeDamage(damage)
-      }
-      chosenAttacksMap.clear()
-
     }
+    chosenAttacksMap.clear()
+
+  }
 
   private fun otherMonster(attackingMonster: Monster) =
     if (attackingMonster == trainers[0].activeMonster) trainers[1].activeMonster else trainers[0].activeMonster

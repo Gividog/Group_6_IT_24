@@ -34,7 +34,6 @@ class BattleStats(
     return attack
   }
 
-
   /**
    * Update Messages
    **/

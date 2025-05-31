@@ -42,20 +42,8 @@ class Trainer(
    * Messages
    **/
 
-  fun getReadyToFight(): Boolean {
-    return readyToFight
-  }
-
   fun setNotReadyToFight() {
     readyToFight = false
   }
 
-  fun checkActiveMonsterDead(): Boolean {
-    return activeMonster.deadMonster()
-  }
-
-  fun getChosenAttack(): Attack {
-    return chosenAttack!!
-
-  }
 }
