@@ -1,6 +1,7 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.Exceptions
 
 class Trainer(
   val name: String,
@@ -14,7 +15,9 @@ class Trainer(
   fun trainerChooseAttack(selectedAttack: Attack): Attack {
     val attackingMonster = activeMonster
     val attack = attackingMonster.attacks.find { it == selectedAttack }
-
+    if (attack == null) {
+      Exceptions.attackNotFound()
+    }
     readyToFight = true
     chosenAttack = attack
 
