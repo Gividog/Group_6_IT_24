@@ -1,7 +1,5 @@
 package monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.Type
 
 class BuffAttack (
@@ -13,11 +11,5 @@ class BuffAttack (
     override val powerPoints: Int,
    ) : Attack {
 
-
-
-    fun getBuffType(): AttackKinds {
-        return kind
-    }
-
 }
-    // beinhaltet sowohl Debuff-Attacken als auch Buff-Attacken (?)
+

@@ -1,52 +1,61 @@
 package monsterleague.gamelogic
 
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.BuffAttack
+import monsterleague.gamelogic.Exceptions
 
 class Trainer(
-    val name: String,
-    var monsters: List<Monster>,
-    var activeMonster : Monster,
-    var healsRemaining: Int
+  val name: String,
+  var monsters: List<Monster>,
+  var activeMonster: Monster,
+  var healsRemaining: Int,
 ) {
-    private var readyToFight = false
+  private var readyToFight = false
+  private var chosenAttack: Attack? = null
 
-    fun chooseAttack(attackIndex: Int) : Attack {
-        val attackingMonster = activeMonster
-        val attack = attackingMonster.attacks[attackIndex - 1]
-
-        readyToFight = true
-
-        return attack
+  fun trainerChooseAttack(selectedAttack: Attack): Attack {
+    val attackingMonster = activeMonster
+    val attack = attackingMonster.attacks.find { it == selectedAttack }
+    if (attack == null) {
+      Exceptions.attackNotFound()
     }
+    readyToFight = true
+    chosenAttack = attack
 
-    fun switchActiveMonster(monster: Monster){
-        if (monster in monsters) activeMonster = monster
-        readyToFight = true
+    return attack!!
+  }
+
+  fun switchActiveMonster(monster: Monster) {
+    if (monster in monsters) activeMonster = monster
+    readyToFight = true
+  }
+
+  fun healActiveMonster() {
+    if (healsRemaining > 0) {
+      activeMonster.heal()
+      healsRemaining--
+
+      readyToFight = true
     }
+  }
 
-    fun healActiveMonster() {
-        if (healsRemaining > 0) {
-            activeMonster.heal()
-            healsRemaining--
+  /**
+   * Messages
+   **/
 
-            readyToFight = true
-        }
-    }
+  fun getReadyToFight(): Boolean {
+    return readyToFight
+  }
 
-    /**
-     * Messages
-     **/
+  fun setNotReadyToFight() {
+    readyToFight = false
+  }
 
-    fun getReadyToFight(): Boolean {
-        return readyToFight
-    }
+  fun checkActiveMonsterDead(): Boolean {
+    return activeMonster.deadMonster()
+  }
 
-    fun setNotReadyToFight() {
-        readyToFight = false
-    }
+  fun getChosenAttack(): Attack {
+    return chosenAttack!!
 
-    fun checkActiveMonsterDead():Boolean {
-        return activeMonster.deadMonster()
-    }
+  }
 }

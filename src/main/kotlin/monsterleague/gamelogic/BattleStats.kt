@@ -1,54 +1,45 @@
 package monsterleague.gamelogic
 
-class BattleStats (
-    private var hp: Int,
-    private var initiative: Int,
-    private var attack: Int,
-    private var defense: Int,
-    private var statusEffect: Status?,
-    var specialDefense : Int,
-    private var specialAttack : Int,
-){
+class BattleStats(
+  private var healthPoints: Int,
+  private var initiative: Int,
+  private var attack: Int,
+  private var defense: Int,
+  private var statusEffect: Status?,
+  private var specialDefense: Int,
+  private var specialAttack: Int,
+) {
+
+  /**
+   * Get Messages
+   **/
+
+  fun getHP(): Int {
+    return healthPoints
+  }
+
+  fun getSpecialDefense(): Int {
+    return specialDefense
+  }
+
+  fun getSpecialAttack(): Int {
+    return specialAttack
+  }
+
+  fun getDefense(): Int {
+    return defense
+  }
+
+  fun getAttack(): Int {
+    return attack
+  }
 
 
-    fun defenseBuff(){
-       //
-    }
+  /**
+   * Update Messages
+   **/
 
-    fun attackBuff(){
-        //Erik
-    }
-
-    fun initiativeBuff(monster: Monster){
-        val initiative = initiative
-    }
-
-    fun specialDefenseBuff(monster: Monster){
-        val current = specialDefense
-        specialDefense = (current ).toInt()
-    }
-
-    fun specialAttackBuff(){
-
-    }
-
-    fun defenseDeBuff(){
-
-    }
-
-    fun attackDeBuff(){
-
-    }
-
-    fun initiativeDeBuff(){
-
-    }
-
-    fun specialDefenseDeBuff(){
-
-    }
-
-    fun specialAttackDeBuff(){
-
-    }
+  fun updateHP(newHP: Int) {
+    healthPoints = newHP
+  }
 }

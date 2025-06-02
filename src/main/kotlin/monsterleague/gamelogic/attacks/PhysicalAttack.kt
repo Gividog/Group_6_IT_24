@@ -1,6 +1,5 @@
 package monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.Type
 
 class PhysicalAttack(
