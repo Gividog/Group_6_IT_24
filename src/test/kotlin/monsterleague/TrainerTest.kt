@@ -4,18 +4,18 @@ import monsterleague.gamelogic.*
 import monsterleague.gamelogic.attacks.*
 
 import io.kotest.core.spec.style.AnnotationSpec
+import monsterleague.gamelogic.Type
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.fail
 
 
 class TrainerTest : AnnotationSpec() {
-  private val dummyType = Type.WATER
 
   private val dummyAttack =
-    PhysicalAttack("Punch", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
+    PhysicalAttack("Punch", AttackKinds.PHYSICAL, Type.WATER, 100, 35, 10)
 
   private val dummyAttack2 =
-    SpecialAttack("Special", AttackKinds.PHYSICAL, dummyType, 100, 35, 10)
+    SpecialAttack("Special", AttackKinds.PHYSICAL, Type.WATER, 100, 35, 10)
   private var dummyStatus = Status.CONFUSED
 
   private var dummyBaseStats = BaseStats(
@@ -49,7 +49,7 @@ class TrainerTest : AnnotationSpec() {
 
   private val dummyMonster1 = Monster(
     name = "Monster1",
-    type = dummyType,
+    type = Type.WATER,
     baseStats = dummyBaseStats,
     battleStats = dummyBattleStats,
     attacks = listOf(dummyAttack),
@@ -57,7 +57,7 @@ class TrainerTest : AnnotationSpec() {
 
   private val dummyMonster2 = Monster(
     name = "Monster2",
-    type = dummyType,
+    type = Type.WATER,
     baseStats = dummyBaseStats,
     battleStats = dummyBattleStats,
     attacks = listOf(dummyAttack)
@@ -65,7 +65,7 @@ class TrainerTest : AnnotationSpec() {
 
   private val dummyMonster3 = Monster(
     name = "Monster3",
-    type = dummyType,
+    type = Type.WATER,
     baseStats = dummyBaseStats,
     battleStats = dummyBattleStats2,
     attacks = listOf(dummyAttack)

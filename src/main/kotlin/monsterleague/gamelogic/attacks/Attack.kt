@@ -9,4 +9,8 @@ interface Attack {
   val accuracy: Int
   val power: Int
   val powerPoints: Int
+
+    fun isPhysical(): Boolean {
+        return kind == AttackKinds.PHYSICAL
+    }
 }

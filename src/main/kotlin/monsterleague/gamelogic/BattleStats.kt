@@ -14,9 +14,7 @@ class BattleStats(
    * Get Messages
    **/
 
-  fun getHP(): Int {
-    return healthPoints
-  }
+  fun getHP(): Int = healthPoints
 
   fun getSpecialDefense(): Int {
     return specialDefense

@@ -5,9 +5,9 @@ import monsterleague.gamelogic.Exceptions
 
 class Trainer(
   val name: String,
-  var monsters: List<Monster>,
-  var activeMonster: Monster,
-  var healsRemaining: Int,
+  var monsters: List<Monster>, //statischer Trainer
+  var activeMonster: Monster, //Trainer in Battle
+  var healsRemaining: Int, //Trainer in Battle
 ) {
   private var readyToFight = false
   private var chosenAttack: Attack? = null

@@ -24,7 +24,7 @@ class Monster(
     battleStats.updateHP(newHP)
   }
 
-  fun deadMonster(): Boolean {
+  fun deadMonster(): Boolean { //lieber defeatedMonster
     return battleStats.getHP() <= 0
   }
 

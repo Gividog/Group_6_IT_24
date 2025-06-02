@@ -183,7 +183,7 @@ class DamageCalculatorTest : AnnotationSpec() {
     val damage = DamageCalculator(
       attackingMonster,
       defendingMonster,
-      dummyAttack2
+      TestData.HydroPump
     ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
     assertThat(damage).isEqualTo(6)
