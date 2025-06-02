@@ -1,6 +1,5 @@
 package monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.AttackKinds
 import monsterleague.gamelogic.Status
 import monsterleague.gamelogic.Type
 

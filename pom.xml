@@ -3,18 +3,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>hwr.oop.projects</groupId>
-
-  <!-- TODO Change name and description according to your project -->
-  <artifactId>monsterleague</artifactId>
+  <groupId>hwr.oop.projects.Group6</groupId>
+  <artifactId>project</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0-SNAPSHOT</version>
-
-  <!-- TODO Change name and description according to your project -->
-  <name>monsterleague</name>
-  <description>totally not pokemon</description>
-
+  <name>Monster League</name>
+  <description>A totally original turn based monster fighting game that doesn't copy a very popular game</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
@@ -27,7 +21,9 @@
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
-    <kotlinx-serialization.version>1.6.0</kotlinx-serialization.version>
+    <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+    <pitest.version>1.19.1</pitest.version>
+    <kotest-extensions-pitest.version>1.2.0</kotest-extensions-pitest.version>
   </properties>
 
   <repositories>
@@ -35,12 +31,7 @@
       <id>mavenCentral</id>
       <url>https://repo1.maven.org/maven2/</url>
     </repository>
-    <repository>
-      <id>jetbrains-kotlin</id>
-      <url>https://maven.pkg.jetbrains.space/public/p/kotlinx/maven</url>
-    </repository>
   </repositories>
-
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -60,28 +51,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.kotest.extensions</groupId>
+      <artifactId>kotest-extensions-pitest</artifactId>
+      <version>${kotest-extensions-pitest.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>${assertj-core.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlinx</groupId>
-      <artifactId>kotlinx-serialization-json</artifactId>
-      <version>${kotlinx-serialization.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.9.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.ajalt.clikt</groupId>
-      <artifactId>clikt-jvm</artifactId>
-      <version>3.5.2</version>
-    </dependency>
   </dependencies>
-
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
@@ -106,19 +87,11 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <compilerPlugins>
-            <plugin>kotlinx-serialization</plugin>
-          </compilerPlugins>
-          <pluginOptions>
-            <option>serialization:plugin</option>
-          </pluginOptions>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>3.7.1</version>
+        <version>${maven-assembly-plugin.version}</version>
         <configuration>
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -149,6 +122,28 @@
             </kotest.framework.classpath.scanning.autoscan.disable>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+        <configuration>
+          <targetClasses>
+            <param>hwr.oop.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>hwr.oop.*</param>
+          </targetTests>
+        </configuration>
+        <executions>
+          <execution>
+            <id>mutation-testing</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>mutationCoverage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
