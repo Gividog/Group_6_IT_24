@@ -8,6 +8,7 @@ data class BaseStats(
     private var specialDefense: Int,
     private var specialAttack: Int,
 ) {
+
   fun getHealthPoints(): Int {
     return healthPoints
   }

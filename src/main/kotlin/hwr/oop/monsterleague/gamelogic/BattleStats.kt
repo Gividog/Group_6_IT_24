@@ -11,7 +11,7 @@ class BattleStats(
 ) {
 
   /**
-   * Get Messages
+   * Queries
    **/
 
   fun getHP(): Int {
@@ -34,12 +34,26 @@ class BattleStats(
     return attack
   }
 
+  fun getInitiative():Int{
+    return initiative
+  }
+
+  fun getStatusEffect(): Status?{
+    return statusEffect
+  }
+
+
+
 
   /**
-   * Update Messages
+   * Commands
    **/
 
   fun updateHP(newHP: Int) {
     healthPoints = newHP
+  }
+
+  fun updateStatusEffect(newStatusEffect: Status ){
+    statusEffect = newStatusEffect
   }
 }

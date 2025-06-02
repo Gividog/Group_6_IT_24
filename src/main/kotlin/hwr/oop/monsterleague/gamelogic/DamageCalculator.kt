@@ -16,14 +16,14 @@ class DamageCalculator(
   fun calculateEfficiency(
   ): Double {
     val typeTable = TypeTable()
-    val attackingMonsterType = attackingMonster.type
-    val defendingMonsterType = defendingMonster.type
+    val attackingMonsterType = attackingMonster.getType()
+    val defendingMonsterType = defendingMonster.getType()
 
     return when {
       typeTable.efficiencyOf(attackingMonsterType)
         .contains(defendingMonsterType) -> 2.0
 
-      typeTable.inefficienciesOf(attackingMonsterType)
+      typeTable.inefficiencyOf(attackingMonsterType)
         .contains(defendingMonsterType) -> 0.5
 
       else -> 1.0
@@ -31,7 +31,7 @@ class DamageCalculator(
   }
 
   private fun getStabFactor(): Double {
-    return if (attackingMonster.type == attack.type) {
+    return if (attackingMonster.getType() == attack.type) {
       1.5
     } else {
       1.0
@@ -52,24 +52,23 @@ class DamageCalculator(
     }
   }
 
-
   fun calculateDamage(
     criticalHit: Double = calculateCriticalStrike(),
     random: Double = randomNumber(),
   ): Int {
-    var defenseStat = defendingMonster.battleStats.getDefense()
-    var attackStat = attackingMonster.battleStats.getAttack()
+    var defenseStat = defendingMonster.getBattleStats().getDefense()
+    var attackStat = attackingMonster.getBattleStats().getAttack()
 
     if (attack.kind == AttackKinds.SPECIAL) {
-      defenseStat = defendingMonster.battleStats.getSpecialDefense()
-      attackStat = attackingMonster.battleStats.getSpecialAttack()
+      defenseStat = defendingMonster.getBattleStats().getSpecialDefense()
+      attackStat = attackingMonster.getBattleStats().getSpecialAttack()
     }
 
     val stabFactor = getStabFactor()
     val efficiency = calculateEfficiency()
 
     val damage =
-      ((((((20 * criticalHit / 5) + 2) * attack.power * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency * random)
+      ((((((100 * criticalHit / 5) + 2) * attack.power * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency * random)
     println(damage.toString())
     val damageInt = damage.roundToInt()
     println(damageInt.toString())

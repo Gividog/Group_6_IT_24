@@ -5,8 +5,7 @@ enum class Type {
     FIRE,
     WATER,
     GRASS,
-    GHOST,
-    UNKNOWN
+    GHOST
 }
 
 class TypeTable(
@@ -27,7 +26,7 @@ class TypeTable(
     ))
 
     {
-    fun inefficienciesOf(type: Type): List<Type> {
+    fun inefficiencyOf(type: Type): List<Type> {
         return inefficiencyMap[type] ?: emptyList()
     }
 
