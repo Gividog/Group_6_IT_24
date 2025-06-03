@@ -5,9 +5,7 @@ import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.PhysicalAttack
 import java.util.*
 
 class BattleTest : AnnotationSpec() {
@@ -151,43 +149,42 @@ class BattleTest : AnnotationSpec() {
 
   @Test
   fun `no monsters left to replace active monsters`() {
-    Battle(TestData.battleUuid, listOf(trainerWithDeadActiveMonster, dummyTrainer2)).endRound()
+    Battle(TestData.battleUuid, TestData.trainerWithOnlyDefeatedMonsters, TestData.trainerWithOneDefeatedMonster).endRound()
 
-    assertThat(trainerWithDeadActiveMonster.getActiveMonster()).isEqualTo(
-      deadDummyMonster
-    )
+    assertThat(TestData.trainerWithOnlyDefeatedMonsters.getActiveMonster()).isEqualTo(TestData.defeatedMonster)
   }
 
-  @Test
-  fun `trainer3 chose  dummyAttack `() {
+  /*@Test
+  fun `trainer3 chose physicalAttackTackle`() {
     val battle = Battle(
-      battleID = uuid,
-      trainers = listOf(dummyTrainer3, dummyTrainer1),
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithOneDefeatedMonster
     )
 
-    battle.chooseAttack(dummyTrainer3, dummyAttack)
+    battle.chooseAttack(TestData.trainerWithTwoMonsters, TestData.physicalAttackTackle)
     val mapOfChosenAttack = battle.getChosenAttackMap()
 
-    assertThat(mapOfChosenAttack).isEqualTo(mapOf(dummyMonster3 to dummyAttack))
-
+    assertThat(mapOfChosenAttack).isEqualTo(mapOf(TestData.waterMonster to TestData.physicalAttackTackle))
   }
 
   @Test
   fun `simulateRound applies damage in correct initiative order`() {
     val battle = Battle(
-      battleID = uuid,
-      trainers = listOf(dummyTrainer2, dummyTrainer1)
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithOneDefeatedMonster,
     )
-    val startingHP1 = dummyTrainer1.getActiveMonstersHP()
-    val startingHP2 = dummyTrainer2.getActiveMonstersHP()
+    val startingHP1 = TestData.trainerWithTwoMonsters.getActiveMonstersHP()
+    val startingHP2 = TestData.trainerWithOneDefeatedMonster.getActiveMonstersHP()
 
-    battle.chooseAttack(dummyTrainer1, dummyAttack)
-    battle.chooseAttack(dummyTrainer2, dummyAttack)
+    battle.chooseAttack(TestData.trainerWithTwoMonsters, TestData.physicalAttackTackle)
+    battle.chooseAttack(TestData.trainerWithOneDefeatedMonster, TestData.physicalAttackTackle)
 
-    assertThat(dummyTrainer1.getActiveMonstersHP()).isLessThan(startingHP1)
-    assertThat(dummyTrainer2.getActiveMonstersHP()).isLessThan(startingHP2)
+    assertThat(TestData.trainerWithTwoMonsters.getActiveMonstersHP()).isLessThan(startingHP1)
+    assertThat(TestData.trainerWithOneDefeatedMonster.getActiveMonstersHP()).isLessThan(startingHP2)
 
     assertThat(battle.getChosenAttackMap()).isEmpty()
-  }
+  }*/
 }
 

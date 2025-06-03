@@ -2,14 +2,12 @@ package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.gamelogic.TrainerInBattle
 import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.Battle
 import monsterleague.gamelogic.BattleStats
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.Status
-import monsterleague.gamelogic.Trainer
 import monsterleague.gamelogic.Type
 import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.PhysicalAttack
+import monsterleague.gamelogic.attacks.DamagingAttack
 import monsterleague.gamelogic.attacks.SpecialAttack
 import java.util.UUID
 
@@ -21,19 +19,19 @@ object TestData {
    * */
 
   val physicalAttackTackle =
-    PhysicalAttack("Tackle", AttackKinds.PHYSICAL, Type.NORMAL, 100, 35, 10)
+    DamagingAttack("Tackle", AttackKinds.PHYSICAL, Type.NORMAL, 100, 35, 10)
 
   val physicalAttackSplash =
-    PhysicalAttack("Splash", AttackKinds.PHYSICAL, Type.WATER, 100, 35, 10)
+    DamagingAttack("Splash", AttackKinds.PHYSICAL, Type.WATER, 100, 35, 10)
 
   val specialAttackHydroPump =
-    SpecialAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 55, 10)
+    DamagingAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 55, 10)
 
   /**
    * Dummy Stats
    * */
 
-  private var baseStatsLowerInitiative = BaseStats(
+  var baseStatsLowerInitiative = BaseStats(
     healthPoints = 100,
     initiative = 10,
     attack = 20,
@@ -42,10 +40,19 @@ object TestData {
     specialDefense = 40,
   )
 
-  private var baseStatsHigherInitiative = BaseStats(
+  var baseStatsHigherInitiative = BaseStats(
     healthPoints = 100,
     initiative = 20,
     attack = 20,
+    defense = 30,
+    specialAttack = 30,
+    specialDefense = 40,
+  )
+
+  var baseStatsHigherAttack = BaseStats(
+    healthPoints = 100,
+    initiative = 10,
+    attack = 80,
     defense = 30,
     specialAttack = 30,
     specialDefense = 40,
@@ -56,6 +63,16 @@ object TestData {
     initiative = 10,
     attack = 20,
     defense = 30,
+    statusEffect = Status.CONFUSED,
+    specialAttack = 30,
+    specialDefense = 40
+  )
+
+  var battleStatsHigherAttack = BattleStats(
+    healthPoints = 100,
+    initiative = 10,
+    attack = 80,
+    defense = 40,
     statusEffect = Status.CONFUSED,
     specialAttack = 30,
     specialDefense = 40
@@ -99,8 +116,16 @@ object TestData {
     attacks = listOf(physicalAttackTackle)
   )
 
-  val defeatedMonster = Monster(
+  val normalMonster = Monster(
     name = "Monster4",
+    type = Type.NORMAL,
+    baseStats = baseStatsHigherAttack,
+    battleStats = battleStatsWithStatus,
+    attacks = listOf(physicalAttackTackle)
+  )
+
+  val defeatedMonster = Monster(
+    name = "Monster5",
     type = Type.NORMAL,
     baseStats = baseStatsLowerInitiative,
     battleStats = battleStatsDefeatedMonster,

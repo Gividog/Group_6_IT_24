@@ -7,7 +7,7 @@ class Monster(
   private val type: Type,
   private val baseStats: BaseStats,
   private var battleStats: BattleStats,
-  private val attacks: List<Attack>
+  private val attacks: List<Attack>,
 ) {
   fun heal() {
     val healingPercentage = 0.3
@@ -36,27 +36,43 @@ class Monster(
     return battleStats.getHP()
   }
 
-  fun getName():String{
+  fun getName(): String {
     return name
   }
 
-  fun getAttacks():List<Attack>{
+  fun getAttacks(): List<Attack> {
     return attacks
   }
 
-  fun getType(): Type{
+  fun getType(): Type {
     return type
   }
 
-  fun getInitiative():Int{
+  fun getInitiativeStat(): Int {
     return battleStats.getInitiative()
+  }
+
+  fun getDefenseStat(): Int {
+    return battleStats.getDefense()
+  }
+
+  fun getAttackStat(): Int {
+    return battleStats.getAttack()
+  }
+
+  fun getSpecialDefenseStat(): Int {
+    return battleStats.getSpecialDefense()
+  }
+
+  fun getSpecialAttackStat(): Int {
+    return battleStats.getSpecialAttack()
   }
 
   /**
    * Commands
    */
 
-  fun updateHP(newHP : Int) {
+  fun updateHP(newHP: Int) {
     battleStats.updateHP(newHP)
   }
 }

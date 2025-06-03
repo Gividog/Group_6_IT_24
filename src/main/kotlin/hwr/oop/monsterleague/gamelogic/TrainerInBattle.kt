@@ -85,7 +85,7 @@ class TrainerInBattle(
      * Commands
      **/
 
-    fun setHealsRemaining(healsRemaining: Int): {
+    fun setHealsRemaining(healsRemaining: Int) {
         this.healsRemaining = healsRemaining
     }
 
