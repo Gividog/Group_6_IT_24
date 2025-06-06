@@ -10,10 +10,6 @@ interface Attack {
   val power: Int
   val powerPoints: Int
 
-  fun getAccuracy(): Int {
-    return accuracy
-  }
-
   fun isSpecial(): Boolean {
     return kind == AttackKinds.SPECIAL
   }

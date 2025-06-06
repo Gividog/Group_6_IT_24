@@ -1,5 +1,25 @@
 package hwr.oop.monsterleague.gamelogic
 
-enum class TrainerChoice {
-  ATTACK, HEAL, SURRENDER, SWITCH_MONSTER
+import monsterleague.gamelogic.Monster
+import monsterleague.gamelogic.attacks.Attack
+
+sealed interface TrainerChoice {
+  fun precedence(): Int = Int.MAX_VALUE
+
+  data class AttackChoice(
+    val attackingMonster: Monster,
+    val selectedAttack: Attack,
+    val targetedMonster: Monster,
+  ) : TrainerChoice {
+    override fun precedence() = attackingMonster.getInitiativeStat()
+  }
+
+  data class SwitchChoice(
+    val outMonster: Monster,
+    val inMonster: Monster,
+  ) : TrainerChoice
+
+  data class HealChoice(
+    val monster: Monster,
+  ) : TrainerChoice
 }

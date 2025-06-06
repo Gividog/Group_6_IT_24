@@ -7,6 +7,7 @@ import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
 import java.util.UUID
+import kotlin.text.get
 
 class Battle(
   private val battleID: UUID = UUID.randomUUID(),
@@ -17,7 +18,6 @@ class Battle(
   private var winner: TrainerInBattle? = null
   private var battleOver: Boolean = false
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
-  private val mapOfAttacks = mutableMapOf<Monster, Attack>()
 
   fun surrender(surrenderingTrainer: TrainerInBattle) {
     winner = if (surrenderingTrainer == trainerOne) {
@@ -31,20 +31,6 @@ class Battle(
     round++
     trainerOne.setNotReadyToFight()
     trainerTwo.setNotReadyToFight()
-  }
-
-  fun chooseAttack(
-    attackingTrainer: TrainerInBattle,
-    attack: Attack,
-  ) {
-    val attackingMonster = attackingTrainer.getActiveMonster()
-
-    mapOfAttacks[attackingMonster] = trainerOne.trainerChooseAttack(attack)
-    mapOfAttacks[attackingMonster] = trainerTwo.trainerChooseAttack(attack)
-
-    if (mapOfChoice.size == 2) {
-      simulateRound()
-    }
   }
 
   fun endRound() {
@@ -73,37 +59,83 @@ class Battle(
   }
 
   private fun simulateRound() {
-    val monstersInOrderOfAttack = sortActiveMonstersByInitiative()
-
-    for (attacker in monstersInOrderOfAttack) {
-      val defender = otherMonster(attacker)
-      val attack = mapOfAttacks[attacker]!!
-      val hitChanceCalculator = HitChanceCalculator(attack)
-
-      if (getKindOfAttack(attack) == AttackKinds.SPECIAL || getKindOfAttack(attack) == AttackKinds.PHYSICAL
-      ) if (hitChanceCalculator.willHit()) {
-        val damageCalculator = DamageCalculator(
-          attackingMonster = attacker,
-          defendingMonster = defender,
-          attack = attack
-        )
-        val damage = damageCalculator.calculateDamage()
-        defender.takeDamage(damage)
-      } else if (getKindOfAttack(attack) == AttackKinds.BUFF) {
-        if (hitChanceCalculator.willHit()) {
-          // TODO Buff Calculation
-        }
-      } else if (getKindOfAttack(attack) == AttackKinds.DEBUFF) {
-        if (hitChanceCalculator.willHit()) {
-          // TODO DeBuff Calculation
-        }
-      } else if (getKindOfAttack(attack) == AttackKinds.STATUS) {
-        if (hitChanceCalculator.willHit()) {
-          // TODO Status Calculation
+    mapOfChoice.entries.sortedByDescending { it.value.precedence() }
+      .forEach { (trainer, choice) ->
+        when (choice) {  // when is exhaustive, because TrainerChoice is a sealed interface!
+          is TrainerChoice.HealChoice -> healActiveMonster(trainer, choice)
+          is TrainerChoice.AttackChoice -> trainerChooseAttack(trainer, choice)
+          is TrainerChoice.SwitchChoice -> switchActiveMonster(trainer, choice)
         }
       }
-    }
     mapOfChoice.clear()
+  }
+
+  fun trainerChooseAttack(
+    // return Battle ?
+    trainer: TrainerInBattle,
+    choice: TrainerChoice.AttackChoice,
+  ) {
+    val attacker = choice.attackingMonster
+    val defender = choice.targetedMonster
+    val attack = choice.selectedAttack
+    val hitChanceCalculator = HitChanceCalculator(attack)
+
+    if (getKindOfAttack(attack) == AttackKinds.SPECIAL || getKindOfAttack(attack) == AttackKinds.PHYSICAL
+    ) if (hitChanceCalculator.willHit()) {
+      val damageCalculator = DamageCalculator(
+        attackingMonster = attacker,
+        defendingMonster = defender,
+        attack = attack
+      )
+      val damage = damageCalculator.calculateDamage()
+      defender.takeDamage(damage)
+
+      // Buffs und Debuffs in separate Funktion auslagern
+    } else if (getKindOfAttack(attack) == AttackKinds.BUFF) {
+      if (hitChanceCalculator.willHit()) {
+        // TODO Buff Calculation
+      }
+    } else if (getKindOfAttack(attack) == AttackKinds.DEBUFF) {
+      if (hitChanceCalculator.willHit()) {
+        // TODO DeBuff Calculation
+      }
+    } else if (getKindOfAttack(attack) == AttackKinds.STATUS) {
+      if (hitChanceCalculator.willHit()) {
+        // TODO Status Calculation
+      }
+    }
+  }
+
+  fun switchActiveMonster(
+    // return Battle ?
+    trainer: TrainerInBattle,
+    choice: TrainerChoice.SwitchChoice,
+  ) {
+    val inMonster = choice.inMonster
+    val outMonster = choice.outMonster
+    val monsters = trainer.getMonsters()
+    var activeMonster = trainer.getActiveMonster()
+    var readyToFight = trainer.getReadyToFight()
+
+    if (inMonster in monsters) activeMonster = inMonster
+    readyToFight = true
+  }
+
+  fun healActiveMonster(
+    // return Battle ?
+    trainer: TrainerInBattle,
+    choice: TrainerChoice.HealChoice,
+  ) {
+    var healsRemaining = trainer.getHealsRemaining()
+    val activeMonster = trainer.getActiveMonster()
+    var readyToFight = trainer.getReadyToFight()
+
+    if (healsRemaining > 0) {
+      activeMonster.heal()
+      healsRemaining--
+
+      readyToFight = true
+    }
   }
 
   private fun otherMonster(attackingMonster: Monster) =

@@ -9,7 +9,7 @@ class HitChanceCalculator(
   fun willHit(
     random: Int = Randomizer.getHitChance(),
   ): Boolean {
-    val accuracy = attack.getAccuracy()
+    val accuracy = attack.accuracy
     return random < accuracy
   }
 }
