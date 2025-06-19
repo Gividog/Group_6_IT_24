@@ -51,6 +51,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <version>4.8.162</version>
+    </dependency>
+    <dependency>
       <groupId>io.kotest.extensions</groupId>
       <artifactId>kotest-extensions-pitest</artifactId>
       <version>${kotest-extensions-pitest.version}</version>

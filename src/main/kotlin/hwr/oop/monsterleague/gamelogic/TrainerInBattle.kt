@@ -1,12 +1,7 @@
 package hwr.oop.monsterleague.gamelogic
 
-import hwr.oop.monsterleague.gamelogic.calculators.DamageCalculator
-import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
-import monsterleague.gamelogic.Battle
-import monsterleague.gamelogic.Exceptions
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.AttackKinds
 
 class TrainerInBattle(
   private val name: String,
@@ -36,7 +31,6 @@ class TrainerInBattle(
 
   fun getChosenAttack(): Attack {
     return chosenAttack!!
-
   }
 
   fun getName(): String {

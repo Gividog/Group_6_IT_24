@@ -2,8 +2,11 @@ package hwr.oop.monsterleague.gamelogic
 
 import kotlin.random.Random
 
-object Randomizer {
-  private const val CRITICAL_CHANCE = 0.04
+class Randomizer(
+  seed: Int = System.nanoTime().toInt(),
+) {
+  private val random = Random(seed)
+  private val criticalChance = 0.04
 
   private fun randomNumber(): Double {
     val randomNumber = (85..100).random()
@@ -11,8 +14,12 @@ object Randomizer {
     return randomFactorForDamageCalculation
   }
 
-  private fun calculateCriticalStrike(random: Double = Random.nextDouble()): Double {
-   return if(random < CRITICAL_CHANCE) 2.0 else 1.0
+  private fun nextDouble(): Double {
+    return random.nextDouble()
+  }
+
+  private fun calculateCriticalStrike(random: Double = nextDouble()): Double {
+    return if(random < criticalChance) 2.0 else 1.0
   }
 
   private fun hitChance(): Int {
@@ -28,7 +35,7 @@ object Randomizer {
     return randomNumber()
   }
 
-  fun getCriticalStrike(random: Double = Random.nextDouble()): Double {
+  fun getCriticalStrike(random: Double = nextDouble()): Double {
     return calculateCriticalStrike(random)
   }
 

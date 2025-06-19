@@ -7,7 +7,6 @@ import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
 import java.util.UUID
-import kotlin.text.get
 
 class Battle(
   private val battleID: UUID = UUID.randomUUID(),
@@ -71,7 +70,6 @@ class Battle(
   }
 
   fun trainerChooseAttack(
-    // return Battle ?
     trainer: TrainerInBattle,
     choice: TrainerChoice.AttackChoice,
   ) {
@@ -93,7 +91,9 @@ class Battle(
       // Buffs und Debuffs in separate Funktion auslagern
     } else if (getKindOfAttack(attack) == AttackKinds.BUFF) {
       if (hitChanceCalculator.willHit()) {
-        // TODO Buff Calculation
+        // attack an Funktion in BuffAttack übergeben
+        // die liest aus, welchen Stat die Attacke ändert
+        // ruft die Rechenfunktion für diesen Stat auf
       }
     } else if (getKindOfAttack(attack) == AttackKinds.DEBUFF) {
       if (hitChanceCalculator.willHit()) {

@@ -32,8 +32,8 @@ class DamageCalculator(
   }
 
   fun calculateDamage(
-    criticalHit: Double = Randomizer.getCriticalStrike(),
-    random: Double = Randomizer.getRandomNumber(),
+    criticalHit: Double = Randomizer().getCriticalStrike(),
+    random: Double = Randomizer().getRandomNumber(),
   ): Int {
 
     checkForSpecialAttack()
