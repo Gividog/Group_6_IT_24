@@ -49,6 +49,8 @@ class Battle(
       } else {
         surrender(trainerTwo)
       }
+    } else {
+      startNextRound()
     }
   }
 
