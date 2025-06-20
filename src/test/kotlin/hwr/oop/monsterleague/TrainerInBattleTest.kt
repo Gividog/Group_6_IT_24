@@ -1,5 +1,6 @@
 package hwr.oop.monsterleague
 
+import hwr.oop.monsterleague.gamelogic.TrainerInBattle
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
@@ -42,4 +43,11 @@ class TrainerInBattleTest : AnnotationSpec() {
       assertThat(trainer.getReadyToFight()).isFalse
 
     }
+
+  @Test
+  fun `trainers Name is trainer1 `(){
+    val trainer = TestData.trainerWithTwoMonsters
+    val nameOfTrainer = trainer.getName()
+    assertThat(nameOfTrainer).isEqualTo("trainer1")
+  }
 }

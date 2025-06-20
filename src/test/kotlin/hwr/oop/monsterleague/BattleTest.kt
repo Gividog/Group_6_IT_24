@@ -324,5 +324,18 @@ class BattleTest : AnnotationSpec() {
 
      assertThat(battle.getChosenAttackMap()).isEmpty()
    }*/
+
+  /**
+   * Stats
+   */
+
+  @Test
+  fun `status effect gets changed from none to confused `(){
+    val battleStats = TestData.battleStatsWithoutStatus
+    battleStats.updateStatusEffect(Status.CONFUSED)
+    val nameOfStatus = battleStats.getStatusEffect()
+
+    assertThat(nameOfStatus).isEqualTo(Status.CONFUSED)
+  }
 }
 

@@ -68,6 +68,16 @@ object TestData {
     specialDefense = 120
   )
 
+  var battleStatsWithoutStatus = BattleStats(
+    healthPoints = 250,
+    initiative = 10,
+    attack = 100,
+    defense = 100,
+    statusEffect = null,
+    specialAttack = 100,
+    specialDefense = 100
+  )
+
   var battleStatsHigherAttack = BattleStats(
     healthPoints = 250,
     initiative = 10,
