@@ -53,6 +53,8 @@ class DamageCalculator(
   }
 
   fun simpleDamageCalculation(): Int {
+    checkForSpecialAttack()
+
     val stabFactor = getStabFactor()
     val efficiency = EfficiencyCalculator(
       attackingMonster,

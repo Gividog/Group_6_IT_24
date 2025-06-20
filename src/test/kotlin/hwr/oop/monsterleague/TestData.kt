@@ -19,73 +19,73 @@ object TestData {
    * */
 
   val physicalAttackTackle =
-    DamagingAttack("Tackle", AttackKinds.PHYSICAL, Type.NORMAL, 100, 35, 10)
+    DamagingAttack("Tackle", AttackKinds.PHYSICAL, Type.NORMAL, 100, 50, 10)
 
   val physicalAttackSplash =
-    DamagingAttack("Splash", AttackKinds.PHYSICAL, Type.WATER, 100, 35, 10)
+    DamagingAttack("Splash", AttackKinds.PHYSICAL, Type.WATER, 100, 50, 10)
 
   val specialAttackHydroPump =
-    DamagingAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 55, 10)
+    DamagingAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 75, 10)
 
   /**
    * Dummy Stats
    * */
 
   var baseStatsLowerInitiative = BaseStats(
-    healthPoints = 100,
+    healthPoints = 250,
     initiative = 10,
-    attack = 20,
-    defense = 30,
-    specialAttack = 30,
-    specialDefense = 40,
+    attack = 100,
+    defense = 100,
+    specialAttack = 120,
+    specialDefense = 120,
   )
 
   var baseStatsHigherInitiative = BaseStats(
-    healthPoints = 100,
+    healthPoints = 250,
     initiative = 20,
-    attack = 20,
-    defense = 30,
-    specialAttack = 30,
-    specialDefense = 40,
+    attack = 100,
+    defense = 100,
+    specialAttack = 120,
+    specialDefense = 120,
   )
 
   var baseStatsHigherAttack = BaseStats(
-    healthPoints = 100,
+    healthPoints = 250,
     initiative = 10,
-    attack = 80,
-    defense = 30,
-    specialAttack = 30,
-    specialDefense = 40,
+    attack = 120,
+    defense = 100,
+    specialAttack = 100,
+    specialDefense = 120,
   )
 
   var battleStatsWithStatus = BattleStats(
-    healthPoints = 100,
+    healthPoints = 250,
     initiative = 10,
-    attack = 20,
-    defense = 30,
+    attack = 100,
+    defense = 100,
     statusEffect = Status.CONFUSED,
-    specialAttack = 30,
-    specialDefense = 40
+    specialAttack = 120,
+    specialDefense = 120
   )
 
   var battleStatsHigherAttack = BattleStats(
-    healthPoints = 100,
+    healthPoints = 250,
     initiative = 10,
-    attack = 80,
-    defense = 40,
+    attack = 120,
+    defense = 100,
     statusEffect = Status.CONFUSED,
-    specialAttack = 30,
-    specialDefense = 40
+    specialAttack = 100,
+    specialDefense = 120
   )
 
   var battleStatsDefeatedMonster = BattleStats(
     healthPoints = 0,
     initiative = 10,
-    attack = 20,
-    defense = 30,
+    attack = 100,
+    defense = 100,
     statusEffect = null,
-    specialAttack = 30,
-    specialDefense = 40
+    specialAttack = 120,
+    specialDefense = 120
   )
 
   /**
