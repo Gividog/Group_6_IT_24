@@ -152,6 +152,10 @@ object TestData {
   val trainerWithOneDefeatedMonster =
     TrainerInBattle("trainer2", listOf(waterMonster, defeatedMonster), defeatedMonster, 3)
 
+  val trainerWithFireMonsterLeft =
+    TrainerInBattle("trainer2", listOf(fireMonster, defeatedMonster), defeatedMonster, 3)
+
+
   val trainerWithOnlyDefeatedMonsters =
     TrainerInBattle("trainer3", listOf(defeatedMonster), defeatedMonster, 0)
 }

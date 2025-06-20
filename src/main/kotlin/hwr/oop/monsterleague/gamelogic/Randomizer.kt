@@ -18,7 +18,7 @@ class Randomizer(
     return random.nextDouble()
   }
 
-  private fun calculateCriticalStrike(random: Double = nextDouble()): Double {
+  private fun calculateCriticalStrike(random: Double): Double {
     return if(random < criticalChance) 2.0 else 1.0
   }
 
