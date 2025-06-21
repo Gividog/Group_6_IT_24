@@ -356,6 +356,21 @@ class BattleTest : AnnotationSpec() {
     assertThat(afterHP).isLessThan(initialHP)
   }
 
+  @Test
+  fun `otherMonster returns the correct opposing monster`() {
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithOneDefeatedMonster
+    )
+
+    val attacker = TestData.trainerWithTwoMonsters.getActiveMonster()
+    val expectedOpponent = TestData.trainerWithOneDefeatedMonster.getActiveMonster()
+
+    val result = battle.otherMonster(attacker)
+
+    assertThat(result).isEqualTo(expectedOpponent)
+
   /* @Test
    fun `simulateRound applies damage in correct initiative order`() {
      val battle = Battle(
