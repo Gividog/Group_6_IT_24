@@ -68,6 +68,14 @@ class Monster(
     return battleStats.getSpecialAttack()
   }
 
+  fun getBaseStats(): BaseStats {
+    return baseStats
+  }
+
+  fun getBattleStats(): BattleStats {
+    return battleStats
+  }
+
   /**
    * Commands
    */

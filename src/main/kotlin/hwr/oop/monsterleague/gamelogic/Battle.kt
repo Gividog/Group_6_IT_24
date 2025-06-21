@@ -12,11 +12,53 @@ class Battle(
   private val battleID: UUID = UUID.randomUUID(),
   private val trainerOne: TrainerInBattle,
   private val trainerTwo: TrainerInBattle,
+  private val simpleDamageCalculation: Boolean,
 ) {
   private var round: Int = 1
   private var winner: TrainerInBattle? = null
   private var battleOver: Boolean = false
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
+  private val battleStats = mapOf<Monster, BattleStats>()
+
+  fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
+    val attackerStats = battleStats[attacker] ?: throw IllegalArgumentException(
+      "Attacker stats not found"
+    )
+    val defenderStats = battleStats[defender] ?: throw IllegalArgumentException(
+      "Defender stats not found"
+    )
+
+    val hitChanceCalculator = HitChanceCalculator(attack)
+
+    if (hitChanceCalculator.willHit()) {
+      val damageCalculator = DamageCalculator(
+        attackingMonster = attacker,
+        defendingMonster = defender,
+        attack = attack
+      )
+
+      val damage = if (simpleDamageCalculation) {
+        damageCalculator.simpleDamageCalculation()
+      } else {
+        damageCalculator.calculateDamage()
+      }
+      defender.takeDamage(damage)
+      applyStatusChanges(attack, defender, attacker)
+    }
+  }
+
+  private fun applyStatusChanges(
+    attack: Attack,
+    defender: Monster,
+    attacker: Monster,
+  ) {
+    attack.defenderStatusChange()?.let { defenderStatusChange ->
+      defender.getBattleStats().applyChange(defenderStatusChange, defender)
+    }
+    attack.attackerStatusChange()?.let { attackerStatusChange ->
+      attacker.getBattleStats().applyChange(attackerStatusChange, attacker)
+    }
+  }
 
   fun surrender(surrenderingTrainer: TrainerInBattle) {
     winner = if (surrenderingTrainer == trainerOne) {
@@ -135,13 +177,11 @@ class Battle(
     if (healsRemaining > 0) {
       activeMonster.heal()
       healsRemaining--
+      trainer.setHealsRemaining(healsRemaining)
 
       readyToFight = true
     }
   }
-
-  private fun otherMonster(attackingMonster: Monster) =
-    if (attackingMonster == trainerOne.getActiveMonster()) trainerTwo.getActiveMonster() else trainerOne.getActiveMonster()
 
   fun getKindOfAttack(attack: Attack): AttackKinds {
     return attack.kind

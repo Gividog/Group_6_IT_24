@@ -20,7 +20,9 @@ class BattleTest : AnnotationSpec() {
     val battle = Battle(
       TestData.battleUuid,
       TestData.trainerWithTwoMonsters,
-      TestData.trainerWithTwoMonsters
+      TestData.trainerWithTwoMonsters,
+      true
+
     )
 
     battle.surrender(TestData.trainerWithTwoMonsters)
@@ -38,6 +40,7 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithTwoMonsters,
       trainerTwo = TestData.trainerWithOneDefeatedMonster,
+      true,
     )
 
     battle.startNextRound()
@@ -62,6 +65,7 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithTwoMonsters,
       trainerTwo = TestData.trainerWithOneDefeatedMonster,
+      true
     )
 
     battle.determineWinner()
@@ -77,6 +81,7 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithTwoMonsters,
       trainerTwo = TestData.trainerWithOnlyDefeatedMonsters,
+      true
     )
 
     battle.determineWinner()
@@ -91,6 +96,7 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithOnlyDefeatedMonsters,
       trainerTwo = TestData.trainerWithTwoMonsters,
+      true
     )
 
     battle.determineWinner()
@@ -116,6 +122,7 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithOnlyDefeatedMonsters,
       trainerTwo = TestData.trainerWithTwoMonsters,
+      true
     )
 
     val descendingSortedList = battle.sortActiveMonstersByInitiative()
@@ -131,10 +138,9 @@ class BattleTest : AnnotationSpec() {
       Battle(
         TestData.battleUuid,
         TestData.trainerWithTwoMonsters,
-        TestData.trainerWithOnlyDefeatedMonsters
-      ).getKindOfAttack(
-        TestData.physicalAttackTackle
-      )
+        TestData.trainerWithOnlyDefeatedMonsters,
+        true,
+      ).getKindOfAttack(TestData.physicalAttackTackle)
     assertThat(kind).isEqualTo(AttackKinds.PHYSICAL)
   }
 
@@ -144,6 +150,7 @@ class BattleTest : AnnotationSpec() {
       TestData.battleUuid,
       trainerOne = TestData.trainerWithOneDefeatedMonster,
       trainerTwo = TestData.trainerWithOneDefeatedMonster,
+      true,
     ).endRound()
 
     assertThat(TestData.trainerWithOneDefeatedMonster.getActiveMonster()).isEqualTo(
@@ -158,7 +165,8 @@ class BattleTest : AnnotationSpec() {
     Battle(
       TestData.battleUuid,
       TestData.trainerWithOnlyDefeatedMonsters,
-      TestData.trainerWithOneDefeatedMonster
+      TestData.trainerWithOneDefeatedMonster,
+      true,
     ).endRound()
 
     assertThat(TestData.trainerWithOnlyDefeatedMonsters.getActiveMonster()).isEqualTo(
@@ -176,7 +184,8 @@ class BattleTest : AnnotationSpec() {
       val battle = Battle(
         battleID = TestData.battleUuid,
         trainerOne = TestData.trainerWithTwoMonsters,
-        trainerTwo = TestData.trainerWithTwoMonsters
+        trainerTwo = TestData.trainerWithTwoMonsters,
+        true,
       )
       val trainer = TestData.trainerWithTwoMonsters
       val attackChoice = TrainerChoice.AttackChoice(
@@ -200,7 +209,8 @@ class BattleTest : AnnotationSpec() {
   fun `the newly selected monster at index 1 (so the second element) gets set as the trainers activeMonster`() {
     val battle = Battle(
       TestData.battleUuid, TestData.trainerWithTwoMonsters,
-      TestData.trainerWithOneDefeatedMonster
+      TestData.trainerWithOneDefeatedMonster,
+      true
     )
     TestData.trainerWithTwoMonsters.setMonsters(
       listOf(
@@ -224,7 +234,8 @@ class BattleTest : AnnotationSpec() {
   fun `the new selected active monster doesnt exist in Trainers monster list`() {
     val battle = Battle(
       TestData.battleUuid, TestData.trainerWithTwoMonsters,
-      TestData.trainerWithOneDefeatedMonster
+      TestData.trainerWithOneDefeatedMonster,
+      true,
     )
 
     val activeMonster = TestData.trainerWithTwoMonsters.getActiveMonster()
@@ -247,7 +258,8 @@ class BattleTest : AnnotationSpec() {
 
     val battle = Battle(
       TestData.battleUuid, TestData.trainerWithTwoMonsters,
-      TestData.trainerWithOneDefeatedMonster
+      TestData.trainerWithOneDefeatedMonster,
+      true,
     )
 
     TestData.trainerWithTwoMonsters.getActiveMonster().updateHP(50)
@@ -273,7 +285,8 @@ class BattleTest : AnnotationSpec() {
       battleID = TestData.battleUuid,
       trainerTwo = TestData.trainerWithOnlyDefeatedMonsters,
       trainerOne = TestData.trainerWithTwoMonsters,
-    )
+      simpleDamageCalculation = true
+      )
 
     val choice =
       TrainerChoice.HealChoice(TestData.trainerWithTwoMonsters.getActiveMonster())
@@ -288,7 +301,8 @@ class BattleTest : AnnotationSpec() {
     val battle = Battle(
       battleID = TestData.battleUuid,
       trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithTwoMonsters
+      trainerTwo = TestData.trainerWithTwoMonsters,
+      true
     )
     val trainer = TestData.trainerWithTwoMonsters
     val targetTrainer = TestData.trainerWithOneDefeatedMonster
@@ -306,27 +320,13 @@ class BattleTest : AnnotationSpec() {
     assertThat(afterHP).isLessThan(initialHP)
   }
 
-  @Test
-  fun `otherMonster returns the correct opposing monster`() {
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithOneDefeatedMonster
-    )
-
-    val attacker = TestData.trainerWithTwoMonsters.getActiveMonster()
-    val expectedOpponent = TestData.trainerWithOneDefeatedMonster.getActiveMonster()
-
-    val result = battle.otherMonster(attacker)
-
-    assertThat(result).isEqualTo(expectedOpponent)
-
   /* @Test
    fun `simulateRound applies damage in correct initiative order`() {
      val battle = Battle(
        battleID = TestData.battleUuid,
        trainerOne = TestData.trainerWithTwoMonsters,
        trainerTwo = TestData.trainerWithOneDefeatedMonster,
+       true
      )
      val startingHP1 = TestData.trainerWithTwoMonsters.getActiveMonstersHP()
      val startingHP2 = TestData.trainerWithOneDefeatedMonster.getActiveMonstersHP()

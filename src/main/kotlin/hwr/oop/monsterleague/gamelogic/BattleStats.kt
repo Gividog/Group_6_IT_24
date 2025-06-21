@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import hwr.oop.monsterleague.gamelogic.attacks.StatusChange
+
 class BattleStats(
   private var healthPoints: Int,
   private var initiative: Int,
@@ -9,6 +11,45 @@ class BattleStats(
   private var specialDefense: Int,
   private var specialAttack: Int,
 ) {
+
+  companion object {
+    fun createBasedOn(baseStats: BaseStats) = BattleStats(
+      healthPoints = baseStats.getHealthPoints(),
+      initiative = baseStats.getInitiative(),
+      attack = baseStats.getAttack(),
+      defense = baseStats.getDefense(),
+      statusEffect = null,
+      specialDefense = baseStats.getSpecialDefense(),
+      specialAttack = baseStats.getSpecialAttack(),
+    )
+  }
+
+  fun applyChange(buff: StatusChange, monster: Monster) {
+    when (buff) {
+      is StatusChange.Buff -> applyBuff(buff)
+      is StatusChange.Clear -> resetStatsToBase(monster.getBaseStats())
+    }
+  }
+
+  private fun applyBuff(buff: StatusChange.Buff) {
+    attack = newStat(attack, buffedBy = buff.attackSteps)
+    defense = newStat(defense, buffedBy = buff.defenseSteps)
+    specialAttack = newStat(specialAttack, buffedBy = buff.specialAttackSteps)
+    specialDefense = newStat(specialDefense, buffedBy = buff.specialDefenseSteps)
+    initiative = newStat(initiative, buffedBy = buff.initiativeSteps)
+  }
+
+  private fun resetStatsToBase(baseStats: BaseStats) {
+    attack = baseStats.getAttack()
+    defense = baseStats.getDefense()
+    specialAttack = baseStats.getSpecialAttack()
+    specialDefense = baseStats.getSpecialDefense()
+    initiative = baseStats.getInitiative()
+  }
+
+  private fun newStat(stat: Int, buffedBy: Int): Int {
+    return stat + (stat * 0.3 * buffedBy).toInt()
+  }
 
   /**
    * Queries
@@ -41,9 +82,6 @@ class BattleStats(
   fun getStatusEffect(): Status?{
     return statusEffect
   }
-
-
-
 
   /**
    * Commands
