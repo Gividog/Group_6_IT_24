@@ -18,4 +18,12 @@ class MonsterTest : AnnotationSpec() {
 
     assertThat(monster.getHP()).isEqualTo(70)
   }
+  @Test
+  fun `getAttacks returns the correct list of attacks`() {
+    val monster = TestData.fireMonster
+    val attacks = monster.getAttacks()
+
+    assertThat(attacks).containsExactlyElementsOf(TestData.fireMonster.getAttacks())
+  }
+
 }
