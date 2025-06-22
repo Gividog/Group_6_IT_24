@@ -21,7 +21,7 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).simpleDamageCalculation()
+    ).calculateDamage()
 
     assertThat(damage).isEqualTo(24)
   }
@@ -36,7 +36,7 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).simpleDamageCalculation()
+    ).calculateDamage()
 
     assertThat(damage).isEqualTo(72)
   }
@@ -51,7 +51,7 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).simpleDamageCalculation()
+    ).calculateDamage()
 
     assertThat(damage).isEqualTo(18)
   }
@@ -66,7 +66,7 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).simpleDamageCalculation()
+    ).calculateDamage()
 
     assertThat(damage).isEqualTo(12)
   }
@@ -175,21 +175,6 @@ class CalculatorTest : AnnotationSpec() {
     assertThat(damage).isEqualTo(1)
 
   }
-
-  /*@Test
-  fun `randomNumber and criticalHit are calculated randomly`() {
-    val attackingMonster = TestData.waterMonster
-    val defendingMonster = TestData.normalMonster
-    val attack = TestData.physicalAttackSplash
-
-    val damage = DamageCalculator(
-      attackingMonster,
-      defendingMonster,
-      attack
-    ).calculateDamage()
-
-    assertThat(damage).isBetween(1, 25)
-  }*/
 
   /**
    * simpleDamageCalculation() tests

@@ -21,7 +21,7 @@ class DamageCalculator(
     }
   }
 
-  fun checkForSpecialAttack() {
+  private fun checkForSpecialAttack() {
     if (attack.isSpecial()) {
       defenseStat = defendingMonster.getSpecialDefenseStat()
       attackStat = attackingMonster.getSpecialAttackStat()

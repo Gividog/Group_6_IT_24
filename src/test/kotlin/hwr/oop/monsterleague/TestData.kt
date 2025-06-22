@@ -8,7 +8,7 @@ import monsterleague.gamelogic.Status
 import monsterleague.gamelogic.Type
 import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.DamagingAttack
-import monsterleague.gamelogic.attacks.SpecialAttack
+import monsterleague.gamelogic.Trainer
 import java.util.UUID
 
 object TestData {
@@ -147,15 +147,38 @@ object TestData {
    * */
 
   val trainerWithTwoMonsters =
-    TrainerInBattle("trainer1", listOf(waterMonster, fireMonster), fireMonster, 3)
+    TrainerInBattle(
+      "trainer1",
+      listOf(waterMonster, fireMonster),
+      fireMonster,
+      3
+    )
 
   val trainerWithOneDefeatedMonster =
-    TrainerInBattle("trainer2", listOf(waterMonster, defeatedMonster), defeatedMonster, 3)
+    TrainerInBattle(
+      "trainer2",
+      listOf(waterMonster, defeatedMonster),
+      defeatedMonster,
+      3
+    )
 
   val trainerWithFireMonsterLeft =
-    TrainerInBattle("trainer2", listOf(fireMonster, defeatedMonster), defeatedMonster, 3)
-
+    TrainerInBattle(
+      "trainer2",
+      listOf(fireMonster, defeatedMonster),
+      defeatedMonster,
+      3
+    )
 
   val trainerWithOnlyDefeatedMonsters =
     TrainerInBattle("trainer3", listOf(defeatedMonster), defeatedMonster, 0)
+
+  /**
+   * Dummy basic Trainers
+   * */
+
+  val trainerOutOfCombat = Trainer(
+    name = "trainer5",
+    monsters = listOf(normalMonster, waterMonster, ghostMonster)
+  )
 }
