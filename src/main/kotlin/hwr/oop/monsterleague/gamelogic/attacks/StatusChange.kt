@@ -1,6 +1,6 @@
 package hwr.oop.monsterleague.gamelogic.attacks
 
-interface StatusChange {
+sealed interface StatusChange {
   class Buff(
     val attackSteps: Int = 0,
     val defenseSteps: Int = 0,
@@ -9,5 +9,5 @@ interface StatusChange {
     val initiativeSteps: Int = 0,
   ) : StatusChange
 
-  class Clear : StatusChange
+  data object Clear : StatusChange
 }

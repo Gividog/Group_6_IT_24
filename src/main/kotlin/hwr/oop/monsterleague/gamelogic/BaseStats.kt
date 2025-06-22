@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import kotlin.contracts.Effect
+
 data class BaseStats(
     private var healthPoints: Int,
     private var initiative: Int,
@@ -26,5 +28,6 @@ data class BaseStats(
   fun getSpecialAttack(): Int {
     return specialAttack
   }
+
 
 }

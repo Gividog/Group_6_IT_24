@@ -42,6 +42,7 @@ class BattleStats(
   private fun resetStatsToBase(baseStats: BaseStats) {
     attack = baseStats.getAttack()
     defense = baseStats.getDefense()
+    statusEffect = null
     specialAttack = baseStats.getSpecialAttack()
     specialDefense = baseStats.getSpecialDefense()
     initiative = baseStats.getInitiative()
