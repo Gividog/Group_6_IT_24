@@ -2,7 +2,7 @@ package monsterleague.gamelogic.attacks
 
 import monsterleague.gamelogic.Type
 
-class PhysicalAttack(
+class DamagingAttack(
     override val name: String,
     override val kind : AttackKinds,
     override val type: Type,
@@ -10,6 +10,7 @@ class PhysicalAttack(
     override val power: Int,
     override val powerPoints: Int
 ) : Attack {
+
 
 
 }
