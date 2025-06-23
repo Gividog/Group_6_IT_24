@@ -11,6 +11,7 @@ class TrainerInBattleTest : AnnotationSpec() {
   fun `setHealsRemaining updates the internal state correctly`() {
     val trainer = TestData.trainerWithTwoMonsters
     trainer.setHealsRemaining(1)
+
     assertThat(trainer.getHealsRemaining()).isEqualTo(1)
   }
 
