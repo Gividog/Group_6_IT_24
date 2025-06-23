@@ -8,8 +8,8 @@ class Cli(
   saveGamePort: SaveGamePort,
 ) {
   val commands = listOf(
-    NewGameCommand(saveGamePort),
-    ShowGameCommand(loadGamePort)
+    CreateGameCommand(saveGamePort),
+    LoadGameCommand(loadGamePort)
   )
 
   fun handle(args: List<String>) {

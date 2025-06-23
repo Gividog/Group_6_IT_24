@@ -9,6 +9,11 @@ import monsterleague.gamelogic.Type
 import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.DamagingAttack
 import monsterleague.gamelogic.Trainer
+import monsterleague.gamelogic.attacks.Attack
+import monsterleague.gamelogic.attacks.DragonDance
+import monsterleague.gamelogic.attacks.Haze
+import monsterleague.gamelogic.attacks.Screech
+import monsterleague.gamelogic.attacks.SwordsDance
 import java.util.UUID
 
 object TestData {
@@ -129,7 +134,7 @@ object TestData {
   val normalMonster = Monster(
     name = "Monster4",
     type = Type.NORMAL,
-    baseStats = baseStatsHigherAttack,
+    baseStats = baseStatsLowerInitiative,
     battleStats = battleStatsWithStatus,
     attacks = listOf(physicalAttackTackle)
   )

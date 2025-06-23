@@ -38,6 +38,7 @@ class BattleStats(
     specialDefense = newStat(specialDefense, buffedBy = buff.specialDefenseSteps)
     initiative = newStat(initiative, buffedBy = buff.initiativeSteps)
   }
+ 
 
   private fun resetStatsToBase(baseStats: BaseStats) {
     attack = baseStats.getAttack()
@@ -76,11 +77,11 @@ class BattleStats(
     return attack
   }
 
-  fun getInitiative():Int{
+  fun getInitiative(): Int {
     return initiative
   }
 
-  fun getStatusEffect(): Status?{
+  fun getStatusEffect(): Status? {
     return statusEffect
   }
 
@@ -92,7 +93,7 @@ class BattleStats(
     healthPoints = newHP
   }
 
-  fun updateStatusEffect(newStatusEffect: Status ){
+  fun updateStatusEffect(newStatusEffect: Status) {
     statusEffect = newStatusEffect
   }
 }
