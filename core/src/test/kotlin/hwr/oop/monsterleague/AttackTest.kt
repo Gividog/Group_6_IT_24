@@ -2,7 +2,6 @@ package hwr.oop.monsterleague
 
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.attacks.DragonDance
-import monsterleague.gamelogic.attacks.Haze
 import monsterleague.gamelogic.attacks.Screech
 import monsterleague.gamelogic.attacks.SwordsDance
 import org.assertj.core.api.Assertions.assertThat
@@ -15,7 +14,7 @@ class AttackTest : AnnotationSpec() {
     val battleStats = monster.getBattleStats()
     val buff = SwordsDance
 
-    battleStats.applyChange(buff.attackerStatusChange(), monster)
+    battleStats.applyChange(buff.attackerStatChange(), monster)
 
     assertThat(monster.getBattleStats().getAttack()).isEqualTo(160)
   }
@@ -26,7 +25,7 @@ class AttackTest : AnnotationSpec() {
     val battleStats = monster.getBattleStats()
     val buff = DragonDance
 
-    battleStats.applyChange(buff.attackerStatusChange(), monster)
+    battleStats.applyChange(buff.attackerStatChange(), monster)
 
     assertThat(monster.getBattleStats().getAttack()).isEqualTo(130)
     assertThat(monster.getBattleStats().getInitiative()).isEqualTo(13)
@@ -38,7 +37,7 @@ class AttackTest : AnnotationSpec() {
     val battleStats = monster.getBattleStats()
     val buff = Screech
 
-    battleStats.applyChange(buff.defenderStatusChange(), monster)
+    battleStats.applyChange(buff.defenderStatChange(), monster)
 
     assertThat(monster.getBattleStats().getDefense()).isEqualTo(40)
   }

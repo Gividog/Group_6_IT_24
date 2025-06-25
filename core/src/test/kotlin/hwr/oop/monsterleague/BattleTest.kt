@@ -105,7 +105,6 @@ class BattleTest : AnnotationSpec() {
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
   }
 
-  
   @Test
   fun `simulateRound()`() {
     // TODO
@@ -120,15 +119,15 @@ class BattleTest : AnnotationSpec() {
   fun `active Monsters are sorted descending`() {
     val battle = Battle(
       battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithOnlyDefeatedMonsters,
+      trainerOne = TestData.trainerWithGhostMonsterLeft,
       trainerTwo = TestData.trainerWithTwoMonsters,
       true
     )
 
     val descendingSortedList = battle.sortActiveMonstersByInitiative()
     assertThat(descendingSortedList).containsExactly(
-      TestData.defeatedMonster,
-      TestData.waterMonster,
+      TestData.fireMonster,
+      TestData.ghostMonster
     )
   }
 
@@ -222,7 +221,7 @@ class BattleTest : AnnotationSpec() {
     val switchChoice = TrainerChoice.SwitchChoice(
       outMonster = TestData.waterMonster,
       inMonster = TestData.fireMonster
-      )
+    )
     battle.switchActiveMonster(TestData.trainerWithTwoMonsters, switchChoice)
 
     assertThat(TestData.trainerWithTwoMonsters.getActiveMonster()).isEqualTo(
@@ -262,7 +261,6 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    TestData.trainerWithTwoMonsters.getActiveMonster().updateHP(50)
     TestData.trainerWithTwoMonsters.setHealsRemaining(1)
 
     val choice =
@@ -270,7 +268,7 @@ class BattleTest : AnnotationSpec() {
     battle.healActiveMonster(TestData.trainerWithTwoMonsters, choice)
 
     assertThat(TestData.trainerWithTwoMonsters.getActiveMonstersHP()).isEqualTo(
-      80
+      225
     )
     assertThat(TestData.trainerWithTwoMonsters.getHealsRemaining()).isEqualTo(0)
   }
@@ -286,7 +284,7 @@ class BattleTest : AnnotationSpec() {
       trainerTwo = TestData.trainerWithOnlyDefeatedMonsters,
       trainerOne = TestData.trainerWithTwoMonsters,
       simpleDamageCalculation = true
-      )
+    )
 
     val choice =
       TrainerChoice.HealChoice(TestData.trainerWithTwoMonsters.getActiveMonster())
@@ -341,7 +339,7 @@ class BattleTest : AnnotationSpec() {
    }*/
 
   @Test
-  fun `status effect gets changed from none to confused `(){
+  fun `status effect gets changed from none to confused `() {
     val battleStats = TestData.battleStatsWithoutStatus
     battleStats.updateStatusEffect(Status.CONFUSED)
     val nameOfStatus = battleStats.getStatusEffect()

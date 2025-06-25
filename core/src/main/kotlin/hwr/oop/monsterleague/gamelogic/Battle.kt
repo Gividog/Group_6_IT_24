@@ -20,16 +20,16 @@ class Battle(
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
   private val battleStats = mapOf<Monster, BattleStats>()
 
-  private fun applyStatusChanges(
+  private fun applyStatChanges(
     attack: Attack,
-    defender: Monster,
     attacker: Monster,
+    defender: Monster,
   ) {
-    attack.defenderStatusChange()?.let { defenderStatusChange ->
-      defender.getBattleStats().applyChange(defenderStatusChange, defender)
+    attack.defenderStatChange()?.let { defenderStatChange ->
+      defender.getBattleStats().applyChange(defenderStatChange, defender)
     }
-    attack.attackerStatusChange()?.let { attackerStatusChange ->
-      attacker.getBattleStats().applyChange(attackerStatusChange, attacker)
+    attack.attackerStatChange()?.let { attackerStatChange ->
+      attacker.getBattleStats().applyChange(attackerStatChange, attacker)
     }
   }
 
@@ -104,10 +104,19 @@ class Battle(
     val attack = choice.selectedAttack
 
     when (getKindOfAttack(choice.selectedAttack)) {
-      AttackKinds.SPECIAL, AttackKinds.PHYSICAL -> handleAttack(attack, attacker, defender)
-      AttackKinds.BUFF -> applyBuff(attack, attacker)
-      AttackKinds.DEBUFF -> applyDebuff(attack, defender)
-      AttackKinds.STATUS -> applyStatus(attack, defender)
+      AttackKinds.SPECIAL, AttackKinds.PHYSICAL -> handleAttack(
+        attack,
+        attacker,
+        defender
+      )
+
+      AttackKinds.BUFF, AttackKinds.DEBUFF -> applyStatChanges(
+        attack,
+        attacker,
+        defender
+      )
+
+      // AttackKinds.STATUS -> applyStatus(attack, defender)
     }
   }
 
@@ -134,7 +143,7 @@ class Battle(
         damageCalculator.calculateDamage()
       }
       defender.takeDamage(damage)
-      applyStatusChanges(attack, defender, attacker)
+      applyStatChanges(attack, defender, attacker)
     }
   }
 
@@ -190,10 +199,6 @@ class Battle(
     return round
   }
 
-  fun getChoiceOfTrainerMap(): Map<TrainerInBattle, TrainerChoice> {
-    return mapOfChoice
-  }
-
   fun getTrainerOne(): TrainerInBattle {
     return trainerOne
   }
@@ -201,5 +206,4 @@ class Battle(
   fun getTrainerTwo(): TrainerInBattle {
     return trainerTwo
   }
-
 }

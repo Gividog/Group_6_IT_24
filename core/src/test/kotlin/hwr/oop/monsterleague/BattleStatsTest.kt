@@ -1,6 +1,6 @@
 package hwr.oop.monsterleague
 
-import hwr.oop.monsterleague.gamelogic.attacks.StatusChange
+import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.BattleStats
 import monsterleague.gamelogic.Status
@@ -25,7 +25,7 @@ class BattleStatsTest: AnnotationSpec() {
   @Test
   fun `StatusChange gets applied`(){
     val battleStats = TestData.waterMonster.getBattleStats()
-    val buff = StatusChange.Buff(
+    val buff = StatChange.Buff(
       attackSteps = 2,
       specialAttackSteps = 3
     )
@@ -43,11 +43,11 @@ class BattleStatsTest: AnnotationSpec() {
   @Test
   fun `status gets cleared`(){
     val battleStats = TestData.waterMonster.getBattleStats()
-    val buff = StatusChange.Buff(
+    val buff = StatChange.Buff(
       attackSteps = 2,
       specialAttackSteps = 3
     )
-    val clear = StatusChange.Clear
+    val clear = StatChange.Clear
     battleStats.applyChange(buff, TestData.waterMonster)
     battleStats.applyChange(clear, TestData.waterMonster)
     assertThat(battleStats.getHP()).isEqualTo(250)

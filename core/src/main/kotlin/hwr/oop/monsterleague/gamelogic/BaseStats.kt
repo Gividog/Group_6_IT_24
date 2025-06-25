@@ -10,6 +10,11 @@ data class BaseStats(
     private var specialDefense: Int,
     private var specialAttack: Int,
 ) {
+
+  /**
+   * Queries
+   */
+
   fun getHealthPoints(): Int {
     return healthPoints
   }
@@ -28,6 +33,4 @@ data class BaseStats(
   fun getSpecialAttack(): Int {
     return specialAttack
   }
-
-
 }

@@ -1,6 +1,6 @@
 package monsterleague.gamelogic
 
-import hwr.oop.monsterleague.gamelogic.attacks.StatusChange
+import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 
 class BattleStats(
   private var healthPoints: Int,
@@ -24,14 +24,14 @@ class BattleStats(
     )
   }
 
-  fun applyChange(buff: StatusChange, monster: Monster) {
+  fun applyChange(buff: StatChange, monster: Monster) {
     when (buff) {
-      is StatusChange.Buff -> applyBuff(buff)
-      is StatusChange.Clear -> resetStatsToBase(monster.getBaseStats())
+      is StatChange.Buff -> applyBuff(buff)
+      is StatChange.Clear -> resetStatsToBase(monster.getBaseStats())
     }
   }
 
-  private fun applyBuff(buff: StatusChange.Buff) {
+  private fun applyBuff(buff: StatChange.Buff) {
     attack = newStat(attack, buffedBy = buff.attackSteps)
     defense = newStat(defense, buffedBy = buff.defenseSteps)
     specialAttack = newStat(specialAttack, buffedBy = buff.specialAttackSteps)

@@ -32,11 +32,6 @@ class TrainerInBattle(
     return activeMonster.defeatedMonster()
   }
 
-
-  fun getChosenAttack(): Attack {
-    return chosenAttack!!
-  }
-
   fun getName(): String {
     return name
   }

@@ -1,6 +1,6 @@
 package monsterleague.gamelogic.attacks
 
-import hwr.oop.monsterleague.gamelogic.attacks.StatusChange
+import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 import monsterleague.gamelogic.Type
 
 interface Attack {
@@ -12,8 +12,8 @@ interface Attack {
   val powerPoints: Int
   fun defenderDamage(): Int = 0
   fun attackerDamage(): Int = 0
-  fun defenderStatusChange(): StatusChange? = null
-  fun attackerStatusChange(): StatusChange? = null
+  fun defenderStatChange(): StatChange? = null
+  fun attackerStatChange(): StatChange? = null
 
   fun isSpecial(): Boolean {
     return kind == AttackKinds.SPECIAL

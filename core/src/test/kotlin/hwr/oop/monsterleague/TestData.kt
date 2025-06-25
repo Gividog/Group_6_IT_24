@@ -83,9 +83,9 @@ object TestData {
     specialDefense = 100
   )
 
-  var battleStatsHigherAttack = BattleStats(
-    healthPoints = 250,
-    initiative = 10,
+  var battleStatsHigherInitiative = BattleStats(
+    healthPoints = 150,
+    initiative = 30,
     attack = 120,
     defense = 100,
     statusEffect = Status.CONFUSED,
@@ -119,7 +119,7 @@ object TestData {
     name = "Monster2",
     type = Type.FIRE,
     baseStats = baseStatsHigherInitiative,
-    battleStats = battleStatsWithStatus,
+    battleStats = battleStatsHigherInitiative,
     attacks = listOf(physicalAttackTackle)
   )
 
@@ -167,11 +167,11 @@ object TestData {
       3
     )
 
-  val trainerWithFireMonsterLeft =
+  val trainerWithGhostMonsterLeft =
     TrainerInBattle(
-      "trainer2",
-      listOf(fireMonster, defeatedMonster),
-      defeatedMonster,
+      "trainer4",
+      listOf(ghostMonster, defeatedMonster),
+      ghostMonster,
       3
     )
 

@@ -1,6 +1,6 @@
 package monsterleague.gamelogic.attacks
 
-import hwr.oop.monsterleague.gamelogic.attacks.StatusChange
+import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 import monsterleague.gamelogic.Type
 
 object SwordsDance : Attack {
@@ -11,7 +11,7 @@ object SwordsDance : Attack {
   override val power : Int = 0
   override val powerPoints: Int = 3
 
-  override fun attackerStatusChange() = StatusChange.Buff(
+  override fun attackerStatChange() = StatChange.Buff(
     attackSteps = 2,
   )
 }
@@ -24,7 +24,7 @@ object DragonDance : Attack {
   override val power: Int = 0
   override val powerPoints: Int = 3
 
-  override fun attackerStatusChange() = StatusChange.Buff(
+  override fun attackerStatChange() = StatChange.Buff(
     attackSteps = 1,
     initiativeSteps = 1,
   )
@@ -38,7 +38,7 @@ object Screech : Attack {
   override val power: Int = 0
   override val powerPoints: Int = 3
 
-  override fun defenderStatusChange() = StatusChange.Buff(
+  override fun defenderStatChange() = StatChange.Buff(
     defenseSteps = -2,
   )
 }
@@ -51,5 +51,5 @@ object Haze : Attack {
   override val power: Int = 0
   override val powerPoints: Int = 3
 
-  override fun attackerStatusChange() = StatusChange.Clear
+  override fun attackerStatChange() = StatChange.Clear
 }
