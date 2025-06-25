@@ -20,6 +20,10 @@ class TrainerInBattle(
     return readyToFight
   }
 
+  fun setReadyToFight() {
+    readyToFight = true
+  }
+
   fun setNotReadyToFight() {
     readyToFight = false
   }

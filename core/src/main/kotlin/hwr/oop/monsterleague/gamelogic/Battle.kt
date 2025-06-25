@@ -20,33 +20,6 @@ class Battle(
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
   private val battleStats = mapOf<Monster, BattleStats>()
 
-  fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
-    val attackerStats = battleStats[attacker] ?: throw IllegalArgumentException(
-      "Attacker stats not found"
-    )
-    val defenderStats = battleStats[defender] ?: throw IllegalArgumentException(
-      "Defender stats not found"
-    )
-
-    val hitChanceCalculator = HitChanceCalculator(attack)
-
-    if (hitChanceCalculator.willHit()) {
-      val damageCalculator = DamageCalculator(
-        attackingMonster = attacker,
-        defendingMonster = defender,
-        attack = attack
-      )
-
-      val damage = if (simpleDamageCalculation) {
-        damageCalculator.simpleDamageCalculation()
-      } else {
-        damageCalculator.calculateDamage()
-      }
-      defender.takeDamage(damage)
-      applyStatusChanges(attack, defender, attacker)
-    }
-  }
-
   private fun applyStatusChanges(
     attack: Attack,
     defender: Monster,
@@ -122,64 +95,72 @@ class Battle(
     val attack = choice.selectedAttack
     val hitChanceCalculator = HitChanceCalculator(attack)
 
-    if (getKindOfAttack(attack) == AttackKinds.SPECIAL || getKindOfAttack(attack) == AttackKinds.PHYSICAL
-    ) if (hitChanceCalculator.willHit()) {
+    handleAttackKind(choice)
+  }
+
+  private fun handleAttackKind(choice: TrainerChoice.AttackChoice) {
+    val attacker = choice.attackingMonster
+    val defender = choice.targetedMonster
+    val attack = choice.selectedAttack
+
+    when (getKindOfAttack(choice.selectedAttack)) {
+      AttackKinds.SPECIAL, AttackKinds.PHYSICAL -> handleAttack(attack, attacker, defender)
+      AttackKinds.BUFF -> applyBuff(attack, attacker)
+      AttackKinds.DEBUFF -> applyDebuff(attack, defender)
+      AttackKinds.STATUS -> applyStatus(attack, defender)
+    }
+  }
+
+  fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
+    val attackerStats = battleStats[attacker] ?: throw IllegalArgumentException(
+      "Attacker stats not found"
+    )
+    val defenderStats = battleStats[defender] ?: throw IllegalArgumentException(
+      "Defender stats not found"
+    )
+
+    val hitChanceCalculator = HitChanceCalculator(attack)
+
+    if (hitChanceCalculator.willHit()) {
       val damageCalculator = DamageCalculator(
         attackingMonster = attacker,
         defendingMonster = defender,
         attack = attack
       )
-      val damage = damageCalculator.calculateDamage()
-      defender.takeDamage(damage)
 
-      // Buffs und Debuffs in separate Funktion auslagern
-    } else if (getKindOfAttack(attack) == AttackKinds.BUFF) {
-      if (hitChanceCalculator.willHit()) {
-        // attack an Funktion in BuffAttack übergeben
-        // die liest aus, welchen Stat die Attacke ändert
-        // ruft die Rechenfunktion für diesen Stat auf
+      val damage = if (simpleDamageCalculation) {
+        damageCalculator.simpleDamageCalculation()
+      } else {
+        damageCalculator.calculateDamage()
       }
-    } else if (getKindOfAttack(attack) == AttackKinds.DEBUFF) {
-      if (hitChanceCalculator.willHit()) {
-        // TODO DeBuff Calculation
-      }
-    } else if (getKindOfAttack(attack) == AttackKinds.STATUS) {
-      if (hitChanceCalculator.willHit()) {
-        // TODO Status Calculation
-      }
+      defender.takeDamage(damage)
+      applyStatusChanges(attack, defender, attacker)
     }
   }
 
   fun switchActiveMonster(
-    // return Battle ?
     trainer: TrainerInBattle,
     choice: TrainerChoice.SwitchChoice,
   ) {
     val inMonster = choice.inMonster
-    val outMonster = choice.outMonster
     val monsters = trainer.getMonsters()
-    var activeMonster = trainer.getActiveMonster()
-    var readyToFight = trainer.getReadyToFight()
 
-    if (inMonster in monsters) activeMonster = inMonster
-    readyToFight = true
+    if (inMonster in monsters) trainer.setActiveMonster(inMonster)
+    trainer.setReadyToFight()
   }
 
   fun healActiveMonster(
-    // return Battle ?
     trainer: TrainerInBattle,
     choice: TrainerChoice.HealChoice,
   ) {
-    var healsRemaining = trainer.getHealsRemaining()
+    val healsRemaining = trainer.getHealsRemaining()
     val activeMonster = trainer.getActiveMonster()
-    var readyToFight = trainer.getReadyToFight()
 
     if (healsRemaining > 0) {
       activeMonster.heal()
-      healsRemaining--
-      trainer.setHealsRemaining(healsRemaining)
+      trainer.setHealsRemaining(healsRemaining - 1)
 
-      readyToFight = true
+      trainer.setReadyToFight()
     }
   }
 
