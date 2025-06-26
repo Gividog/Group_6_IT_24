@@ -294,29 +294,15 @@ class BattleTest : AnnotationSpec() {
     assertThat(TestData.trainerWithTwoMonsters.getHealsRemaining()).isEqualTo(0)
   }
 
-  @Test
-  fun `trainer3 chose physicalAttackTackle`() {
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithTwoMonsters,
-      true
-    )
-    val trainer = TestData.trainerWithTwoMonsters
-    val targetTrainer = TestData.trainerWithOneDefeatedMonster
-    val attackChoice = TrainerChoice.AttackChoice(
-      attackingMonster = trainer.getActiveMonster(),
-      selectedAttack = TestData.physicalAttackTackle,
-      targetedMonster = TestData.trainerWithOneDefeatedMonster.getActiveMonster()
+@Test
+fun `surrender is TrainerOne`(){
+  val battle = Battle(TestData.battleUuid, TestData.trainerWithTwoMonsters, TestData.trainerWithOneDefeatedMonster, true)
+  battle.surrender(battle.getTrainerTwo())
+  val winner = battle.getWinner()
 
-    )
-    val initialHP = targetTrainer.getActiveMonster().getHP()
-    battle.trainerChooseAttack(trainer, attackChoice)
+  assertThat(winner).isEqualTo(battle.getTrainerOne())
 
-    val afterHP = targetTrainer.getActiveMonster().getHP()
-
-    assertThat(afterHP).isLessThan(initialHP)
-  }
+}
 
   /* @Test
    fun `simulateRound applies damage in correct initiative order`() {
