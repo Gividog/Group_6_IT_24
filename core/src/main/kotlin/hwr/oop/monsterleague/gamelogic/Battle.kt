@@ -128,6 +128,8 @@ class Battle(
     }
   }
 
+
+
   private fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
     val hitChanceCalculator = HitChanceCalculator(attack)
 
@@ -208,35 +210,32 @@ class Battle(
     return trainerTwo
   }
 
-  fun getAttackingTrainer(): TrainerInBattle {
-    
-  }
 
   /**
    * Test Commands
    */
 
-  fun testEndRound(battle: Battle) {
-    battle.endRound()
+  fun testEndRound() {
+    endRound()
   }
 
-  fun testSurrender(battle: Battle, trainer: TrainerInBattle) {
-    battle.surrender(trainer)
+  fun testSurrender(trainer: TrainerInBattle) {
+   surrender(trainer)
   }
 
-  fun testDetermineWinner(battle : Battle) {
-    battle.determineWinner()
+  fun testDetermineWinner() {
+    determineWinner()
   }
 
-  fun testSortActiveMonsterByInitiative (battle: Battle) : List<Monster> {
-    return battle.sortActiveMonstersByInitiative()
+  fun testSortActiveMonsterByInitiative () : List<Monster> {
+    return sortActiveMonstersByInitiative()
   }
 
   fun testStartNextRound (battle : Battle) {
-    battle.startNextRound()
+    startNextRound()
   }
 
-  fun testHandleAttack(battle: Battle, attack: Attack, attacker: Monster, defender: Monster ) {
-    battle.handleAttack(attack, attacker, defender)
+  fun testHandleAttack( attack: Attack, attacker: Monster, defender: Monster ) {
+    handleAttack(attack, attacker, defender)
   }
 }

@@ -54,12 +54,30 @@ object TestData {
     specialDefense = 120,
   )
 
-  var baseStatsHigherAttack = BaseStats(
+var baseStatsSwordDancingMonster = BaseStats(
+  healthPoints = 250,
+  initiative = 20,
+  attack = 100,
+  defense = 100,
+  specialAttack = 120,
+  specialDefense = 120,
+)
+
+  var baseStatsDragonDancingMonster = BaseStats(
     healthPoints = 250,
-    initiative = 10,
-    attack = 120,
+    initiative = 30,
+    attack = 100,
     defense = 100,
-    specialAttack = 100,
+    specialAttack = 150,
+    specialDefense = 120,
+  )
+
+  var baseStatsScreechingMonster = BaseStats(
+    healthPoints = 250,
+    initiative = 20,
+    attack = 100,
+    defense = 90,
+    specialAttack = 150,
     specialDefense = 120,
   )
 
@@ -102,6 +120,7 @@ object TestData {
     specialAttack = 120,
     specialDefense = 120
   )
+
 
   /**
    * Dummy Monsters
@@ -146,6 +165,32 @@ object TestData {
     battleStats = battleStatsDefeatedMonster,
     attacks = listOf(physicalAttackTackle)
   )
+
+  val buffMonsterSwordDancer = Monster(
+    name = "SwordDancer",
+    type = Type.NORMAL ,
+    baseStats = baseStatsSwordDancingMonster,
+    battleStats = BattleStats.createBasedOn(baseStatsSwordDancingMonster),
+    attacks = listOf(SwordsDance)
+  )
+
+  val buffMonsterDragonDancer = Monster(
+    name = "DragonDancer",
+    type = Type.NORMAL,
+    baseStats = baseStatsSwordDancingMonster,
+    battleStats = BattleStats.createBasedOn(baseStatsDragonDancingMonster),
+    attacks = listOf(DragonDance)
+  )
+
+  val buffMonsterScreech = Monster(
+    name = "Screech",
+    type = Type.NORMAL,
+    baseStats = baseStatsScreechingMonster,
+    battleStats = BattleStats.createBasedOn(baseStatsScreechingMonster),
+    attacks = listOf(DragonDance)
+  )
+
+
 
   /**
    * Dummy Trainers
