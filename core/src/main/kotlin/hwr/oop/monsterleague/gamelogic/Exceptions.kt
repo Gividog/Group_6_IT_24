@@ -27,7 +27,7 @@ object Exceptions {
   }
 
   class MonsterNotFoundException(trainer: TrainerInBattle, monster: Monster) :
-    Exception("You tried to select $monster but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getListOfMonsters()}.")
+    Exception("You tried to select $monster but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getMonsters()}.")
 
   fun attackCannotBeUsed() {
     throw Exception("Attack cannot be used")
