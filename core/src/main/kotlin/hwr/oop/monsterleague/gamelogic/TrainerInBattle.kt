@@ -52,6 +52,11 @@ class TrainerInBattle(
     return healsRemaining
   }
 
+  fun getHealthyMonsters(): List<Monster> {
+    val healthyMonsters = monsters.filter { it.getBattleStats().getHP() > 0 }
+    return healthyMonsters
+  }
+
   /**
    * Commands
    **/

@@ -16,7 +16,7 @@ object Exceptions {
     throw Exception("Trainer choice not found")
   }
 
-  class TrainerChoiceNotFoundException(
+  class TrainerChoiceNotFoundException( // brauchen wir?
     trainer: TrainerInBattle,
     choice: TrainerChoice,
   ) :
@@ -40,10 +40,20 @@ object Exceptions {
     throw Exception("Monster not active")
   }
 
-  class MonsterNotActiveException(monster: Monster, trainer : TrainerInBattle) :
+  class MonsterNotActiveException(monster: Monster, trainer: TrainerInBattle) :
     Exception("You tried to select $monster but $monster is not active. Currently active monster: ${trainer.getActiveMonster()}.")
 
-  // TODO : Exception für Trainer will besiegtes Monster in die aktive Position setzen
+  fun trainerNotFound() {
+    throw Exception("Trainer not found")
+  }
 
-  // TODO : Exception für Spieler will Trainer aufrufen, der nicht existiert
+  class TrainerNotFoundException(trainer: TrainerInBattle, battle: Battle) : // brauchen wir?
+    Exception("You tried to select $trainer but $trainer is not available to choose. Available trainers are: ${battle.getTrainerOne()} and ${battle.getTrainerTwo()}.")
+
+  fun monsterDefeated() {
+    throw Exception("Monster is defeated")
+  }
+
+  class MonsterDefeatedException(monster: Monster, trainer: TrainerInBattle) :
+    Exception("You tried to select $monster as your active monster but $monster is already defeated. Currently available monsters: ${trainer.getHealthyMonsters()}.")
 }

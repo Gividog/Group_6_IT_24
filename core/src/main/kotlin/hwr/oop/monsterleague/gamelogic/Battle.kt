@@ -6,7 +6,6 @@ import hwr.oop.monsterleague.gamelogic.calculators.DamageCalculator
 import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.Exceptions
 
 import java.util.UUID
 
@@ -98,45 +97,50 @@ class Battle(
 
     if (attack !in attackingMonster.getAttacks()) {
       throw Exceptions.AttackNotFoundException(attack, attackingMonster)
+    } else if (attack.getPowerPoints() == 0) {
+      throw Exceptions.AttackCannotBeUsedException(attack, attackingMonster)
     } else if (attackingMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)
-    }else if (targetedMonster !== trainer.getActiveMonster()){
+    } else if (targetedMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(targetedMonster, trainer)
-    }else
+    } else
       handleAttackKind(choice)
   }
 
   private fun handleAttackKind(choice: TrainerChoice.AttackChoice) {
-    val attacker = choice.attackingMonster
-    val defender = choice.targetedMonster
+    val attackingMonster = choice.attackingMonster
+    val targetedMonster = choice.targetedMonster
     val attack = choice.selectedAttack
 
     when (getKindOfAttack(choice.selectedAttack)) {
       AttackKinds.SPECIAL, AttackKinds.PHYSICAL -> handleAttack(
         attack,
-        attacker,
-        defender
+        attackingMonster,
+        targetedMonster,
       )
 
       AttackKinds.BUFF, AttackKinds.DEBUFF -> applyStatChanges(
         attack,
-        attacker,
-        defender
+        attackingMonster,
+        targetedMonster
       )
 
       // AttackKinds.STATUS -> applyStatus(attack, defender)
     }
   }
 
-
-
-  private fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
+  private fun handleAttack(
+    attack: Attack,
+    attackingMonster: Monster,
+    targetedMonster: Monster,
+  ) {
+    val defendingTrainer: TrainerInBattle = getDefendingTrainer()
     val hitChanceCalculator = HitChanceCalculator(attack)
 
     if (hitChanceCalculator.willHit()) {
       val damageCalculator = DamageCalculator(
-        attackingMonster = attacker,
-        defendingMonster = defender,
+        attackingMonster = attackingMonster,
+        targetedMonster = targetedMonster,
         attack = attack
       )
 
@@ -145,8 +149,12 @@ class Battle(
       } else {
         damageCalculator.calculateDamage()
       }
-      defender.takeDamage(damage)
-      applyStatChanges(attack, defender, attacker)
+      targetedMonster.takeDamage(damage)
+      applyStatChanges(attack, targetedMonster, attackingMonster)
+    }
+
+    if (defendingTrainer.checkActiveMonsterDefeated()) {
+      // TODO : Trainer muss nächstes, noch nicht besiegtes Monster auswählen (switchActiveMonster()?)
     }
   }
 
@@ -157,8 +165,14 @@ class Battle(
     val inMonster = choice.inMonster
     val monsters = trainer.getMonsters()
 
-    if (inMonster in monsters) trainer.setActiveMonster(inMonster)
-    trainer.setReadyToFight()
+    if (inMonster.getBattleStats().getHP() == 0) {
+      throw Exceptions.MonsterDefeatedException(inMonster, trainer)
+    } else if (inMonster !in monsters) {
+      throw Exceptions.MonsterNotFoundException(trainer, inMonster)
+    } else {
+      trainer.setActiveMonster(inMonster)
+      trainer.setReadyToFight()
+    }
   }
 
   fun healActiveMonster(
@@ -166,12 +180,15 @@ class Battle(
     choice: TrainerChoice.HealChoice,
   ) {
     val healsRemaining = trainer.getHealsRemaining()
-    val activeMonster = trainer.getActiveMonster()
+    val monsterToBeHealed = choice.monster
 
-    if (healsRemaining > 0) {
-      activeMonster.heal()
+    if (healsRemaining == 0) {
+      throw Exception("You tried healing your monster but you don't have any heals remaining.")
+    } else if (monsterToBeHealed != trainer.getActiveMonster()) {
+      throw Exceptions.MonsterNotActiveException(monsterToBeHealed, trainer)
+    } else {
+      monsterToBeHealed.heal()
       trainer.setHealsRemaining(healsRemaining - 1)
-
       trainer.setReadyToFight()
     }
   }
@@ -210,6 +227,15 @@ class Battle(
     return trainerTwo
   }
 
+  fun getAttackingTrainer(): TrainerInBattle {
+    // TODO
+    return trainerOne
+  }
+
+  fun getDefendingTrainer(): TrainerInBattle {
+    // TODO
+    return trainerOne
+  }
 
   /**
    * Test Commands
@@ -235,7 +261,12 @@ class Battle(
     startNextRound()
   }
 
-  fun testHandleAttack( attack: Attack, attacker: Monster, defender: Monster ) {
-    handleAttack(attack, attacker, defender)
+  fun testHandleAttack(
+    battle: Battle,
+    attack: Attack,
+    attackingMonster: Monster,
+    targetedMonster: Monster,
+  ) {
+    battle.handleAttack(attack, attackingMonster, targetedMonster)
   }
 }
