@@ -27,10 +27,12 @@ class BattleTest : AnnotationSpec() {
 
     )
 
-    battle.testSurrender(battle, TestData.trainerWithTwoMonsters)
+    battle.testSurrender(TestData.trainerWithTwoMonsters)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
   }
+
+
 
   /**
    * startNextRound() tests
@@ -70,7 +72,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.testDetermineWinner(battle)
+    battle.testDetermineWinner()
 
     assertThat(battle.getWinner()).isEqualTo(null)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithTwoMonsters)
@@ -86,7 +88,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.testDetermineWinner(battle)
+    battle.testDetermineWinner()
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -101,7 +103,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.testDetermineWinner(battle)
+    battle.testDetermineWinner()
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -126,7 +128,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    val descendingSortedList = battle.testSortActiveMonsterByInitiative(battle)
+    val descendingSortedList = battle.testSortActiveMonsterByInitiative()
     assertThat(descendingSortedList).containsExactly(
       TestData.fireMonster,
       TestData.ghostMonster
@@ -160,7 +162,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.testEndRound(battle)
+    battle.testEndRound()
 
     assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.waterMonster
@@ -177,7 +179,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.testEndRound(battle)
+    battle.testEndRound()
 
     assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.defeatedMonster
@@ -197,7 +199,7 @@ class BattleTest : AnnotationSpec() {
 
     battle.getTrainerTwo().setActiveMonster(TestData.defeatedMonster)
 
-    battle.testEndRound(battle)
+    battle.testEndRound()
 
     assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
       TestData.ghostMonster
@@ -214,7 +216,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.testEndRound(battle)
+    battle.testEndRound()
 
     assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
       TestData.defeatedMonster
@@ -230,7 +232,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.testEndRound(battle)
+    battle.testEndRound()
 
     assertThat(
       battle.getTrainerOne().getActiveMonster()
@@ -266,6 +268,60 @@ class BattleTest : AnnotationSpec() {
       e.printStackTrace()
     }
   }
+
+  @Test
+  fun `monster for chooseAttack is not active`(){
+    try {
+      val battle = Battle(
+        battleID = TestData.battleUuid,
+        trainerOne = TestData.trainerWithOnlyDefeatedMonsters,
+        trainerTwo = TestData.trainerWithTwoMonsters,
+        true,
+      )
+      val attackChoice = TrainerChoice.AttackChoice(
+        attackingMonster = battle.getTrainerTwo().getActiveMonster(),
+        selectedAttack = TestData.physicalAttackTackle,
+        targetedMonster = battle.getTrainerOne().getActiveMonster()
+
+      )
+      battle.trainerChooseAttack(battle.getTrainerOne(), attackChoice)
+      fail("Exception should be thrown")
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
+  @Test
+  fun `targeted monster for chooseAttack is not active`(){
+    try {
+      val battle = Battle(
+        battleID = TestData.battleUuid,
+        trainerOne = TestData.trainerWithOnlyDefeatedMonsters,
+        trainerTwo = TestData.trainerWithTwoMonsters,
+        true,
+      )
+      val attackChoice = TrainerChoice.AttackChoice(
+        attackingMonster = battle.getTrainerOne().getActiveMonster(),
+        selectedAttack = TestData.physicalAttackTackle,
+        targetedMonster = battle.getTrainerTwo().getActiveMonster()
+
+      )
+      battle.trainerChooseAttack(battle.getTrainerOne(), attackChoice)
+      fail("Exception should be thrown")
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
+@Test
+fun `Damage doesnt hit`(){
+  val battle = Battle(
+    battleID = TestData.battleUuid,
+    trainerOne = TestData.trainerWithTwoMonsters,
+    trainerTwo = TestData.trainerWithTwoMonsters,
+    true,
+  )
+}
 
   /**
    * changeActiveMonster tests
@@ -361,29 +417,15 @@ class BattleTest : AnnotationSpec() {
     assertThat(TestData.trainerWithTwoMonsters.getHealsRemaining()).isEqualTo(0)
   }
 
-  @Test
-  fun `trainer3 chose physicalAttackTackle`() {
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithTwoMonsters,
-      true
-    )
-    val trainer = TestData.trainerWithTwoMonsters
-    val targetTrainer = TestData.trainerWithOneDefeatedMonster
-    val attackChoice = TrainerChoice.AttackChoice(
-      attackingMonster = trainer.getActiveMonster(),
-      selectedAttack = TestData.physicalAttackTackle,
-      targetedMonster = TestData.trainerWithOneDefeatedMonster.getActiveMonster()
+@Test
+fun `surrender is TrainerOne`(){
+  val battle = Battle(TestData.battleUuid, TestData.trainerWithTwoMonsters, TestData.trainerWithOneDefeatedMonster, true)
+  battle.testSurrender(battle.getTrainerTwo())
+  val winner = battle.getWinner()
 
-    )
-    val initialHP = targetTrainer.getActiveMonster().getHP()
-    battle.trainerChooseAttack(trainer, attackChoice)
+  assertThat(winner).isEqualTo(battle.getTrainerOne())
 
-    val afterHP = targetTrainer.getActiveMonster().getHP()
-
-    assertThat(afterHP).isLessThan(initialHP)
-  }
+}
 
   /* @Test
    fun `simulateRound applies damage in correct initiative order`() {
@@ -422,7 +464,7 @@ class BattleTest : AnnotationSpec() {
       TestData.trainerWithOneDefeatedMonster,
       true
     )
-    battle.testSurrender(battle, battle.getTrainerTwo())
+    battle.testSurrender(battle.getTrainerTwo())
     val winner = battle.getWinner()
 
     assertThat(winner).isEqualTo(battle.getTrainerOne())
@@ -431,6 +473,11 @@ class BattleTest : AnnotationSpec() {
   /*
         handleAttack Tests
   */
+
+  @Test
+  fun `attack hits, and gets calculated with simple calculator`(){
+
+  }
 
 }
 

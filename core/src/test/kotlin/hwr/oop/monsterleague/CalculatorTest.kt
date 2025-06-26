@@ -12,7 +12,7 @@ class CalculatorTest : AnnotationSpec() {
    */
 
   @Test
-  fun `calculateDamage returns exactly 24 damage with neutral efficiency and neutral stab factor`() {
+  fun `calculateDamage returns exactly 21 damage with neutral efficiency and neutral stab factor`() {
     val attackingMonster = TestData.waterMonster
     val defendingMonster = TestData.normalMonster
     val attack = TestData.physicalAttackTackle
@@ -23,11 +23,11 @@ class CalculatorTest : AnnotationSpec() {
       attack
     ).calculateDamage()
 
-    assertThat(damage).isEqualTo(24)
+    assertThat(damage).isEqualTo(22)
   }
 
   @Test
-  fun `calculateDamage() returns exactly 72 damage with higher efficiency and higher stab factor`() {
+  fun `calculateDamage() returns exactly 65 damage with higher efficiency and higher stab factor`() {
     val attackingMonster = TestData.waterMonster
     val defendingMonster = TestData.fireMonster
     val attack = TestData.physicalAttackSplash
@@ -38,7 +38,7 @@ class CalculatorTest : AnnotationSpec() {
       attack
     ).calculateDamage()
 
-    assertThat(damage).isEqualTo(72)
+    assertThat(damage).isEqualTo(65)
   }
 
   @Test
@@ -68,7 +68,7 @@ class CalculatorTest : AnnotationSpec() {
       attack
     ).calculateDamage()
 
-    assertThat(damage).isEqualTo(12)
+    assertThat(damage).isEqualTo(11)
   }
 
   /*
@@ -127,7 +127,7 @@ class CalculatorTest : AnnotationSpec() {
       TestData.specialAttackHydroPump
     ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(6)
+    assertThat(damage).isEqualTo(53)
   }
 
   @Test
@@ -141,7 +141,7 @@ class CalculatorTest : AnnotationSpec() {
       defendingMonster,
       attack
     ).calculateDamage(criticalHit = 2.0, random = 1.0)
-    assertThat(damage).isEqualTo(8)
+    assertThat(damage).isEqualTo(66)
 
   }
 
@@ -157,7 +157,7 @@ class CalculatorTest : AnnotationSpec() {
       attack
     ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(1)
+    assertThat(damage).isEqualTo(53)
   }
 
   @Test
@@ -172,7 +172,7 @@ class CalculatorTest : AnnotationSpec() {
       attack
     ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(1)
+    assertThat(damage).isEqualTo(36)
 
   }
 

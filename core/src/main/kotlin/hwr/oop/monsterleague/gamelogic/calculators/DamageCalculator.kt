@@ -25,7 +25,7 @@ class DamageCalculator(
     if (attack.isSpecial()) {
       defenseStat = defendingMonster.getSpecialDefenseStat()
       attackStat = attackingMonster.getSpecialAttackStat()
-    } else {
+    } else if (!attack.isSpecial()) {
       defenseStat = defendingMonster.getDefenseStat()
       attackStat = attackingMonster.getAttackStat()
     }

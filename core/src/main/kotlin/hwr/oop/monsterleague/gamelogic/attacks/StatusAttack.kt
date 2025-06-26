@@ -7,9 +7,9 @@ class StatusAttack(
   override val name: String,
   override val kind: AttackKinds,
   override val type: Type,
+  override val power: Int,
   override val accuracy: Int,
   override val powerPoints: Int,
-  override val power: Int,
   val statusEffect: Status,
 ) : Attack {
 

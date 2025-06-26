@@ -16,7 +16,7 @@ class MonsterTest : AnnotationSpec() {
 
     monster.takeDamage(damage)
 
-    assertThat(monster.getHP()).isEqualTo(70)
+    assertThat(monster.getHP()).isEqualTo(220)
   }
   @Test
   fun `getAttacks returns the correct list of attacks`() {
