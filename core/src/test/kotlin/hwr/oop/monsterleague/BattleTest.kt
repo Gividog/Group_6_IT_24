@@ -2,12 +2,14 @@ package monsterleague
 
 import hwr.oop.monsterleague.TestData
 import hwr.oop.monsterleague.gamelogic.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.TrainerInBattle
 import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
 import monsterleague.gamelogic.attacks.AttackKinds
 import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.assertThrows
 import java.util.*
 
 class BattleTest : AnnotationSpec() {
@@ -25,7 +27,7 @@ class BattleTest : AnnotationSpec() {
 
     )
 
-    battle.surrender(TestData.trainerWithTwoMonsters)
+    battle.testSurrender(battle, TestData.trainerWithTwoMonsters)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
   }
@@ -43,7 +45,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.startNextRound()
+    battle.testStartNextRound(battle)
 
     assertThat(battle.getRounds()).isEqualTo(2)
     assertThat(battle.getWinner()).isNull()
@@ -68,7 +70,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(null)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithTwoMonsters)
@@ -84,7 +86,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -99,7 +101,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -124,7 +126,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    val descendingSortedList = battle.sortActiveMonstersByInitiative()
+    val descendingSortedList = battle.testSortActiveMonsterByInitiative(battle)
     assertThat(descendingSortedList).containsExactly(
       TestData.fireMonster,
       TestData.ghostMonster
@@ -143,34 +145,99 @@ class BattleTest : AnnotationSpec() {
     assertThat(kind).isEqualTo(AttackKinds.PHYSICAL)
   }
 
+  /**
+   * endRound() Tests
+   */
+
+  // trainerOne branch
+
   @Test
-  fun `next active Monster is fireMonster`() {
-    Battle(
+  fun `next active Monster of trainerOne is fireMonster`() {
+    val battle = Battle(
       TestData.battleUuid,
       trainerOne = TestData.trainerWithOneDefeatedMonster,
-      trainerTwo = TestData.trainerWithOneDefeatedMonster,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
       true,
-    ).endRound()
+    )
 
-    assertThat(TestData.trainerWithOneDefeatedMonster.getActiveMonster()).isEqualTo(
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.waterMonster
     )
-    assertThat(TestData.trainerWithOneDefeatedMonster.getMonsters()).isNotNull()
-
+    assertThat(battle.getTrainerOne().getMonsters()).isNotNull()
   }
 
   @Test
-  fun `no monsters left to replace active monsters`() {
-    Battle(
+  fun `no monsters left to replace trainerOne's active monsters`() {
+    val battle = Battle(
       TestData.battleUuid,
       TestData.trainerWithOnlyDefeatedMonsters,
       TestData.trainerWithOneDefeatedMonster,
       true,
-    ).endRound()
+    )
 
-    assertThat(TestData.trainerWithOnlyDefeatedMonsters.getActiveMonster()).isEqualTo(
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.defeatedMonster
     )
+  }
+
+  // trainerTwo branch
+
+  @Test
+  fun `next active Monster of trainerTwo is waterMonster`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
+      true,
+    )
+
+    battle.getTrainerTwo().setActiveMonster(TestData.defeatedMonster)
+
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
+      TestData.ghostMonster
+    )
+    assertThat(battle.getTrainerTwo().getMonsters()).isNotNull()
+  }
+
+  @Test
+  fun `no monsters left to replace trainerTwo's active monsters`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithOneDefeatedMonster,
+      TestData.trainerWithOnlyDefeatedMonsters,
+      true,
+    )
+
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
+      TestData.defeatedMonster
+    )
+  }
+
+  @Test
+  fun `no monsters were defeated during the round so sartNextRound() is called`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithTwoMonsters,
+      true,
+    )
+
+    battle.testEndRound(battle)
+
+    assertThat(
+      battle.getTrainerOne().getActiveMonster()
+    ).isEqualTo(TestData.fireMonster)
+    assertThat(
+      battle.getTrainerTwo().getActiveMonster()
+    ).isEqualTo(TestData.fireMonster)
   }
 
   /**
@@ -332,6 +399,24 @@ fun `surrender is TrainerOne`(){
 
     assertThat(nameOfStatus).isEqualTo(Status.CONFUSED)
   }
+
+  @Test
+  fun `TrainerTwo surrenders`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithOneDefeatedMonster,
+      true
+    )
+    battle.testSurrender(battle, battle.getTrainerTwo())
+    val winner = battle.getWinner()
+
+    assertThat(winner).isEqualTo(battle.getTrainerOne())
+  }
+
+  /*
+        handleAttack Tests
+  */
 
 }
 

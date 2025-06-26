@@ -6,6 +6,8 @@ import hwr.oop.monsterleague.gamelogic.calculators.DamageCalculator
 import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.AttackKinds
+import monsterleague.gamelogic.Exceptions
+
 import java.util.UUID
 
 class Battle(
@@ -33,7 +35,7 @@ class Battle(
     }
   }
 
-  fun surrender(surrenderingTrainer: TrainerInBattle) {
+  private fun surrender(surrenderingTrainer: TrainerInBattle) {
     winner = if (surrenderingTrainer == trainerOne) {
       trainerTwo
     } else {
@@ -41,13 +43,13 @@ class Battle(
     }
   }
 
-  fun startNextRound() {
+  private fun startNextRound() {
     round++
     trainerOne.setNotReadyToFight()
     trainerTwo.setNotReadyToFight()
   }
 
-  fun endRound() {
+  private fun endRound() {
     if (trainerOne.getActiveMonster().defeatedMonster()) {
       val nextAlive =
         trainerOne.getMonsters().firstOrNull() { m -> !m.defeatedMonster() }
@@ -69,7 +71,7 @@ class Battle(
     }
   }
 
-  fun sortActiveMonstersByInitiative(): List<Monster> {
+  private fun sortActiveMonstersByInitiative(): List<Monster> {
     return listOf(trainerOne.getActiveMonster(), trainerTwo.getActiveMonster())
       .sortedByDescending { it.getInitiativeStat() }
   }
@@ -90,12 +92,18 @@ class Battle(
     trainer: TrainerInBattle,
     choice: TrainerChoice.AttackChoice,
   ) {
-    val attacker = choice.attackingMonster
-    val defender = choice.targetedMonster
+    val attackingMonster = choice.attackingMonster
+    val targetedMonster = choice.targetedMonster
     val attack = choice.selectedAttack
-    val hitChanceCalculator = HitChanceCalculator(attack)
 
-    handleAttackKind(choice)
+    if (attack !in attackingMonster.getAttacks()) {
+      throw Exceptions.AttackNotFoundException(attack, attackingMonster)
+    } else if (attackingMonster !== trainer.getActiveMonster()) {
+      throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)
+    }else if (targetedMonster !== trainer.getActiveMonster()){
+      throw Exceptions.MonsterNotActiveException(targetedMonster, trainer)
+    }else
+      handleAttackKind(choice)
   }
 
   private fun handleAttackKind(choice: TrainerChoice.AttackChoice) {
@@ -120,14 +128,7 @@ class Battle(
     }
   }
 
-  fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
-    val attackerStats = battleStats[attacker] ?: throw IllegalArgumentException(
-      "Attacker stats not found"
-    )
-    val defenderStats = battleStats[defender] ?: throw IllegalArgumentException(
-      "Defender stats not found"
-    )
-
+  private fun handleAttack(attack: Attack, attacker: Monster, defender: Monster) {
     val hitChanceCalculator = HitChanceCalculator(attack)
 
     if (hitChanceCalculator.willHit()) {
@@ -173,11 +174,7 @@ class Battle(
     }
   }
 
-  fun getKindOfAttack(attack: Attack): AttackKinds {
-    return attack.kind
-  }
-
-  fun determineWinner() {
+  private fun determineWinner() {
     if (trainerOne.getMonsters().all { it.defeatedMonster() }) {
       battleOver = true
       winner = trainerTwo
@@ -190,6 +187,10 @@ class Battle(
   /**
    * Queries
    * */
+
+  fun getKindOfAttack(attack: Attack): AttackKinds {
+    return attack.kind
+  }
 
   fun getWinner(): TrainerInBattle? {
     return winner
@@ -205,5 +206,37 @@ class Battle(
 
   fun getTrainerTwo(): TrainerInBattle {
     return trainerTwo
+  }
+
+  fun getAttackingTrainer(): TrainerInBattle {
+    
+  }
+
+  /**
+   * Test Commands
+   */
+
+  fun testEndRound(battle: Battle) {
+    battle.endRound()
+  }
+
+  fun testSurrender(battle: Battle, trainer: TrainerInBattle) {
+    battle.surrender(trainer)
+  }
+
+  fun testDetermineWinner(battle : Battle) {
+    battle.determineWinner()
+  }
+
+  fun testSortActiveMonsterByInitiative (battle: Battle) : List<Monster> {
+    return battle.sortActiveMonstersByInitiative()
+  }
+
+  fun testStartNextRound (battle : Battle) {
+    battle.startNextRound()
+  }
+
+  fun testHandleAttack(battle: Battle, attack: Attack, attacker: Monster, defender: Monster ) {
+    battle.handleAttack(attack, attacker, defender)
   }
 }
