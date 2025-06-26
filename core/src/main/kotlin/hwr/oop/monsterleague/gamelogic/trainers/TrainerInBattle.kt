@@ -1,4 +1,4 @@
-package hwr.oop.monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic.trainers
 
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.attacks.Attack
@@ -55,6 +55,11 @@ class TrainerInBattle(
   fun getHealthyMonsters(): List<Monster> {
     val healthyMonsters = monsters.filter { it.getBattleStats().getHP() > 0 }
     return healthyMonsters
+  }
+
+  fun getMonsterByName(name: String): Monster {
+    return monsters.firstOrNull { it.getName() == name }
+      ?: throw Exception("Monster with name '$name' not found.")
   }
 
   /**

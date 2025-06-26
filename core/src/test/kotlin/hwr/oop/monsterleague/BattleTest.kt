@@ -1,8 +1,8 @@
 package monsterleague
 
 import hwr.oop.monsterleague.TestData
-import hwr.oop.monsterleague.gamelogic.TrainerChoice
-import hwr.oop.monsterleague.gamelogic.TrainerInBattle
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat

@@ -1,6 +1,6 @@
 package hwr.oop.monsterleague
 
-import hwr.oop.monsterleague.gamelogic.TrainerInBattle
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import monsterleague.gamelogic.BaseStats
 import monsterleague.gamelogic.BattleStats
 import monsterleague.gamelogic.Monster
@@ -8,7 +8,7 @@ import monsterleague.gamelogic.Status
 import monsterleague.gamelogic.Type
 import monsterleague.gamelogic.attacks.AttackKinds
 import monsterleague.gamelogic.attacks.DamagingAttack
-import monsterleague.gamelogic.Trainer
+import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.DragonDance
 import monsterleague.gamelogic.attacks.Haze

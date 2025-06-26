@@ -1,15 +1,13 @@
-package hwr.oop
-
-import hwr.oop.projects.kingdom_2025.persistence.LoadGamePort
-import hwr.oop.projects.kingdom_2025.persistence.SaveGamePort
+package hwr.oop.monsterleague.cli
 
 class Cli(
   loadGamePort: LoadGamePort,
   saveGamePort: SaveGamePort,
 ) {
   val commands = listOf(
-    CreateGameCommand(saveGamePort),
-    LoadGameCommand(loadGamePort)
+    CreateTrainerCommand(),
+    CreateBattleCommand(),
+    ChooseActionCommand()
   )
 
   fun handle(args: List<String>) {

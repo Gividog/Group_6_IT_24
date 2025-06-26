@@ -76,6 +76,11 @@ class Monster(
     return battleStats
   }
 
+  fun getAttackByName(name: String): Attack {
+    return attacks.firstOrNull { it.getName() == name }
+      ?: throw Exception("Attack $name not found for monster ${this.name}")
+  }
+
   /**
    * Commands
    */

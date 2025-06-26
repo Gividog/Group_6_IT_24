@@ -22,4 +22,8 @@ interface Attack {
   fun getPowerPoints() : Int {
     return powerPoints
   }
+
+  fun getName() : String {
+    return name
+  }
 }

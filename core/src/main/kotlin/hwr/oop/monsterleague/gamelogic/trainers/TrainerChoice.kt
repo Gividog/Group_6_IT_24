@@ -1,4 +1,4 @@
-package hwr.oop.monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic.trainers
 
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.attacks.Attack
@@ -23,8 +23,11 @@ sealed interface TrainerChoice {
     val monster: Monster,
   ) : TrainerChoice
 
+  class SurrenderChoice(
+  ): TrainerChoice
+
   companion object {
     val allowedChoiceTypes =
-      listOf("AttackChoice", "SwitchChoice", "HealChoice")
+      listOf("AttackChoice", "SwitchChoice", "HealChoice", "SurrenderChoice")
   }
 }
