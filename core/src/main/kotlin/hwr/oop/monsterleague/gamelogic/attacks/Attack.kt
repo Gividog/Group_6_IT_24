@@ -18,4 +18,8 @@ interface Attack {
   fun isSpecial(): Boolean {
     return kind == AttackKinds.SPECIAL
   }
+
+  fun getPowerPoints() : Int {
+    return powerPoints
+  }
 }

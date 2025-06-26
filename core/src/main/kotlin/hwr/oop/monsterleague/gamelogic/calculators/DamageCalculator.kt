@@ -7,7 +7,7 @@ import kotlin.math.roundToInt
 
 class DamageCalculator(
   private val attackingMonster: Monster,
-  private val defendingMonster: Monster,
+  private val targetedMonster: Monster,
   private val attack: Attack,
 ) {
   private var defenseStat = 0
@@ -23,10 +23,10 @@ class DamageCalculator(
 
   private fun checkForSpecialAttack() {
     if (attack.isSpecial()) {
-      defenseStat = defendingMonster.getSpecialDefenseStat()
+      defenseStat = targetedMonster.getSpecialDefenseStat()
       attackStat = attackingMonster.getSpecialAttackStat()
     } else {
-      defenseStat = defendingMonster.getDefenseStat()
+      defenseStat = targetedMonster.getDefenseStat()
       attackStat = attackingMonster.getAttackStat()
     }
   }
@@ -41,7 +41,7 @@ class DamageCalculator(
     val stabFactor = getStabFactor()
     val efficiency = EfficiencyCalculator(
       attackingMonster,
-      defendingMonster
+      targetedMonster
     ).calculateEfficiency()
 
     val damage =
@@ -58,7 +58,7 @@ class DamageCalculator(
     val stabFactor = getStabFactor()
     val efficiency = EfficiencyCalculator(
       attackingMonster,
-      defendingMonster
+      targetedMonster
     ).calculateEfficiency()
 
     val damage =
