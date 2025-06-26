@@ -22,4 +22,9 @@ sealed interface TrainerChoice {
   data class HealChoice(
     val monster: Monster,
   ) : TrainerChoice
+
+  companion object {
+    val allowedChoiceTypes =
+      listOf("AttackChoice", "SwitchChoice", "HealChoice")
+  }
 }

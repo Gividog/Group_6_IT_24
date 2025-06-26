@@ -1,5 +1,7 @@
 package monsterleague.gamelogic
 
+import hwr.oop.monsterleague.gamelogic.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.TrainerInBattle
 import monsterleague.gamelogic.attacks.Attack
 
 object Exceptions {
@@ -10,11 +12,38 @@ object Exceptions {
   class AttackNotFoundException(attack: Attack, monster: Monster) :
     Exception("You tried to select $attack but $monster doesn't have this attack. Available attacks are: ${monster.getAttacks()}.")
 
-  // TODO : Exception für nicht existente trainer choice
+  fun trainerChoiceNotFound() {
+    throw Exception("Trainer choice not found")
+  }
 
-  // TODO : Exception für Auswahl eines Monsters, das nicht in der Liste des Trainers existiert
+  class TrainerChoiceNotFoundException(
+    trainer: TrainerInBattle,
+    choice: TrainerChoice,
+  ) :
+    Exception("You tried to select $choice but it's not available to choose. Available trainer choices are: ${TrainerChoice.allowedChoiceTypes.joinToString()}.")
+
+  fun monsterNotFound() {
+    throw Exception("Monster not found")
+  }
+
+  class MonsterNotFoundException(trainer: TrainerInBattle, monster: Monster) :
+    Exception("You tried to select $monster but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getListOfMonsters()}.")
+
+  fun attackCannotBeUsed() {
+    throw Exception("Attack cannot be used")
+  }
+
+  class AttackCannotBeUsedException(attack: Attack, monster: Monster) :
+    Exception("You tried to use $attack but it cannot be used at the moment. Available attacks are: ${monster.getAttacks()}.")
+
+  fun monsterNotActive() {
+    throw Exception("Monster not active")
+  }
+
+  class MonsterNotActiveException(monster: Monster, trainer : TrainerInBattle) :
+    Exception("You tried to select $monster but $monster is not active. Currently active monster: ${trainer.getActiveMonster()}.")
 
   // TODO : Exception für Trainer will besiegtes Monster in die aktive Position setzen
 
-  // TODO : Exception für Trainer will Attacke mit 0 PowerPoints einsetzen
+  // TODO : Exception für Spieler will Trainer aufrufen, der nicht existiert
 }

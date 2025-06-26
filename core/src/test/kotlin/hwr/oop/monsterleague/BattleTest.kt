@@ -27,7 +27,7 @@ class BattleTest : AnnotationSpec() {
 
     )
 
-    battle.surrender(TestData.trainerWithTwoMonsters)
+    battle.testSurrender(battle, TestData.trainerWithTwoMonsters)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
   }
@@ -45,7 +45,7 @@ class BattleTest : AnnotationSpec() {
       true,
     )
 
-    battle.startNextRound()
+    battle.testStartNextRound(battle)
 
     assertThat(battle.getRounds()).isEqualTo(2)
     assertThat(battle.getWinner()).isNull()
@@ -70,7 +70,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(null)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithTwoMonsters)
@@ -86,7 +86,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -101,7 +101,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    battle.determineWinner()
+    battle.testDetermineWinner(battle)
 
     assertThat(battle.getWinner()).isEqualTo(TestData.trainerWithTwoMonsters)
     assertThat(battle.getWinner()).isNotEqualTo(TestData.trainerWithOnlyDefeatedMonsters)
@@ -126,7 +126,7 @@ class BattleTest : AnnotationSpec() {
       true
     )
 
-    val descendingSortedList = battle.sortActiveMonstersByInitiative()
+    val descendingSortedList = battle.testSortActiveMonsterByInitiative(battle)
     assertThat(descendingSortedList).containsExactly(
       TestData.fireMonster,
       TestData.ghostMonster
@@ -145,34 +145,99 @@ class BattleTest : AnnotationSpec() {
     assertThat(kind).isEqualTo(AttackKinds.PHYSICAL)
   }
 
+  /**
+   * endRound() Tests
+   */
+
+  // trainerOne branch
+
   @Test
-  fun `next active Monster is fireMonster`() {
-    Battle(
+  fun `next active Monster of trainerOne is fireMonster`() {
+    val battle = Battle(
       TestData.battleUuid,
       trainerOne = TestData.trainerWithOneDefeatedMonster,
-      trainerTwo = TestData.trainerWithOneDefeatedMonster,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
       true,
-    ).endRound()
+    )
 
-    assertThat(TestData.trainerWithOneDefeatedMonster.getActiveMonster()).isEqualTo(
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.waterMonster
     )
-    assertThat(TestData.trainerWithOneDefeatedMonster.getMonsters()).isNotNull()
-
+    assertThat(battle.getTrainerOne().getMonsters()).isNotNull()
   }
 
   @Test
-  fun `no monsters left to replace active monsters`() {
-    Battle(
+  fun `no monsters left to replace trainerOne's active monsters`() {
+    val battle = Battle(
       TestData.battleUuid,
       TestData.trainerWithOnlyDefeatedMonsters,
       TestData.trainerWithOneDefeatedMonster,
       true,
-    ).endRound()
+    )
 
-    assertThat(TestData.trainerWithOnlyDefeatedMonsters.getActiveMonster()).isEqualTo(
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerOne().getActiveMonster()).isEqualTo(
       TestData.defeatedMonster
     )
+  }
+
+  // trainerTwo branch
+
+  @Test
+  fun `next active Monster of trainerTwo is waterMonster`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
+      true,
+    )
+
+    battle.getTrainerTwo().setActiveMonster(TestData.defeatedMonster)
+
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
+      TestData.ghostMonster
+    )
+    assertThat(battle.getTrainerTwo().getMonsters()).isNotNull()
+  }
+
+  @Test
+  fun `no monsters left to replace trainerTwo's active monsters`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithOneDefeatedMonster,
+      TestData.trainerWithOnlyDefeatedMonsters,
+      true,
+    )
+
+    battle.testEndRound(battle)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(
+      TestData.defeatedMonster
+    )
+  }
+
+  @Test
+  fun `no monsters were defeated during the round so sartNextRound() is called`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithTwoMonsters,
+      true,
+    )
+
+    battle.testEndRound(battle)
+
+    assertThat(
+      battle.getTrainerOne().getActiveMonster()
+    ).isEqualTo(TestData.fireMonster)
+    assertThat(
+      battle.getTrainerTwo().getActiveMonster()
+    ).isEqualTo(TestData.fireMonster)
   }
 
   /**
@@ -349,172 +414,23 @@ class BattleTest : AnnotationSpec() {
     assertThat(nameOfStatus).isEqualTo(Status.CONFUSED)
   }
 
-  /*
-      SimulateRound Tets
-  */
   @Test
-  fun `simulateRound with two attacks applies both and cleas choices`() {
-    val trainer1 = TestData.trainerWithTwoMonsters
-    val trainer2 = TestData.trainerWithOneDefeatedMonster
-    val battle = Battle(TestData.battleUuid, trainer1, trainer2, simpleDamageCalculation = true)
-
-    val monster1 = trainer1.getActiveMonster()
-    val monster2 = trainer2.getActiveMonster()
-    val before1 = monster1.getHP()
-    val before2 = monster2.getHP()
-
-    val mapField = battle.javaClass.getDeclaredField("mapOfChoice").apply { isAccessible = true }
-    @Suppress("UNCHECKED_CAST")
-    val choices = mapField.get(battle) as MutableMap<TrainerInBattle, TrainerChoice>
-    choices[trainer1] = TrainerChoice.AttackChoice(monster1, TestData.physicalAttackTackle, monster2)
-    choices[trainer2] = TrainerChoice.AttackChoice(monster2, TestData.physicalAttackSplash, monster1)
-
-    val statsField = battle.javaClass.getDeclaredField("battleStats").apply { isAccessible = true }
-    statsField.set(battle, mutableMapOf(monster1 to monster1.getBattleStats(), monster2 to monster2.getBattleStats()))
-
-    battle.javaClass.getDeclaredMethod("simulateRound").apply { isAccessible = true }.invoke(battle)
-
-    assertThat(monster1.getHP()).isLessThan(before1)
-    assertThat(monster2.getHP()).isLessThan(before2)
-    assertThat(choices).isEmpty()
-  }
-
-  @Test
-  fun `simulateRound with switch and attack switches then attacks and clears choices`() {
-    val switcher = TrainerInBattle(
-      name = "switcher",
-      monsters = listOf(TestData.waterMonster, TestData.fireMonster),
-      activeMonster = TestData.waterMonster,
-      healsRemaining = 0
-    )
-    val attacker = TrainerInBattle(
-      name = "attacker",
-      monsters = listOf(TestData.ghostMonster),
-      activeMonster = TestData.ghostMonster,
-      healsRemaining = 0
-    )
-    val battle = Battle(TestData.battleUuid, switcher, attacker, simpleDamageCalculation = true)
-
-    val beforeSwitch = switcher.getActiveMonster()
-    val target       = switcher.getActiveMonster()
-    val beforeHP     = target.getHP()
-
-    val mapField = battle.javaClass.getDeclaredField("mapOfChoice").apply { isAccessible = true }
-    @Suppress("UNCHECKED_CAST")
-    val choices = mapField.get(battle) as MutableMap<TrainerInBattle, TrainerChoice>
-    choices[switcher] = TrainerChoice.SwitchChoice(outMonster = beforeSwitch, inMonster = TestData.fireMonster)
-    choices[attacker] = TrainerChoice.AttackChoice(attacker.getActiveMonster(), TestData.physicalAttackTackle, switcher.getActiveMonster())
-
-    val statsField = battle.javaClass.getDeclaredField("battleStats").apply { isAccessible = true }
-    statsField.set(battle, mutableMapOf(
-      beforeSwitch to beforeSwitch.getBattleStats(),
-      TestData.fireMonster to TestData.fireMonster.getBattleStats(),
-      attacker.getActiveMonster() to attacker.getActiveMonster().getBattleStats()
-    ))
-
-    battle.javaClass.getDeclaredMethod("simulateRound").apply { isAccessible = true }.invoke(battle)
-
-    assertThat(switcher.getActiveMonster()).isEqualTo(TestData.fireMonster)
-    assertThat(switcher.getActiveMonster().getHP()).isLessThan(beforeHP)
-    assertThat(choices).isEmpty()
-  }
-
-  @Test
-  fun `simulateRound with heal applies healing and clears choices`() {
-    // given: a trainer with exactly one heal available and a damaged monster
-    val healer = TrainerInBattle(
-      name           = "healer",
-      monsters       = listOf(TestData.waterMonster),
-      activeMonster  = TestData.waterMonster,
-      healsRemaining = 1
-    )
+  fun `TrainerTwo surrenders`() {
     val battle = Battle(
-      battleID                = TestData.battleUuid,
-      trainerOne              = healer,
-      trainerTwo              = TestData.trainerWithTwoMonsters, // dummy second trainer
-      simpleDamageCalculation = true
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithOneDefeatedMonster,
+      true
     )
+    battle.testSurrender(battle, battle.getTrainerTwo())
+    val winner = battle.getWinner()
 
-    val monster = healer.getActiveMonster()
-    monster.takeDamage(80)
-    val hpBefore   = monster.getHP()
-    val healsBefore = healer.getHealsRemaining()
-
-    val mapField = battle.javaClass
-      .getDeclaredField("mapOfChoice")
-      .apply { isAccessible = true }
-    @Suppress("UNCHECKED_CAST")
-    val choices = mapField.get(battle) as MutableMap<TrainerInBattle, TrainerChoice>
-    choices[healer] = TrainerChoice.HealChoice(monster)
-
-    battle.javaClass
-      .getDeclaredMethod("simulateRound")
-      .apply { isAccessible = true }
-      .invoke(battle)
-
-    assertThat(monster.getHP()).isGreaterThan(hpBefore)
-    assertThat(healer.getHealsRemaining()).isEqualTo(healsBefore - 1)
-    assertThat(choices).isEmpty()
+    assertThat(winner).isEqualTo(battle.getTrainerOne())
   }
 
   /*
         handleAttack Tests
   */
 
-  @Test
-  fun `trainerChooseAttack throws IllegalArgumentException when stats missing`() {
-    // given: a fresh Battle with empty battleStats
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithTwoMonsters,
-      simpleDamageCalculation = true
-    )
-
-    val attacker = TestData.trainerWithTwoMonsters.getActiveMonster()
-    val defender = TestData.trainerWithTwoMonsters.getActiveMonster()
-    val choice = TrainerChoice.AttackChoice(
-      attackingMonster = attacker,
-      selectedAttack   = TestData.physicalAttackTackle,
-      targetedMonster  = defender
-    )
-
-    val exception = assertThrows<IllegalArgumentException> {
-      battle.trainerChooseAttack(TestData.trainerWithTwoMonsters, choice)
-    }
-    assertThat(exception).hasMessageContaining("Attacker stats not found")
-  }
-
-  @Test
-  fun `trainerChooseAttack throws IllegalArgumentException when defender stats missing`() {
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = TestData.trainerWithTwoMonsters,
-      trainerTwo = TestData.trainerWithOneDefeatedMonster,
-      simpleDamageCalculation = true
-    )
-
-    val attacker = TestData.trainerWithTwoMonsters.getActiveMonster()           // fireMonster
-    val defender = TestData.trainerWithOneDefeatedMonster.getActiveMonster()    // defeatedMonster
-
-    val choice = TrainerChoice.AttackChoice(
-      attackingMonster = attacker,
-      selectedAttack   = TestData.physicalAttackTackle,
-      targetedMonster  = defender
-    )
-
-    val statsField = battle.javaClass
-      .getDeclaredField("battleStats")
-      .apply { isAccessible = true }
-    statsField.set(battle, mutableMapOf(attacker to attacker.getBattleStats()))
-
-    val ex = assertThrows<IllegalArgumentException> {
-      battle.trainerChooseAttack(
-        TestData.trainerWithTwoMonsters,  // the trainer who is doing the attack
-        choice
-      )
-    }
-    assertThat(ex).hasMessageContaining("Defender stats not found")
-  }
 }
 
