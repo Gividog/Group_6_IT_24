@@ -241,4 +241,8 @@ class Battle(
   fun getDefendingTrainer(trainer: TrainerInBattle): TrainerInBattle {
     return if (trainer == trainerOne) trainerTwo else trainerOne
   }
+
+  fun getSubmittedChoice(trainer: TrainerInBattle): TrainerChoice? {
+    return mapOfChoice[trainer]
+  }
 }

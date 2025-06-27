@@ -2,7 +2,6 @@ package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.cli.BattleHolder
 import hwr.oop.monsterleague.cli.CreateBattleCommand
-import hwr.oop.monsterleague.cli.ChooseActionCommand
 import hwr.oop.monsterleague.cli.ChooseAttackCommand
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
@@ -11,11 +10,13 @@ import hwr.oop.monsterleague.gamelogic.Monster
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
 import hwr.oop.monsterleague.gamelogic.BaseStats
+import hwr.oop.monsterleague.gamelogic.Battle
 import hwr.oop.monsterleague.gamelogic.BattleStats
 import hwr.oop.monsterleague.gamelogic.Type
 import hwr.oop.monsterleague.gamelogic.attacks.Attack
-import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.assertThrows
 
 class CliTest : AnnotationSpec() {
 
@@ -26,30 +27,32 @@ class CliTest : AnnotationSpec() {
   private val originalTrainers = TrainerFactory.getAll()
 
   @BeforeEach
-  fun setup() {
+  fun setupTrainerFactory() {
     TrainerFactory.clear()
-    val monsters = listOf(Monster(
-      name = "Bulbasaur",
-      type = Type.GRASS,
-      baseStats = BaseStats(
-        healthPoints = 35,
-        attack = 55,
-        defense = 40,
-        specialAttack = 65,
-        specialDefense = 65,
-        initiative = 45
-      ),
-      battleStats = BattleStats(
-        healthPoints = 35,
-        attack = 55,
-        defense = 40,
-        specialAttack = 65,
-        specialDefense = 65,
-        initiative = 45,
-        statusEffect = null
-      ),
-      attacks = listOf(Attack.VineWhip, Attack.RazorLeaf, Attack.SolarBeam)
-    ))
+    val monsters = listOf(
+      Monster(
+        name = "Bulbasaur",
+        type = Type.GRASS,
+        baseStats = BaseStats(
+          healthPoints = 35,
+          attack = 55,
+          defense = 40,
+          specialAttack = 65,
+          specialDefense = 65,
+          initiative = 45
+        ),
+        battleStats = BattleStats(
+          healthPoints = 35,
+          attack = 55,
+          defense = 40,
+          specialAttack = 65,
+          specialDefense = 65,
+          initiative = 45,
+          statusEffect = null
+        ),
+        attacks = listOf(Attack.VineWhip, Attack.RazorLeaf, Attack.SolarBeam)
+      )
+    )
     TrainerFactory.save(Trainer("Ash", monsters))
     TrainerFactory.save(Trainer("Misty", monsters))
   }
@@ -178,47 +181,167 @@ class CliTest : AnnotationSpec() {
    * ChooseAttackCommand Tests
    */
 
+  private lateinit var command: ChooseAttackCommand
 
+  @BeforeEach
+  fun setupBattle() {
+    BattleHolder.currentBattle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithGhostMonsterLeft,
+      true
+    )
+    command = ChooseAttackCommand()
+  }
 
-  /**
-   * matches() Tests (ChooseActionCommand)
-   */
+  @AfterEach
+  fun teardown() {
+    BattleHolder.currentBattle = null
+  }
+
+  @Test
+  fun `handle registers attack choice correctly`() {
+    val battle = Battle(
+      TestData.battleUuid,
+      TestData.trainerWithTwoMonsters,
+      TestData.trainerWithGhostMonsterLeft,
+      true
+    )
+    BattleHolder.currentBattle = battle
+
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=trainer1",
+      "--attacker=Monster2",
+      "--attack=Tackle",
+      "--target=Monster3"
+    )
+
+    command.handle(args)
+
+    val registeredChoice =
+      battle.getSubmittedChoice(TestData.trainerWithTwoMonsters)
+    assertThat(registeredChoice).isInstanceOf(TrainerChoice.AttackChoice::class.java)
+
+    val attackChoice = registeredChoice as TrainerChoice.AttackChoice
+    assertThat(attackChoice.attackingMonster.getName()).isEqualTo("Monster2")
+    assertThat(attackChoice.selectedAttack.name).isEqualTo("Tackle")
+    assertThat(attackChoice.targetedMonster.getName()).isEqualTo("Monster3")
+  }
+
+  @Test
+  fun `handle throws exception if less than 6 args`() {
+    val args =
+      listOf("battle", "attack", "--trainer=Ash", "--attacker=Balbasaur")
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing parameters for attack command")
+  }
+
+  @Test
+  fun `handle throws exception if trainer not found`() {
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=NonExistentTrainer",
+      "--attacker=Monster1",
+      "--attack=Tackle",
+      "--target=Monster3"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("No trainer with name: NonExistentTrainer")
+  }
+
+  @Test
+  fun `handle throws exception if attacker monster not found`() {
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=trainer1",
+      "--attacker=NonExistentMonster",
+      "--attack=Tackle",
+      "--target=Monster3"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("No monster with name 'NonExistentMonster' for trainer 'trainer1'")
+  }
+
+  @Test
+  fun `handle throws exception if attack not found`() {
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=trainer1",
+      "--attacker=Monster1",
+      "--attack=NonExistentAttack",
+      "--target=Monster2"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("No attack with name 'NonExistentAttack' on monster 'Monster1'")
+  }
+
+  @Test
+  fun `handle throws exception if target monster not found`() {
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=trainer1",
+      "--attacker=Monster1",
+      "--attack=Tackle",
+      "--target=NonExistentTarget"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("No monster with name 'NonExistentTarget' for opposing trainer")
+  }
+
+  @Test
+  fun `handle throws exception if option is missing`() {
+    val args = listOf(
+      "battle", "attack",
+      "--trainer=",
+      "--attacker=Monster1",
+      "--attack=Tackle",
+      "--target=Monster3"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing argument: --trainer=")
+  }
 
   @Test
   fun `matches returns true for correct input`() {
-    val command = ChooseAttackCommand(BattleHolder.currentBattle?)
-    val args = listOf("battle", "attack", "--trainer=Ash", "--attacker=Balbasaur", "--attack=Razor Leaf", "--target=Squirtle")
+    val command = ChooseAttackCommand()
+    val args = listOf(
+      "battle",
+      "attack",
+      "--trainer=Ash",
+      "--attacker=Balbasaur",
+      "--attack=Razor Leaf",
+      "--target=Squirtle"
+    )
 
     val result = command.matches(args)
 
     assertThat(result).isTrue()
   }
 
-
   @Test
   fun `matches returns false if input doesn't match command`() {
     val command = ChooseAttackCommand()
-    val args = listOf("game", "new", "--trainer=Ash", "--attacker=Balbasaur", "--attack=Razor Leaf", "--target=Squirtle")
-
-    val result = command.matches(args)
-
-    assertThat(result).isFalse()
-  }
-
-  @Test
-  fun `matches returns false if either trainer or attacker or attack or target is missing at all`() {
-    val command = ChooseAttackCommand()
-    val args = listOf("battle", "attack", "--trainer=Ash", "--attacker=Balbasaur", "--attack=Razor Leaf")
-
-    val result = command.matches(args)
-
-    assertThat(result).isFalse()
-  }
-
-  @Test
-  fun `matches returns false if there's no input for either trainer or attacker or attack or target`() {
-    val command = ChooseAttackCommand()
-    val args = listOf("battle", "attack", "--trainer=Ash", "--attacker=", "--attack=Razor Leaf", "--target=Squirtle")
+    val args = listOf(
+      "game",
+      "new",
+      "--trainer=Ash",
+      "--attacker=Balbasaur",
+      "--attack=Razor Leaf",
+      "--target=Squirtle"
+    )
 
     val result = command.matches(args)
 

@@ -59,7 +59,7 @@ class TrainerInBattle(
 
   fun getMonsterByName(name: String): Monster {
     return monsters.firstOrNull { it.getName() == name }
-      ?: throw Exception("Monster with name '$name' not found.")
+      ?: throw Exception("No monster with name '$name'.")
   }
 
   /**
