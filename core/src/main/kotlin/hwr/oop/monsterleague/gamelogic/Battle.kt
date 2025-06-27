@@ -21,8 +21,8 @@ class Battle(
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
 
   private fun applyStatChanges(
-    attack: Attack,
     attacker: Monster,
+    attack: Attack,
     defender: Monster,
   ) {
     attack.defenderStatChange()?.let { defenderStatChange ->
@@ -59,8 +59,6 @@ class Battle(
     round++
     trainerOne.setNotReadyToFight()
     trainerTwo.setNotReadyToFight()
-    // Trainer können wieder auswählen
-
   }
 
   private fun endRound() {
@@ -119,8 +117,8 @@ class Battle(
       throw Exceptions.AttackCannotBeUsedException(attack, attackingMonster)
     } else if (attackingMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)
-    } else if (targetedMonster !== trainer.getActiveMonster()) {
-      throw Exceptions.MonsterNotActiveException(targetedMonster, trainer)
+    } else if (targetedMonster !== getDefendingTrainer(trainer).getActiveMonster()) {
+      throw Exceptions.MonsterNotActiveException(targetedMonster, getDefendingTrainer(trainer))
     } else
       handleAttackKind(choice)
   }
@@ -132,22 +130,22 @@ class Battle(
 
     when (getKindOfAttack(choice.selectedAttack)) {
       AttackKinds.SPECIAL, AttackKinds.PHYSICAL -> handleAttack(
-        attack,
         attackingMonster,
+        attack,
         targetedMonster,
       )
 
       AttackKinds.BUFF, AttackKinds.DEBUFF -> applyStatChanges(
-        attack,
         attackingMonster,
+        attack,
         targetedMonster
       )
     }
   }
 
   private fun handleAttack(
-    attack: Attack,
     attackingMonster: Monster,
+    attack: Attack,
     targetedMonster: Monster,
   ) {
 
@@ -166,7 +164,7 @@ class Battle(
         damageCalculator.calculateDamage()
       }
       targetedMonster.takeDamage(damage)
-      applyStatChanges(attack, targetedMonster, attackingMonster)
+      applyStatChanges(targetedMonster, attack, attackingMonster)
     }
 
   }

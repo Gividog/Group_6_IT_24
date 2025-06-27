@@ -1,13 +1,32 @@
 package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.TestData
-import hwr.oop.monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.TestData.attackZeroAccuracy
+import hwr.oop.monsterleague.TestData.baseStatsHigherInitiative
+import hwr.oop.monsterleague.TestData.baseStatsLowerInitiative
+import hwr.oop.monsterleague.TestData.battleStatsHigherInitiative
+import hwr.oop.monsterleague.TestData.battleStatsWithStatus
+import hwr.oop.monsterleague.TestData.defeatedMonster
+import hwr.oop.monsterleague.TestData.fireMonster
+import hwr.oop.monsterleague.TestData.ghostMonster
+import hwr.oop.monsterleague.TestData.physicalAttackTackle
+import hwr.oop.monsterleague.TestData.specialAttackHydroPump
+import hwr.oop.monsterleague.TestData.trainerWithGhostMonsterLeft
+import hwr.oop.monsterleague.TestData.waterMonster
+import hwr.oop.monsterleague.gamelogic.*
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
+import hwr.oop.monsterleague.gamelogic.attacks.DamagingAttack
+import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
+import monsterleague.gamelogic.attacks.DragonDance
+import monsterleague.gamelogic.attacks.Screech
 import org.junit.jupiter.api.Assertions.fail
-/*
+
 class BattleTest : AnnotationSpec() {
   /**
    * surrender () tests
@@ -27,6 +46,9 @@ class BattleTest : AnnotationSpec() {
     battle.submitChoice(
       battle.getTrainerOne(),
       TrainerChoice.SurrenderChoice(battle.getTrainerOne()),
+
+      )
+    battle.submitChoice(
       battle.getTrainerTwo(),
       TrainerChoice.HealChoice(battle.getTrainerTwo().getActiveMonster())
     )
@@ -47,6 +69,9 @@ class BattleTest : AnnotationSpec() {
     battle.submitChoice(
       battle.getTrainerOne(),
       TrainerChoice.HealChoice(battle.getTrainerOne().getActiveMonster()),
+
+      )
+    battle.submitChoice(
       battle.getTrainerTwo(),
       TrainerChoice.SurrenderChoice(battle.getTrainerOne())
     )
@@ -68,6 +93,9 @@ class BattleTest : AnnotationSpec() {
       battle.submitChoice(
         battle.getTrainerOne(),
         TrainerChoice.SurrenderChoice(battle.getTrainerOne()),
+
+        )
+      battle.submitChoice(
         battle.getTrainerTwo(),
         TrainerChoice.HealChoice(battle.getTrainerTwo().getActiveMonster())
       )
@@ -104,7 +132,9 @@ class BattleTest : AnnotationSpec() {
 
       battle.submitChoice(
         trainerOne,
-        trainerOneChoice,
+        trainerOneChoice
+      )
+      battle.submitChoice(
         trainerTwo,
         trainerTwoChoice,
       )
@@ -138,7 +168,10 @@ class BattleTest : AnnotationSpec() {
 
       battle.submitChoice(
         trainerOne,
-        trainerOneChoice,
+        trainerOneChoice
+
+      )
+      battle.submitChoice(
         trainerTwo,
         trainerTwoChoice,
       )
@@ -161,7 +194,10 @@ class BattleTest : AnnotationSpec() {
 
     battle.submitChoice(
       battle.getTrainerOne(),
-      TrainerChoice.HealChoice(battle.getTrainerOne().getActiveMonster()),
+      TrainerChoice.HealChoice(battle.getTrainerOne().getActiveMonster())
+
+    )
+    battle.submitChoice(
       battle.getTrainerTwo(),
       TrainerChoice.SurrenderChoice(battle.getTrainerOne())
     )
@@ -185,7 +221,7 @@ class BattleTest : AnnotationSpec() {
       val trainerOne = battle.getTrainerOne()
       val trainerTwo = battle.getTrainerTwo()
 
-      val chosenAttack = TestData.specialAttackHydroPump
+      val chosenAttack = TestData.notExistingAttack
 
       val attackChoiceTrainerOne = TrainerChoice.AttackChoice(
         attackingMonster = trainerOne.getActiveMonster(),
@@ -197,7 +233,10 @@ class BattleTest : AnnotationSpec() {
         TrainerChoice.HealChoice(trainerTwo.getActiveMonster())
       battle.submitChoice(
         trainerOne,
-        attackChoiceTrainerOne,
+        attackChoiceTrainerOne
+
+      )
+      battle.submitChoice(
         trainerTwo,
         choiceTrainerTwo
       )
@@ -231,7 +270,9 @@ class BattleTest : AnnotationSpec() {
 
       battle.submitChoice(
         trainerOne,
-        choiceTrainerOne,
+        choiceTrainerOne
+      )
+      battle.submitChoice(
         trainerTwo,
         choiceTrainerTwo
       )
@@ -265,7 +306,9 @@ class BattleTest : AnnotationSpec() {
 
       battle.submitChoice(
         trainerOne,
-        choiceTrainerOne,
+        choiceTrainerOne
+      )
+      battle.submitChoice(
         trainerTwo,
         choiceTrainerTwo
       )
@@ -275,43 +318,306 @@ class BattleTest : AnnotationSpec() {
     }
   }
 
+  @Test
+  fun `targeted monster for chooseAttack is not active`() {
+    try {
+      val battle = Battle(
+        battleID = TestData.battleUuid,
+        trainerOne = TestData.trainerWithTwoMonsters,
+        trainerTwo = TestData.trainerWithOneDefeatedMonster,
+        true,
+      )
 
-    @Test
-    fun `targeted monster for chooseAttack is not active`() {
-      try {
-        val battle = Battle(
-          battleID = TestData.battleUuid,
-          trainerOne = TestData.trainerWithTwoMonsters,
-          trainerTwo = TestData.trainerWithOnlyDefeatedMonsters,
-          true,
-        )
+      val trainerOne = battle.getTrainerOne()
+      val trainerTwo = battle.getTrainerTwo()
 
-        val trainerOne = battle.getTrainerOne()
-        val trainerTwo = battle.getTrainerTwo()
+      val attackChoice = TrainerChoice.AttackChoice(
+        attackingMonster = trainerOne.getActiveMonster(),
+        selectedAttack = TestData.physicalAttackTackle,
+        targetedMonster = TestData.ghostMonster
 
-        val attackChoice = TrainerChoice.AttackChoice(
-          attackingMonster = trainerOne.getActiveMonster(),
-          selectedAttack = TestData.physicalAttackTackle,
-          targetedMonster = trainerTwo.getActiveMonster()
+      )
 
-        )
+      val attackChoiceTwo = TrainerChoice.SurrenderChoice(trainerTwo)
 
-
-
-        battle.submitChoice(
-          trainerOne,
-          attackChoice,
-          trainerTwo,
-          TrainerChoice.SurrenderChoice(trainerTwo)
-        )
-        fail("Exception should be thrown")
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
+      battle.submitChoice(
+        trainerOne,
+        attackChoice,
+      )
+      battle.submitChoice(
+        trainerTwo,
+        attackChoiceTwo
+      )
+      fail("Exception should be thrown")
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
+  /**
+   * Handle Attack for simple Calculation
+   */
 
+  @Test
+  fun `damage is 226 `() {
+    val baseStats = BaseStats(
+      healthPoints = 250,
+      initiative = 20,
+      attack = 100,
+      defense = 100,
+      specialAttack = 120,
+      specialDefense = 120,
+    )
+
+    val battleStats = BattleStats(
+      healthPoints = 250,
+      initiative = 20,
+      attack = 100,
+      defense = 100,
+      specialAttack = 120,
+      specialDefense = 120,
+      statusEffect = null
+    )
+    val fireMonster = Monster(
+      name = "Monster2",
+      type = Type.FIRE,
+      baseStats = baseStats,
+      battleStats = battleStats,
+      attacks = listOf(physicalAttackTackle, specialAttackHydroPump)
+    )
+
+    val trainerWithGhostMonsterLeft =
+      TrainerInBattle(
+        "trainer4",
+        listOf(ghostMonster, defeatedMonster),
+        ghostMonster,
+        3
+      )
+
+    val ghostMonster = Monster(
+      name = "Monster3",
+      type = Type.GHOST,
+      baseStats = baseStats,
+      battleStats = battleStats,
+      attacks = listOf(physicalAttackTackle)
+    )
+
+
+    val trainerWithTwoMonsters =
+      TrainerInBattle(
+        "trainer1",
+        listOf(fireMonster),
+        fireMonster,
+        3
+      )
+
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = trainerWithGhostMonsterLeft,
+      trainerTwo = trainerWithTwoMonsters,
+      simpleDamageCalculation = true
+    )
+    val trainerOneChoice = TrainerChoice.AttackChoice(
+      battle.getTrainerOne().getActiveMonster(),
+      TestData.physicalAttackTackle,
+      battle.getTrainerTwo().getActiveMonster()
+    )
+
+    val trainerTwoChoice = TrainerChoice.SurrenderChoice(battle.getTrainerTwo())
+    battle.submitChoice(battle.getTrainerOne(), trainerOneChoice)
+    battle.submitChoice(battle.getTrainerTwo(), trainerTwoChoice)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster().getHP()).isEqualTo(226)
+  }
+
+  @Test
+  fun `damage calculator is not simple`(){
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithGhostMonsterLeft ,
+      trainerTwo = TestData.trainerWithTwoMonsters,
+      simpleDamageCalculation = false
+    )
+    val trainerOneChoice = TrainerChoice.AttackChoice(
+      battle.getTrainerOne().getActiveMonster(),
+      TestData.physicalAttackTackle,
+      battle.getTrainerTwo().getActiveMonster()
+    )
+
+    val trainerTwoChoice = TrainerChoice.SurrenderChoice(battle.getTrainerTwo())
+    battle.submitChoice(battle.getTrainerOne(), trainerOneChoice)
+    battle.submitChoice(battle.getTrainerTwo(), trainerTwoChoice)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster().getHP()).isBetween(100,230)
+  }
+
+  @Test
+  fun `attack doesnt hit`(){
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithGhostMonsterLeft ,
+      trainerTwo = TestData.trainerWithTwoMonsters,
+      simpleDamageCalculation = false
+    )
+    val trainerOneChoice = TrainerChoice.AttackChoice(
+      battle.getTrainerOne().getActiveMonster(),
+      attackZeroAccuracy,
+      battle.getTrainerTwo().getActiveMonster()
+    )
+
+    val trainerTwoChoice = TrainerChoice.SurrenderChoice(battle.getTrainerTwo())
+    battle.submitChoice(battle.getTrainerOne(), trainerOneChoice)
+    battle.submitChoice(battle.getTrainerTwo(), trainerTwoChoice)
+
+    assertThat(battle.getTrainerTwo().getActiveMonster().getHP()).isEqualTo(150)
+  }
+
+  /**
+   * Buff Attacks
+   */
+
+  @Test
+  fun `AttackKind is Buff`(){
+    val baseStats = BaseStats(
+      healthPoints = 250,
+      initiative = 20,
+      attack = 100,
+      defense = 100,
+      specialAttack = 120,
+      specialDefense = 120,
+    )
+    var battleStatsWithoutStatus = BattleStats(
+      healthPoints = 250,
+      initiative = 10,
+      attack = 100,
+      defense = 100,
+      statusEffect = null,
+      specialAttack = 100,
+      specialDefense = 100
+    )
+
+
+    val fireMonster = Monster(
+      name = "Monster2",
+      type = Type.FIRE,
+      baseStats = baseStats,
+      battleStats = battleStatsWithoutStatus,
+      attacks = listOf(DragonDance)
+    )
+
+    val trainerBuff =
+      TrainerInBattle(
+        "trainer4",
+        listOf(fireMonster),
+        fireMonster,
+        3
+      )
+
+    val ghostMonster = Monster(
+      name = "Monster3",
+      type = Type.GHOST,
+      baseStats = baseStats,
+      battleStats = battleStatsWithoutStatus,
+      attacks = listOf(physicalAttackTackle)
+    )
+     val battle = Battle(
+       battleID = TestData.battleUuid,
+       trainerOne =  trainerBuff,
+       trainerTwo = TestData.trainerWithGhostMonsterLeft,
+       true
+     )
+    val attackChoice = TrainerChoice.AttackChoice(
+      battle.getTrainerOne().getActiveMonster(),
+      DragonDance,
+      battle.getTrainerTwo().getActiveMonster()
+    )
+    battle.submitChoice(
+      trainerBuff,
+      attackChoice
+    )
+    battle.submitChoice(
+      battle.getTrainerTwo(),
+      TrainerChoice.SurrenderChoice(battle.getTrainerTwo()))
+
+    assertThat(battle.getTrainerOne().getActiveMonster().getAttackStat()).isEqualTo(130)
+    assertThat(battle.getTrainerOne().getActiveMonster().getInitiativeStat()).isEqualTo(13)
+
+  }
+
+  @Test
+  fun `AttackKind is Debuff`(){
+    val baseStats = BaseStats(
+      healthPoints = 250,
+      initiative = 20,
+      attack = 100,
+      defense = 100,
+      specialAttack = 120,
+      specialDefense = 120,
+    )
+    var battleStatsWithoutStatus = BattleStats(
+      healthPoints = 250,
+      initiative = 10,
+      attack = 100,
+      defense = 100,
+      statusEffect = null,
+      specialAttack = 100,
+      specialDefense = 100
+    )
+
+
+    val fireMonster = Monster(
+      name = "Monster2",
+      type = Type.FIRE,
+      baseStats = baseStats,
+      battleStats = battleStatsWithoutStatus,
+      attacks = listOf(Screech)
+    )
+
+    val trainerOne =
+      TrainerInBattle(
+        "trainer4",
+        listOf(fireMonster),
+        fireMonster,
+        3
+      )
+
+    val trainerDebuff = TrainerInBattle(
+        "trainer4",
+        listOf(fireMonster),
+        fireMonster,
+        3
+    )
+
+    val ghostMonster = Monster(
+      name = "Monster3",
+      type = Type.GHOST,
+      baseStats = baseStats,
+      battleStats = battleStatsWithoutStatus,
+      attacks = listOf(physicalAttackTackle)
+    )
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne =  trainerOne,
+      trainerTwo = trainerDebuff,
+      true
+    )
+    val attackChoice = TrainerChoice.AttackChoice(
+      battle.getTrainerOne().getActiveMonster(),
+      Screech,
+      battle.getTrainerTwo().getActiveMonster()
+    )
+    battle.submitChoice(
+      trainerOne,
+      attackChoice
+    )
+    battle.submitChoice(
+      battle.getTrainerTwo(),
+      TrainerChoice.SurrenderChoice(battle.getTrainerTwo()))
+
+    assertThat(battle.getTrainerTwo().getActiveMonster().getDefenseStat()).isEqualTo(40)
+
+  }
+}
 /*
 @Test
 fun `startNextRound should increment round and keep active monsters if alive`() {
@@ -756,4 +1062,4 @@ fun `attack hits, and gets calculated with simple calculator`(){
 
 
 
-*/*/
+*/

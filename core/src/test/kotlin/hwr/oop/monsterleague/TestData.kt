@@ -29,6 +29,11 @@ object TestData {
   val attackWithoutPowerPoints =
     DamagingAttack("NoPower", AttackKinds.SPECIAL, Type.WATER, 100, 75, 0)
 
+  val notExistingAttack =
+    DamagingAttack("NotExisting", AttackKinds.SPECIAL, Type.WATER, 100, 75, 65)
+
+  val attackZeroAccuracy =
+    DamagingAttack("NoHitChance", AttackKinds.PHYSICAL, Type.NORMAL, 0, 50, 10)
   /**
    * Dummy Stats
    * */
@@ -88,15 +93,6 @@ var baseStatsSwordDancingMonster = BaseStats(
     specialDefense = 120
   )
 
-  var battleStatsWithoutStatus = BattleStats(
-    healthPoints = 250,
-    initiative = 10,
-    attack = 100,
-    defense = 100,
-    statusEffect = null,
-    specialAttack = 100,
-    specialDefense = 100
-  )
 
   var battleStatsHigherInitiative = BattleStats(
     healthPoints = 150,
@@ -136,7 +132,7 @@ var baseStatsSwordDancingMonster = BaseStats(
     type = Type.FIRE,
     baseStats = baseStatsHigherInitiative,
     battleStats = battleStatsHigherInitiative,
-    attacks = listOf(physicalAttackTackle)
+    attacks = listOf(physicalAttackTackle, specialAttackHydroPump)
   )
 
   val ghostMonster = Monster(
@@ -144,7 +140,7 @@ var baseStatsSwordDancingMonster = BaseStats(
     type = Type.GHOST,
     baseStats = baseStatsLowerInitiative,
     battleStats = battleStatsWithStatus,
-    attacks = listOf(physicalAttackTackle)
+    attacks = listOf(physicalAttackTackle, attackZeroAccuracy)
   )
 
   val normalMonster = Monster(
