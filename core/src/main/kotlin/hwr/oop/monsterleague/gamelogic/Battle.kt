@@ -238,7 +238,6 @@ class Battle(
     return listOf(trainerOne, trainerTwo).first { it.getName() == name }
   }
 
-
   fun getDefendingTrainer(trainer: TrainerInBattle): TrainerInBattle {
     return if (trainer == trainerOne) trainerTwo else trainerOne
   }
