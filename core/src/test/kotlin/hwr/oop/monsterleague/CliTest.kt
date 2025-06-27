@@ -6,15 +6,15 @@ import hwr.oop.monsterleague.cli.ChooseAttackCommand
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 import hwr.oop.monsterleague.gamelogic.Monster
-
-import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.extensions.system.captureStandardOut
 import hwr.oop.monsterleague.gamelogic.BaseStats
 import hwr.oop.monsterleague.gamelogic.Battle
 import hwr.oop.monsterleague.gamelogic.BattleStats
 import hwr.oop.monsterleague.gamelogic.Type
 import hwr.oop.monsterleague.gamelogic.attacks.Attack
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+
+import io.kotest.core.spec.style.AnnotationSpec
+import io.kotest.extensions.system.captureStandardOut
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.assertThrows
 
@@ -104,7 +104,7 @@ class CliTest : AnnotationSpec() {
     }.exceptionOrNull()
 
     assertThat(exception).isNotNull
-      .hasMessageContaining("Cannot find trainer Ash")
+      .hasMessageContaining("Cannot find trainer Brock")
   }
 
   @Test

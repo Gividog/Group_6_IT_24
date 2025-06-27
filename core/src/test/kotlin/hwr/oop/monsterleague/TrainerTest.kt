@@ -12,7 +12,7 @@ class TrainerTest : AnnotationSpec() {
   }
 
   @Test
-  fun `getTrainerName returns the correct list of monsters`() {
+  fun `getListOfMonsters returns the correct list of monsters`() {
     val trainer = TestData.trainerOutOfCombat
 
     assertThat(trainer.getListOfMonsters()).isEqualTo(

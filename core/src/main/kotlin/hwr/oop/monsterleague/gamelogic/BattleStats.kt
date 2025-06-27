@@ -92,8 +92,4 @@ class BattleStats(
   fun updateHP(newHP: Int) {
     healthPoints = newHP
   }
-
-  fun updateStatusEffect(newStatusEffect: Status) {
-    statusEffect = newStatusEffect
-  }
 }

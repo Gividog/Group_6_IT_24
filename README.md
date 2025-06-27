@@ -41,89 +41,48 @@ just build
 
 ## Abstract
 
-[TODO]: # (Write a short description of your project.)
-[TODO]: # (State most important features.)
-[TODO]: # (State the most interesting problems you encountered during the project.)
+We created a Pokémon-inspired monster battle simulator as our OOP lecture project.
+It is a turn-based game in which two trainers face each other with a roster of monsters. 
+Each monster has its own type, base stats, and available attacks.
+
+The focus was to design the battle logic with reusable, testable Kotlin code.
+
+## Most important features
+- Turn-based battle system between two trainers
+- Monsters with base stats (HP, damage, accuracy, type)
+- Monsters can perform a set of attacks
+- Command-line interface with commands to create trainers, battles, choose attacks, and more
+- Test-driven development with Kotest
+
+## Interesting problems we encountered during development
+- Designing the battle logic while respecting OOP principles
+- Structuring code for extensibility
+- Implementing a flexible command-based CLI
 
 ## Feature List
 
-[TODO]: # (For each feature implemented, add a row to the table!)
+| Number | Feature                                                                | Tests                               |
+|--------|------------------------------------------------------------------------|-------------------------------------|
+| 1      | Create a trainer                                                       | CreateTrainerCommandTest            |
+| 2      | Create a battle with trainers and choose which Damage Formula to use   | CreateBattleCommandTest             |
+| 3      | Choose one of four actions when it's your turn                         | ChooseActionCommandTest             |
+| 4      | Choose one of your active monsters' Attacks                            | ChooseAttackCommandTest             |
+| 5      | Heal your active monster                                               | healActiveMonster() in BattleTest   |
+| 6      | Switch your active monster                                             | switchActiveMonster() in BattleTest |
+| 7      | Surrender                                                              | surrender() in BattleTest           |
+| 8      | Simple and complex damage formula                                      | CalculatorTest                      |
+| 9      | Handling Type effectiveness between monsters                           | CalculatorTest and TypeTest         |
+| 10     | Calculating if an attack will hit with its accuracy and randomization  | RandomizerTest                      |
+| 11     | Calculating Crit chance with randomization                             | RandomizerTest                      |
+| 12     | Different Attack Types triggering buffs and debuffs that are stackable | AttackTest                          |
 
-| Number | Feature | Tests |
-|--------|---------|-------|
-| 1      | /       | /     |
+## Commands
 
-## Additional Dependencies
-
-[TODO]: # (For each additional dependency your project requires- Add an additional row to the table!)
-
-| Number | Dependency Name | Dependency Description | Why is it necessary? |
-|--------|-----------------|------------------------|----------------------|
-| 1      | /               | /                      | /                    |
-
-## Instructions
-
-[TODO]: # (Remove these instructions once you finished your fork's setup.)
-
-Use a fork of this repository to do implement your project.
-
-Remember to add this repository as a second remote repository (upstream) and pull from the correct
-remotes.
-This is necessary, because we might apply changes to this template during the next month.
-
-The following section describes how to add multiple remote repositories to your local repository,
-which is cloned from the fork.
-
-### Formatting
-
-The repository contains an IntelliJ IDEA formatter configuration file.
-It is located in the `.intellij` folder (not in `.idea`, which is the folder created by IntelliJ IDEA).
-To use the formatter, you need to import the configuration into your IntelliJ IDEA settings.
-
-Under **Settings**, go to **Editor**, then **Code Style**, click the **Gear Symbol** next to the Dropdown, click **Import Scheme**, then **IntelliJ IDEA code style XML**. Finally, select the `.intellij/formatter.xml` file.
-
-Make sure to always use the imported `HWR OOP` code style when formatting your code.
-Be aware that it might differ from the code style configured in your *Project*, or IntelliJ's *Default* code style.
-
-
-### Multiple remote repositories
-
-Your local repository should have a reference to both the fork (your own remote repository)
-and the original remote repository.
-To configure your git remote repositories, use the `git remote` command set.
-
-1. Clone your fork and go enter the repository.
-
-```
-git clone <fork-url>
-cd <created-folder>
-```
-
-2. Now your fork is configured as primary remote repository (origin).
-   Next to origin, you should add the original repository as a second remote repository (upstream).
-
-```
-git remote add upstream <repository-url>
-```
-
-3. Verify that both remotes are configured correctly.
-   The following command should list both remotes: origin and upstream.
-
-```
-git remote -v
-```
-
-4. To fetch changes from all remote repositories, use:
-
-```
-git fetch --all
-```
-
-5. If there are interesting changes (in e.g. the `main` branch) to merge into your branch, use:
-
-```
-git pull upstream main
-```
+| Command                                                                                     | Description                                                                              |
+|---------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| `battle new --trainers=Ash,Misty,0`                                                         | Creates a new battle with the trainers Ash and Misty using the complex DamageCalculation |
+| `battle new --trainers=Ash,Misty,1`                                                         | Creates a new battle with the trainers Ash and Misty using the simple DamageCalculation  |
+| `battle attack --trainer=Ash, --attacker=Balbasaur, --attack=Razor Leaf, --target=Squirtle` | Attacks the opponents' Squirtle with the Razor Leaf attack of Ash's Bulbasaur            |
 
 [maven]: https://maven.apache.org/
 [just]: https://github.com/casey/just
