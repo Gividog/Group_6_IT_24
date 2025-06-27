@@ -1,6 +1,6 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
-import monsterleague.gamelogic.attacks.*
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 class Monster(
   private val name: String,
@@ -89,5 +89,3 @@ class Monster(
     battleStats.updateHP(newHP)
   }
 }
-
-

@@ -1,9 +1,9 @@
-package monsterleague
+package hwr.oop.monsterleague
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.Type
-import monsterleague.gamelogic.TypeTable
+import hwr.oop.monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.TypeTable
 
 class TypeTest : AnnotationSpec() {
 

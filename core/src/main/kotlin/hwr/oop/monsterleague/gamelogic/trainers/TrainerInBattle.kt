@@ -1,7 +1,7 @@
 package hwr.oop.monsterleague.gamelogic.trainers
 
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.Monster
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 class TrainerInBattle(
   private val name: String,

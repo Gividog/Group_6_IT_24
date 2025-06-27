@@ -1,4 +1,4 @@
-package monsterleague
+package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.TestData
 import io.kotest.core.spec.style.AnnotationSpec

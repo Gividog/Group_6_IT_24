@@ -1,10 +1,10 @@
 package hwr.oop.monsterleague.cli
 
 import hwr.oop.CliCommand
-import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import hwr.oop.monsterleague.gamelogic.trainers.TrainerRepository
-import monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
+import hwr.oop.monsterleague.gamelogic.Battle
+
 import java.util.UUID
 import kotlin.collections.component1
 import kotlin.collections.component2
@@ -24,10 +24,12 @@ class CreateBattleCommand(
     val trainerArg = list.first {it.startsWith("--trainers=") }
     val (trainerName1, trainerName2, simpleDamageCalculator) = parseTrainerArgs(trainerArg.removePrefix("--trainers="))
 
-    val trainerOne = TrainerRepository.findByName(trainerName1)
-      ?: error("Cannot find trainer $trainerName1")
-    val trainerTwo = TrainerRepository.findByName(trainerName2)
-      ?: error("Cannot find trainer $trainerName2")
+    if (trainerName1 == trainerName2) {throw Exception("Cannot create a Battle with the same trainer twice")}
+
+    val trainerOne = TrainerFactory.findByName(trainerName1)
+      ?: throw Exception("Cannot find trainer $trainerName1")
+    val trainerTwo = TrainerFactory.findByName(trainerName2)
+      ?: throw Exception("Cannot find trainer $trainerName2")
 
     val trainerInBattleOne = TrainerInBattle(
       name = trainerOne.getTrainerName(),
@@ -43,6 +45,7 @@ class CreateBattleCommand(
     val battle = Battle(UUID.randomUUID(),trainerInBattleOne, trainerInBattleTwo, simpleDamageCalculator)
 
     val createdBattleID = battle.getBattleID()
+    BattleHolder.currentBattle = battle
     println("Battle created with ID: $createdBattleID")
   }
 
@@ -53,5 +56,4 @@ class CreateBattleCommand(
     }
     return Triple(trainerName1, trainerName2, simpleDamageCalculator == "0")
   }
-
 }

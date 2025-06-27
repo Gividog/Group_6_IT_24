@@ -1,10 +1,6 @@
 package hwr.oop.monsterleague.cli
 
-import hwr.oop.CliCommand
-//import hwr.oop.monsterleague.gamelogic.MonsterFactory
-import hwr.oop.monsterleague.gamelogic.trainers.Trainer
-import hwr.oop.monsterleague.gamelogic.trainers.TrainerRepository
-import monsterleague.gamelogic.Monster
+//import hwr.oop.monsterleague.gamelogic.factories.MonsterFactory
 /*
 class CreateTrainerCommand(
   private val trainerRepository: TrainerRepository,

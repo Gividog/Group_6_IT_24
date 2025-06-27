@@ -1,4 +1,4 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
 import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 

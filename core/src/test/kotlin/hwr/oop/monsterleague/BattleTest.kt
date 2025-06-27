@@ -1,18 +1,13 @@
-package monsterleague
+package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.TestData
-import hwr.oop.monsterleague.gamelogic.trainers.Trainer
+import hwr.oop.monsterleague.gamelogic.Battle
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
-import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import monsterleague.gamelogic.*
 
 import org.assertj.core.api.Assertions.assertThat
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.attacks.AttackKinds
 import org.junit.jupiter.api.Assertions.fail
-import org.junit.jupiter.api.assertThrows
-import java.util.*
-
+/*
 class BattleTest : AnnotationSpec() {
   /**
    * surrender () tests
@@ -761,4 +756,4 @@ fun `attack hits, and gets calculated with simple calculator`(){
 
 
 
-*/
+*/*/

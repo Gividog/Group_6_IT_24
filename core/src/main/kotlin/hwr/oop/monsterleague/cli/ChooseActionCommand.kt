@@ -1,13 +1,16 @@
 package hwr.oop.monsterleague.cli
 
 import hwr.oop.CliCommand
+import hwr.oop.monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import monsterleague.gamelogic.Battle
-/*
+
+
 class ChooseActionCommand(
-  private val battle: Battle,
+
 ) : CliCommand {
+  private val battle = BattleHolder.currentBattle ?: throw Exception("No active battle")
 
   override fun matches(list: List<String>): Boolean {
     return list.take(2) == listOf("trainer", "action")
@@ -26,7 +29,7 @@ class ChooseActionCommand(
       "attack" -> parseAttackChoice(list, trainer)
       "switch" -> parseSwitchChoice(list, trainer)
       "heal" -> parseHealChoice(list, trainer)
-      "surrender" -> TrainerChoice.SurrenderChoice()
+      "surrender" -> TrainerChoice.SurrenderChoice(trainer)
       else -> {
         throw Exception("Unknown trainer action: '$actionType'. Valid options are: attack, switch, heal, surrender.")
       }
@@ -72,9 +75,10 @@ class ChooseActionCommand(
     return TrainerChoice.HealChoice(monster)
   }
 
+
   private fun parseArg(list: List<String>, prefix: String): String {
     return list.first { it.startsWith(prefix) }.substringAfter("=")
   }
 }
 
-*/
+

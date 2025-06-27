@@ -1,6 +1,6 @@
 package hwr.oop.monsterleague.gamelogic.trainers
 
-import monsterleague.gamelogic.Monster
+import hwr.oop.monsterleague.gamelogic.Monster
 
 class Trainer(
   private val name: String,

@@ -1,6 +1,6 @@
 package hwr.oop.monsterleague
 
-import monsterleague.gamelogic.BaseStats
+import hwr.oop.monsterleague.gamelogic.BaseStats
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 

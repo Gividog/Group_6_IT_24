@@ -1,8 +1,8 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 object Exceptions {
   fun attackNotFound() {

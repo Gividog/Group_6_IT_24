@@ -1,18 +1,12 @@
 package hwr.oop.monsterleague
 
+import hwr.oop.monsterleague.gamelogic.*
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.Status
-import monsterleague.gamelogic.Type
-import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.DamagingAttack
+
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
+import hwr.oop.monsterleague.gamelogic.attacks.DamagingAttack
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
-import monsterleague.gamelogic.attacks.Attack
 import monsterleague.gamelogic.attacks.DragonDance
-import monsterleague.gamelogic.attacks.Haze
-import monsterleague.gamelogic.attacks.Screech
 import monsterleague.gamelogic.attacks.SwordsDance
 import java.util.UUID
 

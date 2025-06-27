@@ -1,11 +1,11 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import hwr.oop.monsterleague.gamelogic.calculators.DamageCalculator
 import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
-import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.AttackKinds
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
 
 import java.util.UUID
 
@@ -42,17 +42,15 @@ class Battle(
   }
 
   fun submitChoice(
-    trainerOne: TrainerInBattle,
-    choiceOne: TrainerChoice,
-    trainerTwo: TrainerInBattle,
-    choiceTwo: TrainerChoice
+    trainer: TrainerInBattle,
+    choice: TrainerChoice,
   ) {
-    if(trainerOne == trainerTwo ) {
-      throw Exception("You chose the same trainer, $trainerOne is already chosen")
-    }else {
-      mapOfChoice[trainerOne] = choiceOne
-      mapOfChoice[trainerTwo] = choiceTwo
+    if (mapOfChoice.containsKey(trainer)) {
+      throw IllegalArgumentException("${trainer.getName()} has already submitted a choice.")
+    }
+    mapOfChoice[trainer] = choice
 
+    if (mapOfChoice.size == 2) {
       simulateRound()
     }
   }
@@ -62,7 +60,7 @@ class Battle(
     trainerOne.setNotReadyToFight()
     trainerTwo.setNotReadyToFight()
     // Trainer können wieder auswählen
-    // if (all trainer.readyToFight) {simulateRound()}
+
   }
 
   private fun endRound() {
@@ -74,6 +72,7 @@ class Battle(
       } else {
         surrender(trainerOne)
         battleOver = true
+        println("${trainerTwo.getName()} won!")
       }
     } else if (trainerTwo.getActiveMonster().defeatedMonster()) {
       val nextAlive =
@@ -83,6 +82,7 @@ class Battle(
       } else {
         surrender(trainerTwo)
         battleOver = true
+        println("${trainerOne.getName()} won!")
       }
     } else {
       startNextRound()
@@ -103,7 +103,6 @@ class Battle(
       mapOfChoice.clear()
       endRound()
     }
-
   }
 
   private fun trainerChooseAttack(
@@ -143,8 +142,6 @@ class Battle(
         attackingMonster,
         targetedMonster
       )
-
-      // AttackKinds.STATUS -> applyStatus(attack, defender)
     }
   }
 
