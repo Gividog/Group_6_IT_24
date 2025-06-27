@@ -241,24 +241,24 @@ class Battle(
    * Test Commands
    */
 
-  fun testEndRound() {
-    endRound()
+  fun testEndRound(battle: Battle) {
+    battle.endRound()
   }
 
-  fun testSurrender(trainer: TrainerInBattle) {
-   surrender(trainer)
+  fun testSurrender(battle: Battle, trainer: TrainerInBattle) {
+    battle.surrender(trainer)
   }
 
-  fun testDetermineWinner() {
-    determineWinner()
+  fun testDetermineWinner(battle: Battle) {
+    battle.determineWinner()
   }
 
-  fun testSortActiveMonsterByInitiative () : List<Monster> {
-    return sortActiveMonstersByInitiative()
+  fun testSortActiveMonsterByInitiative(battle: Battle): List<Monster> {
+    return battle.sortActiveMonstersByInitiative()
   }
 
-  fun testStartNextRound (battle : Battle) {
-    startNextRound()
+  fun testStartNextRound(battle: Battle) {
+    battle.startNextRound()
   }
 
   fun testHandleAttack(
