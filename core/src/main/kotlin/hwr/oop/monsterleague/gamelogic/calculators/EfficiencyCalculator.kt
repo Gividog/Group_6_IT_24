@@ -1,11 +1,11 @@
 package hwr.oop.monsterleague.gamelogic.calculators
 
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.TypeTable
+import hwr.oop.monsterleague.gamelogic.Monster
+import hwr.oop.monsterleague.gamelogic.TypeTable
 
 class EfficiencyCalculator(
-  val attackingMonster: Monster,
-  val defendingMonster: Monster,
+  private val attackingMonster: Monster,
+  private val defendingMonster: Monster,
 ) {
 
   fun calculateEfficiency(

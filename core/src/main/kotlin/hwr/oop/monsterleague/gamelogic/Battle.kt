@@ -1,11 +1,11 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
-import hwr.oop.monsterleague.gamelogic.TrainerChoice
-import hwr.oop.monsterleague.gamelogic.TrainerInBattle
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import hwr.oop.monsterleague.gamelogic.calculators.DamageCalculator
 import hwr.oop.monsterleague.gamelogic.calculators.HitChanceCalculator
-import monsterleague.gamelogic.attacks.Attack
-import monsterleague.gamelogic.attacks.AttackKinds
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
 
 import java.util.UUID
 
@@ -19,7 +19,6 @@ class Battle(
   private var winner: TrainerInBattle? = null
   private var battleOver: Boolean = false
   private val mapOfChoice = mutableMapOf<TrainerInBattle, TrainerChoice>()
-  private val battleStats = mapOf<Monster, BattleStats>()
 
   private fun applyStatChanges(
     attack: Attack,
@@ -42,10 +41,26 @@ class Battle(
     }
   }
 
+  fun submitChoice(
+    trainer: TrainerInBattle,
+    choice: TrainerChoice,
+  ) {
+    if (mapOfChoice.containsKey(trainer)) {
+      throw IllegalArgumentException("${trainer.getName()} has already submitted a choice.")
+    }
+    mapOfChoice[trainer] = choice
+
+    if (mapOfChoice.size == 2) {
+      simulateRound()
+    }
+  }
+
   private fun startNextRound() {
     round++
     trainerOne.setNotReadyToFight()
     trainerTwo.setNotReadyToFight()
+    // Trainer können wieder auswählen
+
   }
 
   private fun endRound() {
@@ -56,6 +71,8 @@ class Battle(
         trainerOne.setActiveMonster(nextAlive)
       } else {
         surrender(trainerOne)
+        battleOver = true
+        println("${trainerTwo.getName()} won!")
       }
     } else if (trainerTwo.getActiveMonster().defeatedMonster()) {
       val nextAlive =
@@ -64,30 +81,31 @@ class Battle(
         trainerTwo.setActiveMonster(nextAlive)
       } else {
         surrender(trainerTwo)
+        battleOver = true
+        println("${trainerOne.getName()} won!")
       }
     } else {
       startNextRound()
     }
   }
 
-  private fun sortActiveMonstersByInitiative(): List<Monster> {
-    return listOf(trainerOne.getActiveMonster(), trainerTwo.getActiveMonster())
-      .sortedByDescending { it.getInitiativeStat() }
-  }
-
   private fun simulateRound() {
     mapOfChoice.entries.sortedByDescending { it.value.precedence() }
       .forEach { (trainer, choice) ->
-        when (choice) {  // when is exhaustive, because TrainerChoice is a sealed interface!
+        when (choice) {
           is TrainerChoice.HealChoice -> healActiveMonster(trainer, choice)
           is TrainerChoice.AttackChoice -> trainerChooseAttack(trainer, choice)
           is TrainerChoice.SwitchChoice -> switchActiveMonster(trainer, choice)
+          is TrainerChoice.SurrenderChoice -> surrender(trainer)
         }
       }
-    mapOfChoice.clear()
+    if (battleOver) {
+      mapOfChoice.clear()
+      endRound()
+    }
   }
 
-  fun trainerChooseAttack(
+  private fun trainerChooseAttack(
     trainer: TrainerInBattle,
     choice: TrainerChoice.AttackChoice,
   ) {
@@ -97,7 +115,7 @@ class Battle(
 
     if (attack !in attackingMonster.getAttacks()) {
       throw Exceptions.AttackNotFoundException(attack, attackingMonster)
-    } else if (attack.getPowerPoints() == 0) {
+    } else if (attack.powerPoints == 0) {
       throw Exceptions.AttackCannotBeUsedException(attack, attackingMonster)
     } else if (attackingMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)
@@ -124,8 +142,6 @@ class Battle(
         attackingMonster,
         targetedMonster
       )
-
-      // AttackKinds.STATUS -> applyStatus(attack, defender)
     }
   }
 
@@ -134,7 +150,7 @@ class Battle(
     attackingMonster: Monster,
     targetedMonster: Monster,
   ) {
-    val defendingTrainer: TrainerInBattle = getDefendingTrainer()
+
     val hitChanceCalculator = HitChanceCalculator(attack)
 
     if (hitChanceCalculator.willHit()) {
@@ -153,12 +169,9 @@ class Battle(
       applyStatChanges(attack, targetedMonster, attackingMonster)
     }
 
-    if (defendingTrainer.checkActiveMonsterDefeated()) {
-      // TODO : Trainer muss nächstes, noch nicht besiegtes Monster auswählen (switchActiveMonster()?)
-    }
   }
 
-  fun switchActiveMonster(
+  private fun switchActiveMonster(
     trainer: TrainerInBattle,
     choice: TrainerChoice.SwitchChoice,
   ) {
@@ -175,7 +188,7 @@ class Battle(
     }
   }
 
-  fun healActiveMonster(
+  private fun healActiveMonster(
     trainer: TrainerInBattle,
     choice: TrainerChoice.HealChoice,
   ) {
@@ -193,19 +206,13 @@ class Battle(
     }
   }
 
-  private fun determineWinner() {
-    if (trainerOne.getMonsters().all { it.defeatedMonster() }) {
-      battleOver = true
-      winner = trainerTwo
-    } else if (trainerTwo.getMonsters().all { it.defeatedMonster() }) {
-      battleOver = true
-      winner = trainerOne
-    }
-  }
-
   /**
    * Queries
    * */
+
+  fun getBattleID(): UUID {
+    return battleID
+  }
 
   fun getKindOfAttack(attack: Attack): AttackKinds {
     return attack.kind
@@ -227,46 +234,11 @@ class Battle(
     return trainerTwo
   }
 
-  fun getAttackingTrainer(): TrainerInBattle {
-    // TODO
-    return trainerOne
+  fun getTrainerByName(name: String): TrainerInBattle {
+    return listOf(trainerOne, trainerTwo).first { it.getName() == name }
   }
 
-  fun getDefendingTrainer(): TrainerInBattle {
-    // TODO
-    return trainerOne
-  }
-
-  /**
-   * Test Commands
-   */
-
-  fun testEndRound(battle: Battle) {
-    battle.endRound()
-  }
-
-  fun testSurrender(battle: Battle, trainer: TrainerInBattle) {
-    battle.surrender(trainer)
-  }
-
-  fun testDetermineWinner(battle: Battle) {
-    battle.determineWinner()
-  }
-
-  fun testSortActiveMonsterByInitiative(battle: Battle): List<Monster> {
-    return battle.sortActiveMonstersByInitiative()
-  }
-
-  fun testStartNextRound(battle: Battle) {
-    battle.startNextRound()
-  }
-
-  fun testHandleAttack(
-    battle: Battle,
-    attack: Attack,
-    attackingMonster: Monster,
-    targetedMonster: Monster,
-  ) {
-    battle.handleAttack(attack, attackingMonster, targetedMonster)
+  fun getDefendingTrainer(trainer: TrainerInBattle): TrainerInBattle {
+    return if (trainer == trainerOne) trainerTwo else trainerOne
   }
 }

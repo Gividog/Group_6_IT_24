@@ -8,7 +8,7 @@ class RandomizerTest: AnnotationSpec() {
 
   @Test
   fun `random Numbers`(){
-    var number = Randomizer().getRandomNumber()
+    val number = Randomizer().getRandomNumber()
     println(number)
   }
 

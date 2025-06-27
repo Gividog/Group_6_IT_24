@@ -1,7 +1,7 @@
-package hwr.oop.monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic.trainers
 
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.Monster
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 sealed interface TrainerChoice {
   fun precedence(): Int = Int.MAX_VALUE
@@ -23,8 +23,12 @@ sealed interface TrainerChoice {
     val monster: Monster,
   ) : TrainerChoice
 
+  data class SurrenderChoice(
+    val surrenderingTrainer : TrainerInBattle,
+  ): TrainerChoice
+
   companion object {
     val allowedChoiceTypes =
-      listOf("AttackChoice", "SwitchChoice", "HealChoice")
+      listOf("AttackChoice", "SwitchChoice", "HealChoice", "SurrenderChoice")
   }
 }

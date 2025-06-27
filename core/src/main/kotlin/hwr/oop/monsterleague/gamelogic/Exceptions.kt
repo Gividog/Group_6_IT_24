@@ -1,8 +1,8 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
-import hwr.oop.monsterleague.gamelogic.TrainerChoice
-import hwr.oop.monsterleague.gamelogic.TrainerInBattle
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 object Exceptions {
   fun attackNotFound() {
@@ -47,7 +47,7 @@ object Exceptions {
     throw Exception("Trainer not found")
   }
 
-  class TrainerNotFoundException(trainer: TrainerInBattle, battle: Battle) : // brauchen wir?
+  class TrainerNotFoundException(trainer: TrainerInBattle, battle: Battle) :
     Exception("You tried to select $trainer but $trainer is not available to choose. Available trainers are: ${battle.getTrainerOne()} and ${battle.getTrainerTwo()}.")
 
   fun monsterDefeated() {

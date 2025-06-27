@@ -1,18 +1,12 @@
 package hwr.oop.monsterleague
 
-import hwr.oop.monsterleague.gamelogic.TrainerInBattle
-import monsterleague.gamelogic.BaseStats
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.Status
-import monsterleague.gamelogic.Type
-import monsterleague.gamelogic.attacks.AttackKinds
-import monsterleague.gamelogic.attacks.DamagingAttack
-import monsterleague.gamelogic.Trainer
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.*
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
+
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
+import hwr.oop.monsterleague.gamelogic.attacks.DamagingAttack
+import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import monsterleague.gamelogic.attacks.DragonDance
-import monsterleague.gamelogic.attacks.Haze
-import monsterleague.gamelogic.attacks.Screech
 import monsterleague.gamelogic.attacks.SwordsDance
 import java.util.UUID
 
@@ -31,6 +25,9 @@ object TestData {
 
   val specialAttackHydroPump =
     DamagingAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 75, 10)
+
+  val attackWithoutPowerPoints =
+    DamagingAttack("NoPower", AttackKinds.SPECIAL, Type.WATER, 100, 75, 0)
 
   /**
    * Dummy Stats
@@ -155,7 +152,7 @@ var baseStatsSwordDancingMonster = BaseStats(
     type = Type.NORMAL,
     baseStats = baseStatsLowerInitiative,
     battleStats = battleStatsWithStatus,
-    attacks = listOf(physicalAttackTackle)
+    attacks = listOf(physicalAttackTackle, attackWithoutPowerPoints)
   )
 
   val defeatedMonster = Monster(
@@ -220,9 +217,30 @@ var baseStatsSwordDancingMonster = BaseStats(
       3
     )
 
+  val trainerWithNoHealsRemaining =
+    TrainerInBattle(
+      "trainer5",
+      listOf(ghostMonster, waterMonster, fireMonster),
+      waterMonster,
+      0
+    )
+
   val trainerWithOnlyDefeatedMonsters =
     TrainerInBattle("trainer3", listOf(defeatedMonster), defeatedMonster, 0)
 
+  val trainerHealsDecrement= TrainerInBattle(
+      "trainer5",
+      listOf(ghostMonster, waterMonster, fireMonster),
+      waterMonster,
+      3
+  )
+
+  val trainerWithNoPowerPointsAttack = TrainerInBattle(
+    "trainer6",
+    listOf(normalMonster),
+    normalMonster,
+    healsRemaining = 3
+  )
   /**
    * Dummy basic Trainers
    * */

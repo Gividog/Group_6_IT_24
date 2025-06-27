@@ -1,6 +1,6 @@
-package monsterleague.gamelogic
+package hwr.oop.monsterleague.gamelogic
 
-import monsterleague.gamelogic.attacks.*
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 class Monster(
   private val name: String,
@@ -76,6 +76,11 @@ class Monster(
     return battleStats
   }
 
+  fun getAttackByName(name: String): Attack {
+    return attacks.firstOrNull { it.name == name }
+      ?: throw Exception("Attack $name not found for monster ${this.name}")
+  }
+
   /**
    * Commands
    */
@@ -84,5 +89,3 @@ class Monster(
     battleStats.updateHP(newHP)
   }
 }
-
-

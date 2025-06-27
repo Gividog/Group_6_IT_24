@@ -2,8 +2,8 @@ package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.gamelogic.attacks.StatChange
 import io.kotest.core.spec.style.AnnotationSpec
-import monsterleague.gamelogic.BattleStats
-import monsterleague.gamelogic.Status
+import hwr.oop.monsterleague.gamelogic.BattleStats
+import hwr.oop.monsterleague.gamelogic.Status
 import org.assertj.core.api.Assertions.assertThat
 
 class BattleStatsTest: AnnotationSpec() {

@@ -1,7 +1,7 @@
 package hwr.oop.monsterleague.gamelogic.calculators
 
 import hwr.oop.monsterleague.gamelogic.Randomizer
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 class HitChanceCalculator(
   private val attack : Attack

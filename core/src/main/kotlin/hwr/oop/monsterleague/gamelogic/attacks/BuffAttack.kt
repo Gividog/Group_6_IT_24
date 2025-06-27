@@ -1,7 +1,9 @@
 package monsterleague.gamelogic.attacks
 
 import hwr.oop.monsterleague.gamelogic.attacks.StatChange
-import monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
 
 object SwordsDance : Attack {
   override val name: String = "Swords Dance"

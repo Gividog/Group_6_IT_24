@@ -1,8 +1,8 @@
 package hwr.oop.monsterleague.gamelogic.calculators
 
+import hwr.oop.monsterleague.gamelogic.Monster
 import hwr.oop.monsterleague.gamelogic.Randomizer
-import monsterleague.gamelogic.Monster
-import monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
 import kotlin.math.roundToInt
 
 class DamageCalculator(

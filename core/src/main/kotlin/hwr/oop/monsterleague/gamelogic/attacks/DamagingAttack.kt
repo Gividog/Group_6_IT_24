@@ -1,6 +1,8 @@
-package monsterleague.gamelogic.attacks
+package hwr.oop.monsterleague.gamelogic.attacks
 
-import monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
 
 class DamagingAttack(
   override val name: String,

@@ -1,4 +1,4 @@
-package monsterleague
+package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.TestData
 import hwr.oop.monsterleague.gamelogic.calculators.EfficiencyCalculator
