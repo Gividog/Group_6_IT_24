@@ -23,7 +23,8 @@ sealed interface TrainerChoice {
     val monster: Monster,
   ) : TrainerChoice
 
-  class SurrenderChoice(
+  data class SurrenderChoice(
+    val surrenderingTrainer : TrainerInBattle,
   ): TrainerChoice
 
   companion object {

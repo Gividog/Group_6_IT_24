@@ -19,11 +19,4 @@ interface Attack {
     return kind == AttackKinds.SPECIAL
   }
 
-  fun getPowerPoints() : Int {
-    return powerPoints
-  }
-
-  fun getName() : String {
-    return name
-  }
 }

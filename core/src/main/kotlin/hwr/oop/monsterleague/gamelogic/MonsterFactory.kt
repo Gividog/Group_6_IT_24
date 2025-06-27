@@ -5,15 +5,19 @@ import monsterleague.gamelogic.BattleStats
 import monsterleague.gamelogic.Monster
 import monsterleague.gamelogic.Type
 import monsterleague.gamelogic.attacks.Attack
-
+/*
 object MonsterFactory {
   fun create(name: String): Monster {
     return when (name.lowercase()) {
       "bulbasaur" -> Monster(
         name = "Bulbasaur",
         type = Type.GRASS,
-        baseStats = BaseStats(healthPoints = 35, attack = 55, defense = 40),
-        battleStats = BattleStats(healthPoints = 35),
+        baseStats = BaseStats(
+          healthPoints = 35,
+          attack = 55,
+          defense = 40),
+        battleStats = BattleStats(
+          healthPoints = 35),
         attacks = listOf(Attack(
             "Thunder Shock",
             power = 40
@@ -47,4 +51,4 @@ object MonsterFactory {
       else -> throw IllegalArgumentException("Unknown monster: $name")
     }
   }
-}
+}*/

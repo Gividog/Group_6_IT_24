@@ -41,9 +41,18 @@ class Battle(
     }
   }
 
-  fun submitChoice(trainer: TrainerInBattle, choice: TrainerChoice) {
-    mapOfChoice[trainer] = choice
-    if (mapOfChoice.size == 2) {
+  fun submitChoice(
+    trainerOne: TrainerInBattle,
+    choiceOne: TrainerChoice,
+    trainerTwo: TrainerInBattle,
+    choiceTwo: TrainerChoice
+  ) {
+    if(trainerOne == trainerTwo ) {
+      throw Exception("You chose the same trainer, $trainerOne is already chosen")
+    }else {
+      mapOfChoice[trainerOne] = choiceOne
+      mapOfChoice[trainerTwo] = choiceTwo
+
       simulateRound()
     }
   }
@@ -80,7 +89,7 @@ class Battle(
     }
   }
 
-  fun simulateRound() {
+  private fun simulateRound() {
     mapOfChoice.entries.sortedByDescending { it.value.precedence() }
       .forEach { (trainer, choice) ->
         when (choice) {
@@ -90,8 +99,11 @@ class Battle(
           is TrainerChoice.SurrenderChoice -> surrender(trainer)
         }
       }
-    mapOfChoice.clear()
-    endRound()
+    if (battleOver) {
+      mapOfChoice.clear()
+      endRound()
+    }
+
   }
 
   private fun trainerChooseAttack(
@@ -104,7 +116,7 @@ class Battle(
 
     if (attack !in attackingMonster.getAttacks()) {
       throw Exceptions.AttackNotFoundException(attack, attackingMonster)
-    } else if (attack.getPowerPoints() == 0) {
+    } else if (attack.powerPoints == 0) {
       throw Exceptions.AttackCannotBeUsedException(attack, attackingMonster)
     } else if (attackingMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)

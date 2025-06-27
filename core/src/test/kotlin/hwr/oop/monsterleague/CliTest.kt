@@ -1,5 +1,5 @@
 package hwr.oop
-
+/*
 import hwr.oop.projects.kingdom_2025.Game
 import hwr.oop.projects.kingdom_2025.GameId
 import hwr.oop.projects.kingdom_2025.persistence.LoadGamePort
@@ -53,4 +53,4 @@ private class PersistenceStub : SaveGamePort, LoadGamePort {
     }
   }
 
-}
+}*/

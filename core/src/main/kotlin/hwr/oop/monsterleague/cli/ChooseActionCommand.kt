@@ -4,7 +4,7 @@ import hwr.oop.CliCommand
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import monsterleague.gamelogic.Battle
-
+/*
 class ChooseActionCommand(
   private val battle: Battle,
 ) : CliCommand {
@@ -77,4 +77,4 @@ class ChooseActionCommand(
   }
 }
 
-
+*/

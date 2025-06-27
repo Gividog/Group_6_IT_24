@@ -1,5 +1,5 @@
 package hwr.oop
-
+/*
 import hwr.oop.projects.kingdom_2025.persistence.LoadGamePort
 
 class LoadGameCommand(loadGamePort: LoadGamePort) : CliCommand {
@@ -12,3 +12,4 @@ class LoadGameCommand(loadGamePort: LoadGamePort) : CliCommand {
   }
 
 }
+*/

@@ -32,6 +32,9 @@ object TestData {
   val specialAttackHydroPump =
     DamagingAttack("Hydro Pump", AttackKinds.SPECIAL, Type.WATER, 100, 75, 10)
 
+  val attackWithoutPowerPoints =
+    DamagingAttack("NoPower", AttackKinds.SPECIAL, Type.WATER, 100, 75, 0)
+
   /**
    * Dummy Stats
    * */
@@ -155,7 +158,7 @@ var baseStatsSwordDancingMonster = BaseStats(
     type = Type.NORMAL,
     baseStats = baseStatsLowerInitiative,
     battleStats = battleStatsWithStatus,
-    attacks = listOf(physicalAttackTackle)
+    attacks = listOf(physicalAttackTackle, attackWithoutPowerPoints)
   )
 
   val defeatedMonster = Monster(
@@ -220,9 +223,30 @@ var baseStatsSwordDancingMonster = BaseStats(
       3
     )
 
+  val trainerWithNoHealsRemaining =
+    TrainerInBattle(
+      "trainer5",
+      listOf(ghostMonster, waterMonster, fireMonster),
+      waterMonster,
+      0
+    )
+
   val trainerWithOnlyDefeatedMonsters =
     TrainerInBattle("trainer3", listOf(defeatedMonster), defeatedMonster, 0)
 
+  val trainerHealsDecrement= TrainerInBattle(
+      "trainer5",
+      listOf(ghostMonster, waterMonster, fireMonster),
+      waterMonster,
+      3
+  )
+
+  val trainerWithNoPowerPointsAttack = TrainerInBattle(
+    "trainer6",
+    listOf(normalMonster),
+    normalMonster,
+    healsRemaining = 3
+  )
   /**
    * Dummy basic Trainers
    * */

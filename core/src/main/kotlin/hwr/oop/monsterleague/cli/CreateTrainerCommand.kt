@@ -1,11 +1,11 @@
 package hwr.oop.monsterleague.cli
 
 import hwr.oop.CliCommand
-import hwr.oop.monsterleague.gamelogic.MonsterFactory
+//import hwr.oop.monsterleague.gamelogic.MonsterFactory
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerRepository
 import monsterleague.gamelogic.Monster
-
+/*
 class CreateTrainerCommand(
   private val trainerRepository: TrainerRepository,
 ) : CliCommand {
@@ -42,4 +42,4 @@ class CreateTrainerCommand(
       .map { it.trim() }
       .map { name -> MonsterFactory.create(name) }  // Default-Level z. B. 5
   }
-}
+}*/

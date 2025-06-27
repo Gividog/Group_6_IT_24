@@ -1,13 +1,16 @@
 package hwr.oop.monsterleague.cli
 
+import hwr.oop.monsterleague.gamelogic.trainers.TrainerRepository
+import monsterleague.gamelogic.Battle
+
+/*
 class Cli(
-  loadGamePort: LoadGamePort,
-  saveGamePort: SaveGamePort,
+
 ) {
   val commands = listOf(
-    CreateTrainerCommand(),
+    CreateTrainerCommand(TrainerRepository),
     CreateBattleCommand(),
-    ChooseActionCommand()
+   // ChooseActionCommand(Battle())
   )
 
   fun handle(args: List<String>) {
@@ -16,3 +19,4 @@ class Cli(
     command.handle(args)
   }
 }
+*/
