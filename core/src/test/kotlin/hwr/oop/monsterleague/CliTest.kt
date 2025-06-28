@@ -731,7 +731,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("You tried to select NonExistentMonster")
+    assertThat(ex.message).contains("You tried to select NotExistentMonster but ")
   }
 
   @Test
@@ -747,7 +747,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("You tried to select NonExistentAttack")
+    assertThat(ex.message).contains("You tried to select NotExistentMonster but")
   }
 
   @Test
@@ -756,21 +756,22 @@ class CliTest : AnnotationSpec() {
     val args = listOf(
       "trainer", "action", "attack",
       "--trainer=trainer1",
-      "--attacker=Monster3",
+      "--attacker=Monster1",
       "--attack=Tackle",
       "--target=NotExistentMonster"
     )
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("You tried to select NonExistentMonster")
+    assertThat(ex.message).contains("You tried to select NotExistentMonster but")
   }
 
   @Test
   fun `Switch Choice Action Monster Not Found`(){
     val command = ChooseActionCommand()
     val args = listOf(
-      "trainer", "action", "choice",
+      "trainer", "action", "switch",
+      "--trainer=trainer1",
       "--out=NonExistentMonster",
       "--in=Monster1"
 
@@ -778,14 +779,15 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("You tried to select NonExistentMonster")
+    assertThat(ex.message).contains("You tried to select NonExistentMonster but")
   }
 
   @Test
   fun `Switch Choice Action in Monster Not Found`(){
     val command = ChooseActionCommand()
     val args = listOf(
-      "trainer", "action", "choice",
+      "trainer", "action", "switch",
+      "--trainer=trainer1",
       "--out=Monster1",
       "--in=NonExistentMonster"
 
@@ -795,20 +797,60 @@ class CliTest : AnnotationSpec() {
     }
     assertThat(ex.message).contains("You tried to select NonExistentMonster")
   }
-
+@Test
+fun`attack for AttackChoice not found`(){
+  val command = ChooseActionCommand()
+  val args = listOf(
+    "trainer", "action", "attack",
+    "--trainer=trainer1",
+    "--attacker=Monster2",
+    "--attack=NonExistent",
+    "--target=Monster3"
+  )
+  val ex = assertThrows<Exception> {
+    command.handle(args)
+  }
+  assertThat(ex.message).contains("You tried to select NonExistent but")
+}
   @Test
   fun `heal action Monster not found`(){
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "heal",
-
-
+      "--trainer=trainer1",
+      "--monster=NonExistent"
     )
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-
+    assertThat(ex.message).contains("You tried to select NonExistent but")
   }
 
+  @Test
+  fun `parseArgs Missing Requirement`(){
+    val command = ChooseActionCommand()
+    val args = listOf(
+      "trainer", "action", "heal",
+      "trainer=trainer1",
+      "--monster=Monster1"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --trainer=")
+  }
 
+  @Test
+  fun `empty argument exception gets thrown`(){
+    val command = ChooseActionCommand()
+    val args = listOf(
+      "trainer", "action", "heal",
+      "--trainer=",
+      "--monster=Monster1"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Argument --trainer= must not be empty.")
+  }
 }
