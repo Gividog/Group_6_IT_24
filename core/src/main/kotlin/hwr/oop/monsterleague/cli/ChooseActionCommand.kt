@@ -15,6 +15,7 @@ class ChooseActionCommand(
     return list.take(2) == listOf("trainer", "action")
   }
 
+
   override fun handle(list: List<String>) {
     if (list.size < 3) {
       throw Exception("Invalid command: Expected an action type at position 3 (attack, switch, heal, surrender).")
