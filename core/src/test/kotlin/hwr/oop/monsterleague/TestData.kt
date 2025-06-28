@@ -34,6 +34,7 @@ object TestData {
 
   val attackZeroAccuracy =
     DamagingAttack("NoHitChance", AttackKinds.PHYSICAL, Type.NORMAL, 0, 50, 10)
+
   /**
    * Dummy Stats
    * */
@@ -114,7 +115,6 @@ var baseStatsSwordDancingMonster = BaseStats(
     specialDefense = 120
   )
 
-
   /**
    * Dummy Monsters
    * */
@@ -183,8 +183,6 @@ var baseStatsSwordDancingMonster = BaseStats(
     attacks = listOf(DragonDance)
   )
 
-
-
   /**
    * Dummy Trainers
    * */
@@ -237,12 +235,18 @@ var baseStatsSwordDancingMonster = BaseStats(
     normalMonster,
     healsRemaining = 3
   )
+
   /**
    * Dummy basic Trainers
    * */
 
-  val trainerOutOfCombat = Trainer(
-    name = "trainer5",
+  val trainerOutOfCombatAsh = Trainer(
+    name = "Ash",
     monsters = listOf(normalMonster, waterMonster, ghostMonster)
+  )
+
+  val trainerOutOfCombatMisty = Trainer(
+    name = "Misty",
+    monsters = listOf(waterMonster, fireMonster),
   )
 }

@@ -6,7 +6,6 @@ import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 
 class ChooseActionCommand(
-
 ) : CliCommand {
   private val battle = BattleFactory.currentBattle ?: throw Exception("No active battle")
 
@@ -72,7 +71,6 @@ class ChooseActionCommand(
     val monster = trainer.getMonsterByName(monsterName)
     return TrainerChoice.HealChoice(monster)
   }
-
 
   private fun parseArg(list: List<String>, prefix: String): String {
     return list.first { it.startsWith(prefix) }.substringAfter("=")
