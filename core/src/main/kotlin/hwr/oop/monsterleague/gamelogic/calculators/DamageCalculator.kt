@@ -45,7 +45,7 @@ class DamageCalculator(
     ).calculateEfficiency()
 
     val damage =
-      ((((((100 * criticalHit / 5) + 2) * attack.power * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency * random)
+      ((((((100 * criticalHit / 5) + 2) * attack.power!! * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency * random)
     println(damage.toString())
     val damageInt = damage.roundToInt()
     println(damageInt.toString())
@@ -62,7 +62,7 @@ class DamageCalculator(
     ).calculateEfficiency()
 
     val damage =
-      ((((((100 / 5) + 2) * attack.power * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency)
+      ((((((100 / 5) + 2) * attack.power!! * (attackStat / defenseStat)) / 50) + 2) * stabFactor * efficiency)
     println(damage.toString())
     val damageInt = damage.roundToInt()
     println(damageInt.toString())

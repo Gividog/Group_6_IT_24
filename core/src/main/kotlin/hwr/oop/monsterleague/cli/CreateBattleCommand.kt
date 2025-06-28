@@ -1,9 +1,10 @@
 package hwr.oop.monsterleague.cli
 
-import hwr.oop.CliCommand
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 import hwr.oop.monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.gamelogic.cli.CliCommand
+import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 
 import java.util.UUID
 import kotlin.collections.component1
@@ -45,7 +46,8 @@ class CreateBattleCommand(
     val battle = Battle(UUID.randomUUID(),trainerInBattleOne, trainerInBattleTwo, simpleDamageCalculator)
 
     val createdBattleID = battle.getBattleID()
-    BattleHolder.currentBattle = battle
+    BattleFactory.currentBattle = battle
+    BattleFactory.save(battle)
     println("Battle created with ID: $createdBattleID")
   }
 

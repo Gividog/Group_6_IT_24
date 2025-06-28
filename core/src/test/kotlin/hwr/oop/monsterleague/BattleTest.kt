@@ -433,7 +433,6 @@ class BattleTest : AnnotationSpec() {
       TestData.physicalAttackTackle,
       battle.getTrainerTwo().getActiveMonster()
     )
-
     val trainerTwoChoice = TrainerChoice.SurrenderChoice(battle.getTrainerTwo())
     battle.submitChoice(battle.getTrainerOne(), trainerOneChoice)
     battle.submitChoice(battle.getTrainerTwo(), trainerTwoChoice)
@@ -908,7 +907,7 @@ class BattleTest : AnnotationSpec() {
   }
 
   @Test
-  fun`active monster of trainerTwo gets switched, because it gets defeated`(){
+  fun `active monster of trainerTwo gets switched, because it gets defeated`() {
     val baseStats = BaseStats(
       healthPoints = 250,
       initiative = 10,
@@ -969,7 +968,9 @@ class BattleTest : AnnotationSpec() {
     battle.submitChoice(trainer, choiceTrainerOne)
     battle.submitChoice(trainerTwo, choiceTrainerTwo)
 
-    assertThat(battle.getTrainerTwo().getActiveMonster()).isEqualTo(waterMonster)
+    assertThat(
+      battle.getTrainerTwo().getActiveMonster()
+    ).isEqualTo(waterMonster)
   }
 
   @Test
@@ -1039,7 +1040,7 @@ class BattleTest : AnnotationSpec() {
   }
 
   @Test
-  fun `active Monster of trainer One gets switched because its defeated`(){
+  fun `active Monster of trainer One gets switched because its defeated`() {
     val baseStats = BaseStats(
       healthPoints = 250,
       initiative = 10,

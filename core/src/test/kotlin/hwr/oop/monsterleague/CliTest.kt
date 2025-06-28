@@ -1,7 +1,5 @@
 package hwr.oop.monsterleague
 
-import hwr.oop.monsterleague.cli.BattleHolder
-import hwr.oop.monsterleague.cli.ChooseActionCommand
 import hwr.oop.monsterleague.cli.CreateBattleCommand
 import hwr.oop.monsterleague.cli.ChooseAttackCommand
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
@@ -12,6 +10,7 @@ import hwr.oop.monsterleague.gamelogic.Battle
 import hwr.oop.monsterleague.gamelogic.BattleStats
 import hwr.oop.monsterleague.gamelogic.Type
 import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 
 import io.kotest.core.spec.style.AnnotationSpec
@@ -186,7 +185,7 @@ class CliTest : AnnotationSpec() {
 
   @BeforeEach
   fun setupBattle() {
-    BattleHolder.currentBattle = Battle(
+    BattleFactory.currentBattle = Battle(
       TestData.battleUuid,
       TestData.trainerWithTwoMonsters,
       TestData.trainerWithGhostMonsterLeft,
@@ -197,7 +196,7 @@ class CliTest : AnnotationSpec() {
 
   @AfterEach
   fun teardown() {
-    BattleHolder.currentBattle = null
+    BattleFactory.currentBattle = null
   }
 
   @Test
@@ -208,7 +207,7 @@ class CliTest : AnnotationSpec() {
       TestData.trainerWithGhostMonsterLeft,
       true
     )
-    BattleHolder.currentBattle = battle
+    BattleFactory.currentBattle = battle
 
     val args = listOf(
       "battle", "attack",

@@ -219,10 +219,6 @@ class Battle(
     return winner
   }
 
-  fun getRounds(): Int {
-    return round
-  }
-
   fun getTrainerOne(): TrainerInBattle {
     return trainerOne
   }

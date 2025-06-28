@@ -1,4 +1,4 @@
-package hwr.oop
+package hwr.oop.monsterleague.gamelogic.cli
 
 interface CliCommand {
   fun matches(list: List<String>): Boolean

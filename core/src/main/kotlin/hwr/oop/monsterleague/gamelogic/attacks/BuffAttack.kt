@@ -10,7 +10,7 @@ object SwordsDance : Attack {
   override val kind: AttackKinds = AttackKinds.BUFF
   override val type: Type = Type.NORMAL
   override val accuracy: Int = 50
-  override val power : Int = 0
+  override val power : Int = 1
   override val powerPoints: Int = 3
 
   override fun attackerStatChange() = StatChange.Buff(
@@ -23,7 +23,7 @@ object DragonDance : Attack {
   override val kind: AttackKinds = AttackKinds.BUFF
   override val type: Type = Type.NORMAL
   override val accuracy: Int = 50
-  override val power: Int = 0
+  override val power: Int = 1
   override val powerPoints: Int = 3
 
   override fun attackerStatChange() = StatChange.Buff(
@@ -37,7 +37,7 @@ object Screech : Attack {
   override val kind: AttackKinds = AttackKinds.DEBUFF
   override val type: Type = Type.NORMAL
   override val accuracy: Int = 60
-  override val power: Int = 0
+  override val power: Int = 1
   override val powerPoints: Int = 3
 
   override fun defenderStatChange() = StatChange.Buff(
@@ -50,7 +50,7 @@ object Haze : Attack {
   override val kind: AttackKinds = AttackKinds.BUFF
   override val type: Type = Type.NORMAL
   override val accuracy: Int = 50
-  override val power: Int = 0
+  override val power: Int = 1
   override val powerPoints: Int = 3
 
   override fun attackerStatChange() = StatChange.Clear

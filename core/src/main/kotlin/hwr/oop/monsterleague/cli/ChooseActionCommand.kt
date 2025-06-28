@@ -1,16 +1,14 @@
 package hwr.oop.monsterleague.cli
 
-import hwr.oop.CliCommand
-import hwr.oop.monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.gamelogic.cli.CliCommand
 import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 
-
 class ChooseActionCommand(
 
 ) : CliCommand {
-  private val battle = BattleHolder.currentBattle ?: throw Exception("No active battle")
+  private val battle = BattleFactory.currentBattle ?: throw Exception("No active battle")
 
   override fun matches(list: List<String>): Boolean {
     return list.take(2) == listOf("trainer", "action")

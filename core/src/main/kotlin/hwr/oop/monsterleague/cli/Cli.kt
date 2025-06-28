@@ -1,14 +1,15 @@
 package hwr.oop.monsterleague.cli
 
-
+import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 
 class Cli(
 
 ) {
   val commands = listOf(
-    //CreateTrainerCommand(TrainerRepository),
+    CreateTrainerCommand(TrainerFactory),
     CreateBattleCommand(),
-   ChooseActionCommand(),
+    ChooseActionCommand(),
+    ChooseAttackCommand()
   )
 
   fun handle(args: List<String>) {
@@ -17,4 +18,3 @@ class Cli(
     command.handle(args)
   }
 }
-

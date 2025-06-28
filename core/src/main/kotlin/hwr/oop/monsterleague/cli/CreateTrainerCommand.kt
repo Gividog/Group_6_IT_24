@@ -1,9 +1,13 @@
 package hwr.oop.monsterleague.cli
 
-//import hwr.oop.monsterleague.gamelogic.factories.MonsterFactory
-/*
+import hwr.oop.monsterleague.gamelogic.Monster
+import hwr.oop.monsterleague.gamelogic.cli.CliCommand
+import hwr.oop.monsterleague.gamelogic.factories.MonsterFactory
+import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
+import hwr.oop.monsterleague.gamelogic.trainers.Trainer
+
 class CreateTrainerCommand(
-  private val trainerRepository: TrainerRepository,
+  private val trainerRepository: TrainerFactory,
 ) : CliCommand {
   override fun matches(list: List<String>): Boolean {
     val firstTwoAreCorrect = list.take(2) == listOf("trainer", "create")
@@ -38,4 +42,4 @@ class CreateTrainerCommand(
       .map { it.trim() }
       .map { name -> MonsterFactory.create(name) }  // Default-Level z. B. 5
   }
-}*/
+}

@@ -1,6 +1,7 @@
 package hwr.oop.monsterleague.cli
 
-import hwr.oop.CliCommand
+import hwr.oop.monsterleague.gamelogic.cli.CliCommand
+import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 
 class ChooseAttackCommand(
@@ -11,7 +12,7 @@ class ChooseAttackCommand(
 
   override fun handle(list: List<String>) {
     val battle =
-      BattleHolder.currentBattle ?: throw Exception("No active battle")
+      BattleFactory.currentBattle ?: throw Exception("No active battle")
 
     if (list.size < 6) {
       throw Exception("Missing parameters for attack command. Usage: battle attack --trainer=NAME --attacker=MONSTER --attack=ATTACKNAME --target=MONSTER")
