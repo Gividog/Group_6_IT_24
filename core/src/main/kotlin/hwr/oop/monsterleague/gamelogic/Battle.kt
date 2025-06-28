@@ -97,10 +97,9 @@ class Battle(
           is TrainerChoice.SurrenderChoice -> surrender(trainer)
         }
       }
-    if (battleOver) {
+
       mapOfChoice.clear()
       endRound()
-    }
   }
 
   private fun trainerChooseAttack(
