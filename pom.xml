@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>hwr.oop.projects.Group6</groupId>
-  <artifactId>project</artifactId>
+  <artifactId>monsterleague</artifactId>
   <packaging>jar</packaging>
   <version>0.1.0-SNAPSHOT</version>
-  <name>Monster League</name>
+  <name>MonsterLeague</name>
   <description>A totally original turn based monster fighting game that doesn't copy a very popular game</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,6 +51,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.github.classgraph</groupId>
+      <artifactId>classgraph</artifactId>
+      <version>4.8.162</version>
+    </dependency>
+    <dependency>
       <groupId>io.kotest.extensions</groupId>
       <artifactId>kotest-extensions-pitest</artifactId>
       <version>${kotest-extensions-pitest.version}</version>
@@ -64,8 +69,8 @@
     </dependency>
   </dependencies>
   <build>
-    <sourceDirectory>src/main/kotlin</sourceDirectory>
-    <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+    <sourceDirectory>core/src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>core/src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -118,7 +123,7 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <systemPropertyVariables>
-            <kotest.framework.classpath.scanning.autoscan.disable>true
+            <kotest.framework.classpath.scanning.autoscan.disable>false
             </kotest.framework.classpath.scanning.autoscan.disable>
           </systemPropertyVariables>
         </configuration>
