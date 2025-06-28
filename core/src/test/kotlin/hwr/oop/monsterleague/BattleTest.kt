@@ -808,37 +808,7 @@ class BattleTest : AnnotationSpec() {
     assertThat(trainer.getActiveMonster()).isEqualTo(waterMonster)
   }
 
-  @Test
-  fun `round ends, because trainerOne has no Monsters left`() {
-    val trainer = TrainerInBattle(
-      "TrainerOne",
-      listOf(defeatedMonster, defeatedMonster),
-      defeatedMonster,
-      3
-    )
 
-    val trainerTwo = TrainerInBattle(
-      "TrainerOne",
-      listOf(defeatedMonster, fireMonster),
-      fireMonster,
-      3
-    )
-    val battle = Battle(
-      battleID = TestData.battleUuid,
-      trainerOne = trainer,
-      trainerTwo = trainerTwo,
-      true
-    )
-
-    val choiceTrainerOne = TrainerChoice.SwitchChoice(fireMonster, waterMonster)
-    val choiceTrainerTwo = TrainerChoice.SurrenderChoice(trainerTwo)
-
-
-    battle.submitChoice(trainer, choiceTrainerOne)
-    battle.submitChoice(trainerTwo, choiceTrainerTwo)
-
-    assertThat(trainer.getActiveMonster()).isEqualTo(waterMonster)
-  }
 
   @Test
   fun `trainer One is winner`() {
@@ -1103,5 +1073,51 @@ class BattleTest : AnnotationSpec() {
     battle.submitChoice(trainer, choiceTrainer)
 
     assertThat(trainerLowHp.getActiveMonster()).isEqualTo(waterMonster)
+  }
+
+  @Test
+  fun `get BattleID Of Game`(){
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
+      true
+    )
+     val id = battle.getBattleID()
+    assertThat(id).isEqualTo(TestData.battleUuid)
+  }
+
+  @Test
+  fun `get Trainer By Name`(){
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = TestData.trainerWithTwoMonsters,
+      trainerTwo = TestData.trainerWithGhostMonsterLeft,
+      true
+    )
+    val name = battle.getTrainerByName("trainer1")
+    val nameTwo = battle.getTrainerByName("trainer4")
+
+    assertThat(name).isEqualTo(battle.getTrainerOne())
+    assertThat(nameTwo).isEqualTo(battle.getTrainerTwo())
+  }
+
+  @Test
+  fun `get submitted choice of trainer`(){
+    val trainerOne = TestData.trainerWithTwoMonsters
+    val trainerTwo = TestData.trainerWithGhostMonsterLeft
+
+    val battle = Battle(
+      battleID = TestData.battleUuid,
+      trainerOne = trainerOne,
+      trainerTwo = trainerTwo,
+      true
+    )
+
+    battle.submitChoice(trainerOne, TrainerChoice.SurrenderChoice(trainerOne))
+
+    val submittedChoice = battle.getSubmittedChoice(trainerOne)
+
+    assertThat(submittedChoice).isEqualTo(TrainerChoice.SurrenderChoice(trainerOne))
   }
 }

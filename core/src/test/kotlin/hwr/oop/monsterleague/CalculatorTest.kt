@@ -21,9 +21,9 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).calculateDamage()
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(22)
+    assertThat(damage).isEqualTo(24)
   }
 
   @Test
@@ -36,9 +36,9 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).calculateDamage()
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(65)
+    assertThat(damage).isEqualTo(72)
   }
 
   @Test
@@ -51,7 +51,7 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).calculateDamage()
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
     assertThat(damage).isEqualTo(18)
   }
@@ -66,51 +66,11 @@ class CalculatorTest : AnnotationSpec() {
       attackingMonster,
       defendingMonster,
       attack
-    ).calculateDamage()
+    ).calculateDamage(criticalHit = 1.0, random = 1.0)
 
-    assertThat(damage).isEqualTo(11)
+    assertThat(damage).isEqualTo(12)
   }
 
-  /*
-  /**
-   * calculateEfficiency() tests
-   */
-
-  @Test
-  fun `test calculateEfficiency returns 2,0 when attack is efficient`() {
-    val attackingMonster = TestData.waterMonster
-    val defendingMonster = TestData.fireMonster
-    val efficiency =
-      EfficiencyCalculator(
-        attackingMonster,
-        defendingMonster
-      ).calculateEfficiency()
-    assertThat(efficiency).isEqualTo(2.0)
-  }
-
-  @Test
-  fun `test calculateEfficiency returns 0,5 when attack is inefficient`() {
-    val attackingMonster = TestData.fireMonster
-    val defendingMonster = TestData.waterMonster
-    val efficiency =
-      EfficiencyCalculator(
-        attackingMonster,
-        defendingMonster
-      ).calculateEfficiency()
-    assertThat(efficiency).isEqualTo(0.5)
-  }
-
-  @Test
-  fun `test calculateEfficiency returns 1,0 when attack is neither efficient nor inefficient`() {
-    val attackingMonster = TestData.normalMonster
-    val defendingMonster = TestData.waterMonster
-    val efficiency =
-      EfficiencyCalculator(
-        attackingMonster,
-        defendingMonster
-      ).calculateEfficiency()
-    assertThat(efficiency).isEqualTo(1.0)
-  }*/
 
   /**
    * right stat is used tests
