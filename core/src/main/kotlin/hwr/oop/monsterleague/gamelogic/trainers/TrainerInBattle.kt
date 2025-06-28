@@ -44,9 +44,7 @@ class TrainerInBattle(
     return activeMonster
   }
 
-  fun getActiveMonstersHP(): Int {
-    return activeMonster.getHP()
-  }
+
 
   fun getHealsRemaining(): Int {
     return healsRemaining

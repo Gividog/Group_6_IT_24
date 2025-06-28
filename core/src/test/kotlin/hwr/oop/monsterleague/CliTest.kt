@@ -1,6 +1,7 @@
 package hwr.oop.monsterleague
 
 import hwr.oop.monsterleague.cli.BattleHolder
+import hwr.oop.monsterleague.cli.ChooseActionCommand
 import hwr.oop.monsterleague.cli.CreateBattleCommand
 import hwr.oop.monsterleague.cli.ChooseAttackCommand
 import hwr.oop.monsterleague.gamelogic.trainers.Trainer
@@ -346,5 +347,15 @@ class CliTest : AnnotationSpec() {
     val result = command.matches(args)
 
     assertThat(result).isFalse()
+  }
+
+  /**
+   * ChooseAction Command
+   */
+
+
+  @Test
+  fun `matches returns false if Action command is wrong`() {
+
   }
 }
