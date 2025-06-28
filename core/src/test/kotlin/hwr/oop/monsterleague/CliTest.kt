@@ -9,6 +9,9 @@ import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
 import hwr.oop.monsterleague.gamelogic.Battle
+import hwr.oop.monsterleague.gamelogic.Type
+import hwr.oop.monsterleague.gamelogic.attacks.Attack
+import hwr.oop.monsterleague.gamelogic.factories.MonsterFactory
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.extensions.system.captureStandardOut
@@ -616,5 +619,26 @@ class CliTest : AnnotationSpec() {
       "--name=Ash"
     )
     assertThat(command.matches(args)).isFalse()
+  }
+  @Test
+  fun `MonsterFactory creates Gastly with correct stats and attacks`() {
+    val gastly = MonsterFactory.create("gastly")
+
+    assertThat(gastly.getName()).isEqualTo("Gastly")
+    assertThat(gastly.getType()).isEqualTo(Type.GHOST)
+    assertThat(gastly.getBaseStats().getInitiative()).isEqualTo(80)
+    assertThat(gastly.getAttacks()).containsExactly(
+      Attack.Burden, Attack.Lick, Attack.ShadowBall
+    )
+  }
+
+  @Test
+  fun `MonsterFactory creates Eevee with empty attack list`() {
+    val eevee = MonsterFactory.create("eevee")
+
+    assertThat(eevee.getName()).isEqualTo("Eevee")
+    assertThat(eevee.getType()).isEqualTo(Type.NORMAL)
+    assertThat(eevee.getBaseStats().getInitiative()).isEqualTo(55)
+    assertThat(eevee.getAttacks()).isEmpty()
   }
 }

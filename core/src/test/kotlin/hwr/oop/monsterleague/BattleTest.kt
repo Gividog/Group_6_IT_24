@@ -1120,4 +1120,14 @@ class BattleTest : AnnotationSpec() {
 
     assertThat(submittedChoice).isEqualTo(TrainerChoice.SurrenderChoice(trainerOne))
   }
+
+  @Test
+  fun `List contains exactly the allowed choice types in fixed order`() {
+    assertThat(TrainerChoice.allowedChoiceTypes).containsExactly(
+      "AttackChoice",
+      "SwitchChoice",
+      "HealChoice",
+      "SurrenderChoice",
+    )
+  }
 }
