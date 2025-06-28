@@ -126,7 +126,6 @@ object MonsterFactory {
         attacks = listOf()
       )
 
-
       else -> throw IllegalArgumentException("Unknown monster: $name")
     }
   }

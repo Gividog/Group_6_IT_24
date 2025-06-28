@@ -1,5 +1,6 @@
 package hwr.oop.monsterleague.cli
 
+import hwr.oop.monsterleague.gamelogic.Exceptions
 import hwr.oop.monsterleague.gamelogic.cli.CliCommand
 import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
@@ -26,18 +27,18 @@ class ChooseAttackCommand(
     val trainer = try {
       battle.getTrainerByName(trainerName)
     } catch (e: Exception) {
-      throw Exception("No trainer with name: $trainerName")
+      throw Exceptions.TrainerInBattleNotFoundException(trainerName, battle)
     }
     val attacker = try {
       trainer.getMonsterByName(attackerName)
     } catch (e: Exception) {
-      throw Exception("No monster with name '$attackerName' for trainer '$trainerName'")
+      throw Exceptions.MonsterNotFoundException(trainer, attackerName)
     }
 
     val attack = try {
       attacker.getAttackByName(attackName)
     } catch (e: Exception) {
-      throw Exception("No attack with name '$attackName' on monster '$attackerName'")
+      throw Exceptions.AttackNotFoundException(attackName, attacker)
     }
 
     val targetTrainer = if (trainer == battle.getTrainerOne()) {
@@ -49,7 +50,7 @@ class ChooseAttackCommand(
     val target = try {
       targetTrainer.getMonsterByName(targetName)
     } catch (e: Exception) {
-      throw Exception("No monster with name '$targetName' for opposing trainer '${targetTrainer.getName()}'")
+      throw Exceptions.MonsterNotFoundException(targetTrainer, targetName)
     }
 
     val choice = TrainerChoice.AttackChoice(
@@ -64,14 +65,15 @@ class ChooseAttackCommand(
   }
 
   private fun readOption(list: List<String>, prefix: String): String {
-    val value = list.firstOrNull { it.startsWith(prefix) }
-      ?.substringAfter(prefix)
-      ?: throw Exception("Missing argument: $prefix")
+    val raw = list.firstOrNull { it.startsWith(prefix) }
+      ?: throw Exceptions.MissingRequiredArgumentException(prefix)
 
+    val value = raw.removePrefix(prefix).trim()
     if (value.isBlank()) {
-      throw Exception("Missing argument: $prefix")
+      throw Exceptions.EmptyArgumentException(prefix)
     }
     return value
   }
+
 }
 

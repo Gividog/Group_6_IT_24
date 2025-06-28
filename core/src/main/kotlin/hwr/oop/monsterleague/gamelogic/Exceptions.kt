@@ -1,38 +1,20 @@
 package hwr.oop.monsterleague.gamelogic
 
-import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
+import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
-import hwr.oop.monsterleague.gamelogic.attacks.Attack
 
 object Exceptions {
-
   class AttackNotFoundException(
-    attack: Attack,
-    monster: Monster,
+    attackName : String,
+    monster : Monster,
   ) :
-    Exception("You tried to select $attack but $monster doesn't have this attack. Available attacks are: ${monster.getAttacks()}.")
-
-
-  class TrainerChoiceNotFoundException(
-    // brauchen wir?
-    trainer: TrainerInBattle,
-    choice: TrainerChoice,
-  ) :
-    Exception("You tried to select $choice but it's not available to choose. Available trainer choices are: ${TrainerChoice.allowedChoiceTypes.joinToString()}.")
-
+    Exception("You tried to select $attackName but {$monster's} list of attacks doesn't contain this attack. Available attacks are: ${monster.getAttacks()}.")
 
   class MonsterNotFoundException(
     trainer: TrainerInBattle,
-    monster: Monster,
+    monsterName: String,
   ) :
-    Exception("You tried to select $monster but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getMonsters()}.")
-
-  class AttackCannotBeUsedException(
-    attack: Attack,
-    monster: Monster,
-  ) :
-    Exception("You tried to use $attack but it cannot be used at the moment. Available attacks are: ${monster.getAttacks()}.")
-
+    Exception("You tried to select $monsterName but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getMonsters()}.")
 
   class MonsterNotActiveException(
     monster: Monster,
@@ -42,14 +24,25 @@ object Exceptions {
 
 
   class TrainerNotFoundException(
-    trainer: TrainerInBattle,
-    battle: Battle,
+    trainerName : String,
   ) :
-    Exception("You tried to select $trainer but $trainer is not available to choose. Available trainers are: ${battle.getTrainerOne()} and ${battle.getTrainerTwo()}.")
+    Exception("You tried to select $trainerName but $trainerName is not available to choose. Available trainers are: ${TrainerFactory.getAll()}.")
 
+  class TrainerInBattleNotFoundException(
+    trainerName : String,
+    battle : Battle
+  ) :
+    Exception("You tried to select $trainerName but $trainerName is not available to choose. Available trainers are: ${battle.getTrainerOne()} and ${battle.getTrainerTwo()}.")
 
-  class MonsterDefeatedException(
-    monster: Monster,
-    trainer: TrainerInBattle) :
-    Exception("You tried to select $monster as your active monster but $monster is already defeated. Currently available monsters: ${trainer.getHealthyMonsters()}.")
+  class MissingRequiredArgumentException(
+    prefix : String,
+  ) :
+    Exception("Missing required argument: $prefix<value>")
+
+  class EmptyArgumentException(
+    prefix : String,
+  ) :
+    Exception("Argument $prefix must not be empty.")
+
+  class InvalidArgumentFormatException(message: String) : Exception(message)
 }

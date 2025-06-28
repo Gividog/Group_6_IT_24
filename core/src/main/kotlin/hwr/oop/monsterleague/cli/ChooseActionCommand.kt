@@ -1,5 +1,6 @@
 package hwr.oop.monsterleague.cli
 
+import hwr.oop.monsterleague.gamelogic.Exceptions
 import hwr.oop.monsterleague.gamelogic.cli.CliCommand
 import hwr.oop.monsterleague.gamelogic.factories.BattleFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerChoice
@@ -7,7 +8,8 @@ import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 
 class ChooseActionCommand(
 ) : CliCommand {
-  private val battle = BattleFactory.currentBattle ?: throw Exception("No active battle")
+  private val battle =
+    BattleFactory.currentBattle ?: throw Exception("No active battle")
 
   override fun matches(list: List<String>): Boolean {
     return list.take(2) == listOf("trainer", "action")
@@ -20,7 +22,11 @@ class ChooseActionCommand(
 
     val actionType = list[2].lowercase()
     val trainerName = parseArg(list, "--trainer=")
-    val trainer = battle.getTrainerByName(trainerName)
+    val trainer = try {
+      battle.getTrainerByName(trainerName)
+    } catch (e: Exception) {
+      throw Exceptions.TrainerInBattleNotFoundException(trainerName, battle)
+    }
 
     val choice = when (actionType) {
       "attack" -> parseAttackChoice(list, trainer)
@@ -44,10 +50,27 @@ class ChooseActionCommand(
     val attackName = parseArg(list, "--attack=")
     val targetName = parseArg(list, "--target=")
 
-    val attacker = trainer.getMonsterByName(attackerName)
-    val attack = attacker.getAttackByName(attackName)
+    val attacker = try {
+      trainer.getMonsterByName(attackerName)
+    } catch (e: Exception) {
+      throw Exceptions.MonsterNotFoundException(trainer, attackerName)
+    }
+
+    val attack = try {
+      attacker.getAttackByName(attackName)
+    } catch (e: Exception) {
+      throw Exceptions.AttackNotFoundException(
+        attackName = attackName,
+        monster = attacker
+      )
+    }
+
     val opponent = battle.getDefendingTrainer(trainer)
-    val target = opponent.getMonsterByName(targetName)
+    val target = try {
+      opponent.getMonsterByName(targetName)
+    } catch (e: Exception) {
+      throw Exceptions.MonsterNotFoundException(opponent, targetName)
+    }
 
     return TrainerChoice.AttackChoice(attacker, attack, target)
   }
@@ -57,9 +80,21 @@ class ChooseActionCommand(
     trainer: TrainerInBattle,
   ): TrainerChoice.SwitchChoice {
     val outName = parseArg(list, "--out=")
+
     val inName = parseArg(list, "--in=")
-    val outMonster = trainer.getMonsterByName(outName)
-    val inMonster = trainer.getMonsterByName(inName)
+
+    val outMonster = try {
+      trainer.getMonsterByName(outName)
+    } catch (e: Exception) {
+      throw Exceptions.MonsterNotFoundException(trainer, outName)
+    }
+
+    val inMonster = try {
+      trainer.getMonsterByName(inName)
+    } catch (e: Exception) {
+      throw Exceptions.MonsterNotFoundException(trainer, inName)
+    }
+
     return TrainerChoice.SwitchChoice(outMonster, inMonster)
   }
 
@@ -68,12 +103,24 @@ class ChooseActionCommand(
     trainer: TrainerInBattle,
   ): TrainerChoice.HealChoice {
     val monsterName = parseArg(list, "--monster=")
-    val monster = trainer.getMonsterByName(monsterName)
+
+    val monster = try {
+      trainer.getMonsterByName(monsterName)
+    } catch (e: Exception) {
+      throw Exceptions.MonsterNotFoundException(trainer, monsterName)
+    }
+
     return TrainerChoice.HealChoice(monster)
   }
 
   private fun parseArg(list: List<String>, prefix: String): String {
-    return list.first { it.startsWith(prefix) }.substringAfter("=")
+    val arg = list.firstOrNull { it.startsWith(prefix) }
+      ?: throw Exceptions.MissingRequiredArgumentException(prefix)
+    val value = arg.substringAfter(prefix).trim()
+    if (value.isBlank()) {
+      throw Exceptions.EmptyArgumentException(prefix)
+    }
+    return value
   }
 }
 

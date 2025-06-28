@@ -8,6 +8,7 @@ import hwr.oop.monsterleague.gamelogic.attacks.Attack
 import hwr.oop.monsterleague.gamelogic.attacks.AttackKinds
 
 import java.util.UUID
+import kotlin.Exception
 
 class Battle(
   private val battleID: UUID = UUID.randomUUID(),
@@ -98,8 +99,8 @@ class Battle(
         }
       }
 
-      mapOfChoice.clear()
-      endRound()
+    mapOfChoice.clear()
+    endRound()
   }
 
   private fun trainerChooseAttack(
@@ -111,13 +112,16 @@ class Battle(
     val attack = choice.selectedAttack
 
     if (attack !in attackingMonster.getAttacks()) {
-      throw Exceptions.AttackNotFoundException(attack, attackingMonster)
+      throw Exception("You tried to select $attack but $attackingMonster doesn't have this attack. Available attacks are: ${attackingMonster.getAttacks()}.")
     } else if (attack.powerPoints == 0) {
-      throw Exceptions.AttackCannotBeUsedException(attack, attackingMonster)
+      throw Exception("You tried to use $attack but it cannot be used at the moment. Available attacks are: ${attackingMonster.getAttacks()}.")
     } else if (attackingMonster !== trainer.getActiveMonster()) {
       throw Exceptions.MonsterNotActiveException(attackingMonster, trainer)
     } else if (targetedMonster !== getDefendingTrainer(trainer).getActiveMonster()) {
-      throw Exceptions.MonsterNotActiveException(targetedMonster, getDefendingTrainer(trainer))
+      throw Exceptions.MonsterNotActiveException(
+        targetedMonster,
+        getDefendingTrainer(trainer)
+      )
     } else
       handleAttackKind(choice)
   }
@@ -176,9 +180,9 @@ class Battle(
     val monsters = trainer.getMonsters()
 
     if (inMonster.getBattleStats().getHP() == 0) {
-      throw Exceptions.MonsterDefeatedException(inMonster, trainer)
+      throw Exception("You tried to select $inMonster as your active monster but $inMonster is already defeated. Currently available monsters: ${trainer.getHealthyMonsters()}.")
     } else if (inMonster !in monsters) {
-      throw Exceptions.MonsterNotFoundException(trainer, inMonster)
+      throw Exception("You tried to select $inMonster as your active monster but $trainer's list of monsters doesn't contain $inMonster. Available monsters are: ${trainer.getMonsters()}.")
     } else {
       trainer.setActiveMonster(inMonster)
       trainer.setReadyToFight()
