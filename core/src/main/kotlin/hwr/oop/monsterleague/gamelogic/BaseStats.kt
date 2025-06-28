@@ -3,12 +3,12 @@ package hwr.oop.monsterleague.gamelogic
 import kotlin.contracts.Effect
 
 data class BaseStats(
-    private var healthPoints: Int,
-    private var initiative: Int,
-    private var attack: Int,
-    private var defense: Int,
-    private var specialDefense: Int,
-    private var specialAttack: Int,
+  private var healthPoints: Int,
+  private var initiative: Int,
+  private var attack: Int,
+  private var defense: Int,
+  private var specialDefense: Int,
+  private var specialAttack: Int,
 ) {
 
   /**
