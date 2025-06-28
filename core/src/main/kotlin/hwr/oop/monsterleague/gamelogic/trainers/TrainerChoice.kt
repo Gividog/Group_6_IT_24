@@ -27,8 +27,5 @@ sealed interface TrainerChoice {
     val surrenderingTrainer : TrainerInBattle,
   ): TrainerChoice
 
-  companion object {
-    val allowedChoiceTypes =
-      listOf("AttackChoice", "SwitchChoice", "HealChoice", "SurrenderChoice")
-  }
+
 }

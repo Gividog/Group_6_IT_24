@@ -101,7 +101,7 @@ class CliTest : AnnotationSpec() {
     }.exceptionOrNull()
 
     assertThat(exception).isNotNull
-      .hasMessageContaining("Cannot create a Battle with the same trainer twice")
+      .hasMessageContaining("Cannot create a battle with the same trainer twice: 'Ash'")
   }
 
   @Test
@@ -114,7 +114,7 @@ class CliTest : AnnotationSpec() {
     }.exceptionOrNull()
 
     assertThat(exception).isNotNull
-      .hasMessageContaining("Cannot find trainer Brock")
+      .hasMessageContaining("You tried to select Brock but Brock is not available to choose.")
   }
 
   @Test
@@ -127,7 +127,7 @@ class CliTest : AnnotationSpec() {
     }.exceptionOrNull()
 
     assertThat(exception).isNotNull
-      .hasMessageContaining("Cannot find trainer Brock")
+      .hasMessageContaining("You tried to select Brock but Brock is not available to choose.")
   }
 
   @Test
@@ -140,7 +140,7 @@ class CliTest : AnnotationSpec() {
     }.exceptionOrNull()
 
     assertThat(exception).isNotNull
-      .hasMessageContaining("Expected format: --trainers=Ash,Misty,0")
+      .hasMessageContaining("Expected format: --trainers=Trainer1,Trainer2,0 or 1")
   }
 
   /**
@@ -261,7 +261,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("No trainer with name: NonExistentTrainer")
+    assertThat(ex.message).contains("You tried to select NonExistentTrainer but NonExistentTrainer is not available to choose.")
   }
 
   @Test
@@ -276,7 +276,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("No monster with name 'NonExistentMonster' for trainer 'trainer1'")
+    assertThat(ex.message).contains("You tried to select NonExistentMonster")
   }
 
   @Test
@@ -291,7 +291,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("No attack with name 'NonExistentAttack' on monster 'Monster1'")
+    assertThat(ex.message).contains("You tried to select NonExistentAttack")
   }
 
   @Test
@@ -306,7 +306,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("No monster with name 'NonExistentTarget' for opposing trainer")
+    assertThat(ex.message).contains("You tried to select NonExistentTarget")
   }
 
   @Test
@@ -321,7 +321,7 @@ class CliTest : AnnotationSpec() {
     val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("Missing argument: --trainer=")
+    assertThat(ex.message).contains("Argument --trainer= must not be empty.")
   }
 
   @Test
