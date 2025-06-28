@@ -3,18 +3,19 @@ package hwr.oop.monsterleague.gamelogic
 import hwr.oop.monsterleague.gamelogic.factories.TrainerFactory
 import hwr.oop.monsterleague.gamelogic.trainers.TrainerInBattle
 
+
 object Exceptions {
   class AttackNotFoundException(
     attackName : String,
     monster : Monster,
   ) :
-    Exception("You tried to select $attackName but {$monster's} list of attacks doesn't contain this attack. Available attacks are: ${monster.getAttacks()}.")
+    Exception("You tried to select $attackName but $monster list of attacks doesn't contain this attack. Available attacks are: ${monster.getAttacks()}.")
 
   class MonsterNotFoundException(
     trainer: TrainerInBattle,
     monsterName: String,
   ) :
-    Exception("You tried to select $monsterName but {$trainer's} list of monsters doesn't contain this monster. Available monsters are: ${trainer.getMonsters()}.")
+    Exception("You tried to select $monsterName but $trainer list of monsters doesn't contain this monster. Available monsters are: ${trainer.getMonsters()}.")
 
   class MonsterNotActiveException(
     monster: Monster,
@@ -30,7 +31,7 @@ object Exceptions {
 
   class TrainerInBattleNotFoundException(
     trainerName : String,
-    battle : Battle
+    battle : Battle,
   ) :
     Exception("You tried to select $trainerName but $trainerName is not available to choose. Available trainers are: ${battle.getTrainerOne()} and ${battle.getTrainerTwo()}.")
 

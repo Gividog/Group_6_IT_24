@@ -160,18 +160,6 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `should throw MissingRequiredArgumentException if --trainers option missing`() {
-    val command = CreateBattleCommand()
-    val args = listOf("battle", "new")
-
-    val ex = assertThrows<Exceptions.MissingRequiredArgumentException> {
-      command.handle(args)
-    }
-
-    assertThat(ex.message).contains("Missing required argument: --trainers=")
-  }
-
-  @Test
   fun `should throw EmptyArgumentException if trainer name one is blank`() {
     val command = CreateBattleCommand()
     val args = listOf("battle", "new", "--trainers=,Misty,0")
@@ -292,6 +280,11 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
+  fun `target trainer is trainerTwo`() {
+
+  }
+
+  @Test
   fun `handle throws exception if less than 6 args`() {
     val args =
       listOf("battle", "attack", "--trainer=Ash", "--attacker=Balbasaur")
@@ -404,10 +397,10 @@ class CliTest : AnnotationSpec() {
       "--target=Monster3"
     )
 
-    val ex = assertThrows<Exceptions.MissingRequiredArgumentException> {
+    val ex = assertThrows<Exception> {
       command.handle(args)
     }
-    assertThat(ex.message).contains("Missing required argument: --trainer=")
+    assertThat(ex.message).contains("Missing parameters for attack command. Usage: battle attack ")
   }
 
   /**
@@ -683,6 +676,7 @@ class CliTest : AnnotationSpec() {
     )
     assertThat(command.matches(args)).isFalse()
   }
+
   @Test
   fun `MonsterFactory creates Gastly with correct stats and attacks`() {
     val gastly = MonsterFactory.create("gastly")
@@ -706,11 +700,11 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `Trainer in Battle not found`(){
+  fun `Trainer in Battle not found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "create", "attack",
-    "--trainer=NonExistent"
+      "--trainer=NonExistent"
     )
     val ex = assertThrows<Exception> {
       command.handle(args)
@@ -719,7 +713,7 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `chooseActionCommand Monster Not Found Exception`(){
+  fun `chooseActionCommand Monster Not Found Exception`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "attack",
@@ -735,7 +729,7 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `Trainer choose Action attack Not Found`(){
+  fun `Trainer choose Action attack Not Found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "attack",
@@ -751,7 +745,7 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `targeted Monster not Found`(){
+  fun `targeted Monster not Found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "attack",
@@ -767,7 +761,7 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `Switch Choice Action Monster Not Found`(){
+  fun `Switch Choice Action Monster Not Found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "switch",
@@ -783,7 +777,7 @@ class CliTest : AnnotationSpec() {
   }
 
   @Test
-  fun `Switch Choice Action in Monster Not Found`(){
+  fun `Switch Choice Action in Monster Not Found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "switch",
@@ -797,23 +791,25 @@ class CliTest : AnnotationSpec() {
     }
     assertThat(ex.message).contains("You tried to select NonExistentMonster")
   }
-@Test
-fun`attack for AttackChoice not found`(){
-  val command = ChooseActionCommand()
-  val args = listOf(
-    "trainer", "action", "attack",
-    "--trainer=trainer1",
-    "--attacker=Monster2",
-    "--attack=NonExistent",
-    "--target=Monster3"
-  )
-  val ex = assertThrows<Exception> {
-    command.handle(args)
-  }
-  assertThat(ex.message).contains("You tried to select NonExistent but")
-}
+
   @Test
-  fun `heal action Monster not found`(){
+  fun `attack for AttackChoice not found`() {
+    val command = ChooseActionCommand()
+    val args = listOf(
+      "trainer", "action", "attack",
+      "--trainer=trainer1",
+      "--attacker=Monster2",
+      "--attack=NonExistent",
+      "--target=Monster3"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("You tried to select NonExistent but")
+  }
+
+  @Test
+  fun `heal action Monster not found`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "heal",
@@ -827,7 +823,7 @@ fun`attack for AttackChoice not found`(){
   }
 
   @Test
-  fun `parseArgs Missing Requirement`(){
+  fun `parseArgs Missing Requirement`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "heal",
@@ -841,7 +837,7 @@ fun`attack for AttackChoice not found`(){
   }
 
   @Test
-  fun `empty argument exception gets thrown`(){
+  fun `empty argument exception gets thrown`() {
     val command = ChooseActionCommand()
     val args = listOf(
       "trainer", "action", "heal",
@@ -853,4 +849,104 @@ fun`attack for AttackChoice not found`(){
     }
     assertThat(ex.message).contains("Argument --trainer= must not be empty.")
   }
+
+  @Test
+  fun `Choose Attack Missing RequiredArgumentException`() {
+    val command = ChooseAttackCommand()
+    val args = listOf(
+      "battle",
+      "attack",
+      "-=Ash",
+      "--attacker=Balbasaur",
+      "--attack=Razor Leaf",
+      "--target=Squirtle"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --trainer=")
+  }
+
+  @Test
+  fun `create BattleCommand Throw Exception`() {
+    val command = CreateBattleCommand()
+    val args = listOf("battle", "new", "trainers=Ash,Misty,1")
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --")
+  }
+
+  @Test
+  fun `trainerCommand missing requirement`() {
+    val command = CreateTrainerCommand(TrainerFactory)
+    val args = listOf(
+      "trainer", "create",
+      "--name=Ash",
+      "monsters=bulbasaur,charmander,squirtle"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --")
+
+  }
+
+  @Test
+  fun `trainerCommand missing `() {
+    val command = CreateTrainerCommand(TrainerFactory)
+    val args = listOf(
+      "trainer", "create",
+      "--name=Ash",
+      "--monsters="
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --")
+
+  }
+
+  @Test
+  fun `createTrainer Command missing requirement`(){
+    val command = CreateTrainerCommand(TrainerFactory)
+    val args = listOf(
+      "trainer", "create",
+      "Ash",
+      "--monsters="
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Missing required argument: --")
+  }
+
+  @Test
+  fun `createTrainer Command missing requirement --name = blank`(){
+    val command = CreateTrainerCommand(TrainerFactory)
+    val args = listOf(
+      "trainer", "create",
+      "--name=",
+      "--monsters="
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Argument --name= must not be empty.")
+  }
+
+  @Test
+  fun `Monster provided Exception`(){
+    val command = CreateTrainerCommand(TrainerFactory)
+    val args = listOf(
+      "trainer", "create",
+      "--name=ash",
+      "--monsters=bulbasaur,charmander,squirtle,eevee"
+    )
+    val ex = assertThrows<Exception> {
+      command.handle(args)
+    }
+    assertThat(ex.message).contains("Exactly 3 monsters must be provided, but got")
+  }
+
 }

@@ -1120,4 +1120,6 @@ class BattleTest : AnnotationSpec() {
 
     assertThat(submittedChoice).isEqualTo(TrainerChoice.SurrenderChoice(trainerOne))
   }
+
+
 }
